@@ -3,6 +3,7 @@ import Image from "next/image";
 import logo from "../../../public/logo.svg";
 import AppButton from "./AppButton";
 import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 type NavLinks = {
   header: string;
@@ -27,7 +28,7 @@ function Header() {
   return (
     <nav className="flex min-h-[80px] sticky top-0 z-10 py-5 px-14 items-center justify-between bg-white">
       <div className="flex">
-        <Image src={logo} alt="logo" width={100} height={100}></Image>
+        <Image src={logo} alt="logo" className="w-auto h-auto"></Image>
         {/* <div className="ml-10 flex gap-5">
           {navArray.map((value) => {
             return (
@@ -43,10 +44,12 @@ function Header() {
         </div> */}
       </div>
       <div className="flex items-center">
-        <Link href={"/login"} className="mr-5">
-          <AppButton title="Log In" isLink={true} />
+        <Link href={"/login"} className="font-semibold text-base mr-5">
+          Log In
         </Link>
-        <AppButton title="Sign Up" />
+        <Button>
+          <Link href={"/signup"}>Sign Up</Link>
+        </Button>
       </div>
     </nav>
   );

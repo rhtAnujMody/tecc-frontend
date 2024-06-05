@@ -2,9 +2,9 @@ import Image from "next/image";
 import about from "../../public/landing-about.svg";
 import lady from "../../public/landing-girl.svg";
 import sdlc from "../../public/sdlc.svg";
+import modulesWeOffer from "../types";
 import AppButton from "./components/AppButton";
 import Header from "./components/Header";
-import modulesWeOffer from "./types";
 
 export default function Home() {
   const modulesWeOfferArray: modulesWeOffer[] = [
@@ -20,7 +20,7 @@ export default function Home() {
     <main className="flex relative flex-col  bg-white">
       <Header />
       <section id="a" className="h-auto flex flex-1 justify-between px-14">
-        <div className="flex flex-col max-w-[800px]  justify-center ">
+        <div className="flex flex-col  basis-3/6    justify-center ">
           <p className="text-textPrimary font-semibold text-[60px]">
             {`Welcome to Reveal \nAcademy`}
           </p>
@@ -32,7 +32,15 @@ export default function Home() {
             <AppButton title="Get Started" />
           </div>
         </div>
-        <Image src={lady} alt="lady" />
+        <div className=" flex flex-1 py-10 ">
+          <Image
+            placeholder="empty"
+            src={lady}
+            alt="lady"
+            className="w-full rounded-lg"
+            priority={false}
+          />
+        </div>
       </section>
 
       <section
@@ -48,7 +56,13 @@ export default function Home() {
           professionals with the knowledge and skills needed to craft solutions
           in the healthtech sector.
         </p>
-        <Image src={about} alt="about" className="mt-10 w-auto"></Image>
+        <Image
+          placeholder="empty"
+          src={about}
+          alt="about"
+          className="mt-10 w-auto h-auto"
+          priority={false}
+        ></Image>
       </section>
       <section id="c" className="h-auto flex flex-1 px-14 py-20 flex-col ">
         <div className="flex flex-1 gap-10">
