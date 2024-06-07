@@ -1,9 +1,8 @@
 // "use client";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import logo from "../../../public/logo.svg";
-import AppButton from "./AppButton";
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import logo from "../../../public/logo.svg";
 
 type NavLinks = {
   header: string;

@@ -23,7 +23,7 @@ export default function Login() {
       if (email && password) {
         const response = await signInUser(email, password);
         if (response.ok) {
-          router.push("/dashboard");
+          router.replace("/dashboard");
           toast({
             title: "Success",
             description: "Login Success",

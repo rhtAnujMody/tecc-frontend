@@ -1,5 +1,8 @@
+"use client";
 import React from "react";
+import { useSidebar } from "../context/SideBarContext";
 
 export default function Dashboard() {
-  return <div>Dashboard</div>;
+  const { position } = useSidebar();
+  return <main>{position}</main>;
 }
