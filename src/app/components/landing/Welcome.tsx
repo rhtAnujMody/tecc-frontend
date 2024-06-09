@@ -1,5 +1,5 @@
 import Image from "next/image";
-import lady from "../../../../public/landing-girl.svg";
+import lady from "../../../../public/header.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

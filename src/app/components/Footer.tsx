@@ -33,7 +33,7 @@ export default function Footer() {
         <span className="text-white">
           © 2024 Reveal Healthtech. All rights reserved.
         </span>
-        <div className="flex gap-5">
+        {/* <div className="flex gap-5">
           {socialHandles.map((value, index) => (
             <div key={index}>
               <a href={value.link} target="_blank">
@@ -41,7 +41,7 @@ export default function Footer() {
               </a>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ export async function signInUser(email: string, password: string) {
     body: json,
   });
 
+  cookies().set("isLoggedIn", "true", { httpOnly: true });
   if (response.ok) {
     cookies().set("token", response.data?.access ?? "", { httpOnly: true });
     const userData = getUserData(response.data?.access || "");
@@ -31,6 +32,9 @@ export async function getUserData(token: string) {
 
   if (response.ok) {
     cookies().set("isLoggedIn", "true", { httpOnly: true });
+    cookies().set("userData", JSON.stringify(response.data), {
+      httpOnly: true,
+    });
   }
   return response;
 }

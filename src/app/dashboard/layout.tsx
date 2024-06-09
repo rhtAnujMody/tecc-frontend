@@ -1,20 +1,32 @@
+import { cookies } from "next/headers";
 import SideBar from "../components/SideBar";
 import { SideBarProvider } from "../context/SideBarContext";
+import Header from "../components/dashboard/Header";
+import { UserContextProvider } from "../context/UserContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <SideBarProvider>
-      <div className={`flex flex-1  min-h-screen `}>
-        <div className="flex basis-1/5">
-          <SideBar />
-        </div>
+  const userData =
+    cookies().get("userData") &&
+    JSON.parse(cookies().get("userData")?.value ?? "");
 
-        <div>{children}</div>
-      </div>
-    </SideBarProvider>
+  return (
+    <UserContextProvider>
+      <SideBarProvider>
+        <div className={`flex flex-1 overflow-hidden`}>
+          <div className="flex basis-1/5">
+            <SideBar />
+          </div>
+
+          <div className="flex h-screen flex-col overflow-hidden">
+            <Header />
+            {children}
+          </div>
+        </div>
+      </SideBarProvider>
+    </UserContextProvider>
   );
 }

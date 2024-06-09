@@ -10,20 +10,6 @@ type NavLinks = {
 };
 
 function Header() {
-  const navArray: NavLinks[] = [
-    { header: "Home", navigateTo: "#a" },
-    { header: "Courses", navigateTo: "#c" },
-    { header: "Resources", navigateTo: "#d" },
-    { header: "Contact Us", navigateTo: "#e" },
-  ];
-
-  // const path = usePathname();
-  // console.log("path", path);
-
-  // useEffect(() => {
-  //   console.log("path", path);
-  // }, [path]);
-
   return (
     <nav className="flex min-h-[80px] sticky top-0 z-10 py-5 px-14 items-center justify-between bg-white">
       <div className="flex">
@@ -46,9 +32,10 @@ function Header() {
         <Link href={"/login"} className="font-semibold text-base mr-5">
           Log In
         </Link>
-        <Button>
-          <Link href={"/signup"}>Sign Up</Link>
-        </Button>
+
+        <Link href={"/signup"}>
+          <Button>Sign Up</Button>
+        </Link>
       </div>
     </nav>
   );

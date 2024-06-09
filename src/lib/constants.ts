@@ -5,6 +5,9 @@ export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
 };
 
+//keys
+export const USERDATA = "userData";
+
 //api urls
 export const LOGIN = "v1/auth/jwt/create/";
 export const FETCHUSER = "v1/userData/getUserDetails/";

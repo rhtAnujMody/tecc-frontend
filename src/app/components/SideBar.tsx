@@ -1,16 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
+import { UserData } from "@/types";
 import { ExitIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import logo from "../../../public/logo.svg";
 import { handleLogoutAction } from "../actions/logout_actions";
 import { useSidebar } from "../context/SideBarContext";
+import { useUserContext } from "../context/UserContext";
 
 export default function SideBar() {
   const router = useRouter();
   const { data, updateSideBar } = useSidebar();
+  const { user: userData } = useUserContext();
 
   const handleLogout = async () => {
     const isLogout = await handleLogoutAction();
@@ -20,7 +23,7 @@ export default function SideBar() {
   };
 
   return (
-    <div className="flex flex-1 flex-col border-r">
+    <div className="flex h-screen flex-col border-r">
       <Image
         src={logo}
         alt="logo"
@@ -78,14 +81,17 @@ export default function SideBar() {
         <div className="flex flex-1 h-fit items-center px-5  justify-between">
           <div className="flex gap-2">
             <div className="w-14 h-14 border rounded-full flex justify-center items-center text-text-primary font-normal">
-              AN
+              {getInitials(
+                userData?.first_name ?? "",
+                userData?.last_name ?? ""
+              )}
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-text-primary font-semibold text-base">
-                Anuj
+                {userData && userData.first_name + " " + userData.last_name}
               </span>
               <span className="text-text-primary font-normal text-sm">
-                anuj@gmail.com
+                {userData && userData.email}
               </span>
             </div>
           </div>

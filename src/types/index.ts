@@ -3,7 +3,11 @@ import { StaticImport } from "next/dist/shared/lib/get-img-props";
 export default interface ModulesWeOffer {
   header: string;
   desc: string;
-  color: string;
+  color: {
+    top: string;
+    botttom: string;
+  };
+  topColor?: string;
 }
 
 export type Tokens = {
@@ -22,6 +26,7 @@ export type UserData = {
   email: string;
   username: string;
   pkid: number;
+  credits: number;
 };
 
 export type SideBarItem = {
@@ -39,4 +44,14 @@ export interface ISideBar {
 export type TSocialHandles = {
   logo: StaticImport;
   link: string;
+};
+
+export type TUserContext = {
+  user: UserData | undefined;
+  updateUserData: (userData: UserData) => void;
+};
+
+export type TSectionHeader = {
+  header: string;
+  desc: string;
 };
