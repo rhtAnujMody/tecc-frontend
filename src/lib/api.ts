@@ -27,6 +27,8 @@ async function fetchApi<TResponse, TError>(
     };
   }
 
+  console.log(url);
+
   try {
     const response = await fetch(url, {
       signal: AbortSignal.timeout(5000),

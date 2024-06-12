@@ -1,44 +1,81 @@
-import Image from "next/image";
-import React from "react";
-import placeholderThumnail from "../../../public/course-default.svg";
-import credits from "../../../public/credit.svg";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { TCategory, TCourse } from "@/types";
+import Image from "next/image";
+import credits from "../../../public/credit.svg";
 import TotalLectures from "./TotalLectures";
 
-export default function Course() {
+export default function Course({
+  id,
+  category,
+  certification_course_url,
+  credit,
+  description,
+  is_certification_course,
+  is_enrolled,
+  is_mandatory,
+  thumbnail,
+  title,
+  is_CourseCompleted,
+  showLectures = true,
+  count_of_lectures,
+  onClick,
+}: TCourse) {
   return (
-    <div className="w-[250px] h-[350px] border flex flex-1 flex-col rounded-md relative">
-      <Image src={placeholderThumnail} alt="thumbnail"></Image>
+    <div className="h-[350px] min-w-[250px] border flex flex-1 flex-col rounded-lg relative">
+      <Image
+        src={thumbnail}
+        sizes="100vh"
+        width={0}
+        height={0}
+        alt="thumbnail"
+        className="rounded-t-lg"
+        style={{ width: "100%", minHeight: 180, objectFit: "cover" }}
+      />
+
       <div className="p-3 flex-col flex">
         <div className="flex flex-1 mb-3">
-          <span className="text-text-primary font-semibold text-base basis-9/12 ">
-            Course 1
+          <span
+            className={cn(
+              "text-text-primary font-semibold text-base flex-1",
+              credit && "basis-9/12"
+            )}
+          >
+            {title}
           </span>
-          <div className="flex flex-1 justify-center items-center  ">
-            <Image src={credits} alt="credits" width={15} height={15} />
-            <span className="text-text-primary font-normal text-sm ml-1">
-              20
-            </span>
-          </div>
+          {credit && (
+            <div className="flex flex-1 justify-center items-center  ">
+              <Image src={credits} alt="credits" width={15} height={15} />
+              <span className="text-text-primary font-normal text-sm ml-1">
+                {credit}
+              </span>
+            </div>
+          )}
         </div>
         <span className="line-clamp-3 text-text-secondary text-sm font-normal">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          {description}
         </span>
         <div className="absolute bottom-3 text-sm font-normal">
-          <Button>View Course</Button>
+          <Button
+            onClick={() => {
+              onClick && onClick(id!, title ?? "");
+            }}
+            className={cn(
+              "bg-primary",
+              is_CourseCompleted
+                ? "bg-[#1ABC9C]"
+                : is_enrolled && "bg-[#E67E22]"
+            )}
+          >
+            {is_enrolled ? "Resume Course" : "View Course"}
+          </Button>
         </div>
       </div>
-      <div className="absolute top-3 right-3">
-        <TotalLectures />
-      </div>
+      {showLectures && (
+        <div className="absolute top-3 right-3">
+          <TotalLectures lectures={`${count_of_lectures}`} />
+        </div>
+      )}
     </div>
   );
 }

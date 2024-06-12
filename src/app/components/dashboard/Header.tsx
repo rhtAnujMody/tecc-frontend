@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function Header() {
   const { user: userData } = useUserContext();
   return (
-    <div className="top-0 sticky z-50 h-[80px] flex w-full py-7 px-5 justify-between items-center">
+    <div className="top-0 sticky z-50 h-[80px] flex w-full py-7 px-5 justify-between items-center ">
       <div className="flex gap-2 items-center">
         <span className="text-2xl text-text-primary font-semibold">{`Welcome, ${userData?.first_name}`}</span>
         <Image src={hi} alt="hi" width={25} height={25}></Image>

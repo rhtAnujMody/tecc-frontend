@@ -2,21 +2,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { ApiError, UserData } from "@/types";
+import { TOKEN, USERDATA } from "@/lib/constants";
+import { setLocalData } from "@/lib/utils";
+import { ApiError } from "@/types";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import lady from "../../../public/landing-girl.svg";
-import { signInUser } from "../actions/auth_actions";
-import { setLocalData } from "@/lib/utils";
-import { USERDATA } from "@/lib/constants";
+import { getUserData, signInUser } from "../actions/auth_actions";
 
 export default function Login() {
   const [isPending, startTransition] = useTransition();
-  const [email, setEmail] = useState<string>("test30@mailinator.com");
-  const [password, setPassword] = useState<string>("Qwerty1@");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const router = useRouter();
   const { toast } = useToast();
 
@@ -25,32 +25,44 @@ export default function Login() {
       if (email && password) {
         const response = await signInUser(email, password);
         if (response.ok) {
-          router.replace("/dashboard");
-          toast({
-            title: "Success",
-            description: "Login Success",
-          });
-        } else {
-          setLocalData(
-            USERDATA,
-            JSON.stringify({
-              first_name: "Anuj",
-              last_name: "Mody",
-              email: "anuj@gmail.com",
-              credits: 20,
-              username: "AnujMody",
-            } as UserData)
+          console.log("login success", response.data);
+          setLocalData(TOKEN, response.data?.access ?? "");
+          const userDataResponse = await getUserData(
+            response.data?.access ?? ""
           );
-          router.replace("/dashboard");
-          // toast({
-          //   title: "Error",
-          //   description:
-          //     typeof response.error === "object"
-          //       ? (response.error as ApiError).detail
-          //       : response.error,
-          //   variant: "destructive",
-          // });
+          if (userDataResponse.ok) {
+            setLocalData(USERDATA, JSON.stringify(userDataResponse.data));
+            router.replace("/dashboard");
+            toast({
+              title: "Success",
+              description: "Login Success",
+            });
+          } else {
+            toast({
+              title: "Error",
+              description:
+                typeof response.error === "object"
+                  ? (response.error as ApiError).detail
+                  : response.error,
+              variant: "destructive",
+            });
+          }
+        } else {
+          toast({
+            title: "Error",
+            description:
+              typeof response.error === "object"
+                ? (response.error as ApiError).detail
+                : response.error,
+            variant: "destructive",
+          });
         }
+      } else {
+        toast({
+          title: "Error",
+          description: "All fields are mandatory",
+          variant: "destructive",
+        });
       }
     });
   };

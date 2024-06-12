@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { TOKEN } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,5 +30,20 @@ export const setLocalData = (key: string, data: string) => {
 };
 
 export const getLocalData = (key: string) => {
-  return localStorage.getItem(key);
+  if (localStorage) {
+    return localStorage.getItem(key);
+  }
+  return "";
+};
+
+export const fetcher = async <T>(url: string) => {
+  const res = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getLocalData(TOKEN),
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
+  const data: T = await res.json();
+  return data;
 };

@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  "https://f9f7-2401-4900-8839-8a6a-10ff-cdf8-b1a1-7a41.ngrok-free.app/api/";
+  "https://31b1-2401-4900-883b-f7af-95dc-3033-54b0-e1e0.ngrok-free.app/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -7,8 +7,11 @@ export const createAPIEndpoint = (path: string) => {
 
 //keys
 export const USERDATA = "userData";
+export const TOKEN = "token";
 
 //api urls
 export const LOGIN = "v1/auth/jwt/create/";
 export const FETCHUSER = "v1/userData/getUserDetails/";
 export const SIGNUP = "v1/auth/users/";
+export const COURSESBYCATEGORY = "v1/courses/byCategory/";
+export const DASHBOARD = "v1/dashboard/getDashboardDetails/";

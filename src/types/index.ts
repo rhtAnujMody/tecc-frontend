@@ -53,5 +53,46 @@ export type TUserContext = {
 
 export type TSectionHeader = {
   header: string;
-  desc: string;
+  desc?: string;
 };
+
+export type TCourseHightlights = {
+  header: string;
+  desc?: string;
+  color?: string;
+  value: number;
+};
+
+export type TCourse = {
+  id?: string;
+  category?: string;
+  title?: string;
+  description?: string;
+  thumbnail: string;
+  credit?: number;
+  is_mandatory?: boolean;
+  is_certification_course?: boolean;
+  certification_course_url?: string;
+  is_enrolled?: boolean;
+  is_CourseCompleted?: boolean;
+  showLectures?: boolean;
+  count_of_lectures?: string;
+  showCredits?: boolean;
+  onClick?: (id: string, name: string) => void;
+};
+
+export type TDashboard = {
+  enrolled_course_count: number;
+  pending_course_count: number;
+  credits: number;
+  mandatory_courses: TCourse[];
+  categories: TCategory[];
+};
+
+export interface TCategory {
+  id: string;
+  name: string;
+  description: string;
+  courses_count: number;
+  thumbnail: string;
+}

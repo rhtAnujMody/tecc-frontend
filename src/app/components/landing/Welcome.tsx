@@ -15,7 +15,7 @@ export default function Welcome() {
           professionals with cutting-edge skills and knowledge.
         </p>
         <div className="mt-5">
-          <Link href={"/login"}>
+          <Link href={"/signup"}>
             <Button>Get Started</Button>
           </Link>
         </div>

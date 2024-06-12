@@ -8,11 +8,7 @@ export default function Section() {
       <SectionHeaders header="Mandatory Courses" desc="Bla Bla Bla" />
       <div className="flex gap-5 overflow-x-auto mt-3">
         {[1, 2, 3, 4, 5, 6].map((value) => (
-          <>
-            <div>
-              <Course key={value} />
-            </div>
-          </>
+          <div key={value}>{/* <Course key={value} /> */}</div>
         ))}
       </div>
     </div>

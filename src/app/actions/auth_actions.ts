@@ -1,6 +1,13 @@
 "use server";
 import fetchApi from "@/lib/api";
-import { FETCHUSER, LOGIN, SIGNUP, createAPIEndpoint } from "@/lib/constants";
+import {
+  FETCHUSER,
+  LOGIN,
+  SIGNUP,
+  TOKEN,
+  createAPIEndpoint,
+} from "@/lib/constants";
+import { setLocalData } from "@/lib/utils";
 import { ApiError, Tokens, UserData } from "@/types";
 import { cookies } from "next/headers";
 
@@ -14,14 +21,11 @@ export async function signInUser(email: string, password: string) {
     body: json,
   });
 
-  cookies().set("isLoggedIn", "true", { httpOnly: true });
   if (response.ok) {
-    cookies().set("token", response.data?.access ?? "", { httpOnly: true });
-    const userData = getUserData(response.data?.access || "");
-    return userData;
-  } else {
-    return response;
+    cookies().set(TOKEN, response.data?.access ?? "", { httpOnly: true });
+    //const userData = getUserData(response.data?.access || "");
   }
+  return response;
 }
 
 export async function getUserData(token: string) {
