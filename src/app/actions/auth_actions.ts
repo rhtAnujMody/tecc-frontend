@@ -7,7 +7,6 @@ import {
   TOKEN,
   createAPIEndpoint,
 } from "@/lib/constants";
-import { setLocalData } from "@/lib/utils";
 import { ApiError, Tokens, UserData } from "@/types";
 import { cookies } from "next/headers";
 
@@ -65,11 +64,11 @@ export async function signUpUser(
       body: json,
     }
   );
-  if (response.ok) {
-    cookies().set("isLoggedIn", "true", { httpOnly: true });
-    cookies().set("userData", JSON.stringify(response.data), {
-      httpOnly: true,
-    });
-  }
+  // if (response.ok) {
+  //   cookies().set("isLoggedIn", "true", { httpOnly: true });
+  //   cookies().set("userData", JSON.stringify(response.data), {
+  //     httpOnly: true,
+  //   });
+  // }
   return response;
 }
