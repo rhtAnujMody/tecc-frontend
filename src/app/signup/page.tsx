@@ -10,7 +10,8 @@ import { signUpUser } from "../actions/auth_actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { ApiError } from "@/types";
-import { checkIsEmpty, validateEmail } from "@/lib/utils";
+import { checkIsEmpty, setLocalData, validateEmail } from "@/lib/utils";
+import { USERDATA } from "@/lib/constants";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -67,7 +68,7 @@ export default function SignUp() {
         confirmPassword
       );
       if (response.ok) {
-        router.push("/dashboard");
+        router.push("/login");
         toast({
           title: "Success",
           description: "SignUp Success",

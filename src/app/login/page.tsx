@@ -25,7 +25,6 @@ export default function Login() {
       if (email && password) {
         const response = await signInUser(email, password);
         if (response.ok) {
-          console.log("login success", response.data);
           setLocalData(TOKEN, response.data?.access ?? "");
           const userDataResponse = await getUserData(
             response.data?.access ?? ""
