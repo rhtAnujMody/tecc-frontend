@@ -26,14 +26,17 @@ export const getInitials = (str1: string, str2: string) => {
 };
 
 export const setLocalData = (key: string, data: string) => {
-  localStorage.setItem(key, data);
+  if (localStorage) {
+    localStorage.setItem(key, data);
+  }
 };
 
 export const getLocalData = (key: string) => {
-  if (localStorage) {
+  if (typeof window !== "undefined") {
     return localStorage.getItem(key);
   }
-  return "";
+
+  return null;
 };
 
 export const fetcher = async <T>(url: string) => {
@@ -46,4 +49,10 @@ export const fetcher = async <T>(url: string) => {
   });
   const data: T = await res.json();
   return data;
+};
+
+export const deleteLocalData = () => {
+  if (localStorage) {
+    localStorage.clear();
+  }
 };

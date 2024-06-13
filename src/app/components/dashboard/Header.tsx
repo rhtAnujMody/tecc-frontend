@@ -12,12 +12,24 @@ export default function Header() {
     <div className="top-0 sticky z-50 h-[80px] flex w-full py-7 px-5 justify-between items-center ">
       <div className="flex gap-2 items-center">
         <span className="text-2xl text-text-primary font-semibold">{`Welcome, ${userData?.first_name}`}</span>
-        <Image src={hi} alt="hi" width={25} height={25}></Image>
+        <Image
+          src={hi}
+          alt="hi"
+          width={25}
+          height={25}
+          className="w-auto h-auto"
+        ></Image>
       </div>
       <div>
         <div className="py-2 px-3 flex border border-[#FFA800] gap-3 rounded-md">
-          <Image src={credit} alt="credit" width={15} height={15} />
-          <span className="text-text-primary">{userData?.credits}</span>
+          <Image
+            src={credit}
+            alt="credit"
+            width={15}
+            height={15}
+            className="w-auto h-auto"
+          />
+          <span className="text-text-primary">{userData?.credit}</span>
         </div>
       </div>
     </div>

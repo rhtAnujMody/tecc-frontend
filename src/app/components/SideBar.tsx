@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { cn, getInitials } from "@/lib/utils";
-import { UserData } from "@/types";
+import { cn, deleteLocalData, getInitials } from "@/lib/utils";
 import { ExitIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -18,6 +17,7 @@ export default function SideBar() {
   const handleLogout = async () => {
     const isLogout = await handleLogoutAction();
     if (isLogout) {
+      deleteLocalData();
       router.replace("/");
     }
   };
@@ -29,7 +29,8 @@ export default function SideBar() {
         alt="logo"
         width={100}
         height={40}
-        className="mx-10 mt-5"
+        priority={false}
+        className="mx-10 mt-5 w-auto h-auto"
       />
       <div className=" h-full mt-5 flex flex-1 flex-col">
         <div className="flex basis-[90%] border-b ">
@@ -60,12 +61,16 @@ export default function SideBar() {
                 <Image
                   src={value.icon}
                   alt="icon"
+                  width={20}
+                  height={20}
                   style={{
+                    width: "auto",
+                    height: "auto",
                     filter: `invert(100%) sepia(100%) saturate(10000%) hue-rotate(200deg) ${
                       value.isSelected ? "grayscale(0%)" : "grayscale(80%)"
                     }`,
                   }}
-                ></Image>
+                />
                 <span
                   className={cn(
                     "text-lg font-semibold text-text-primary",

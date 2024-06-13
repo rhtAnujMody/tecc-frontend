@@ -1,7 +1,6 @@
-import { cookies } from "next/headers";
 import SideBar from "../components/SideBar";
-import { SideBarProvider } from "../context/SideBarContext";
 import Header from "../components/dashboard/Header";
+import { SideBarProvider } from "../context/SideBarContext";
 import { UserContextProvider } from "../context/UserContext";
 
 export default function RootLayout({
@@ -9,10 +8,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userData =
-    cookies().get("userData") &&
-    JSON.parse(cookies().get("userData")?.value ?? "");
-
   return (
     <UserContextProvider>
       <SideBarProvider>

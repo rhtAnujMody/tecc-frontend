@@ -65,7 +65,7 @@ export default function CoursesWeOffer() {
           return (
             <div
               key={value.header}
-              className={`flex flex-1 h-[400px] rounded-md shrink-0 p-5 flex-col justify-between overflow-x-auto`}
+              className={`flex w-[300px] h-[400px] rounded-md shrink-0 p-5 flex-col justify-between overflow-x-auto`}
               style={{
                 background: `linear-gradient(${value.color.top},${value.color.botttom})`,
               }}

@@ -2,20 +2,28 @@
 import { USERDATA } from "@/lib/constants";
 import { getLocalData } from "@/lib/utils";
 import { TUserContext, UserData } from "@/types";
-import { cookies } from "next/headers";
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 export const UserContext = createContext<TUserContext | undefined>(undefined);
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<TUserContext>({
-    user: JSON.parse(getLocalData(USERDATA) ?? ""),
+    user: undefined,
     updateUserData: () => {},
   });
 
   const updateUserData = (newUserData: UserData) => {
     setUserData((prev) => ({ ...prev, user: newUserData }));
   };
+  useEffect(() => {
+    updateUserData(JSON.parse(getLocalData(USERDATA)!));
+  }, []);
 
   return (
     <UserContext.Provider value={{ ...userData, updateUserData }}>

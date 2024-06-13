@@ -3,14 +3,18 @@ import { fetcher } from "@/lib/utils";
 import { TCourse } from "@/types";
 import Image from "next/image";
 import useSWR from "swr";
-import defaultImage from "../../../public/course-default.svg";
 import Course from "./Course";
 import Loader from "./Loader";
 
-export default function AllCourses({ id }: { id: string }) {
-  const { data, error, isLoading } = useSWR(
-    createAPIEndpoint(`${COURSESBYCATEGORY}${id}/`),
-    (url) => fetcher<TCourse[]>(url)
+export default function AllCourses({
+  url,
+  thumbnail,
+}: {
+  url: string;
+  thumbnail?: string;
+}) {
+  const { data, error, isLoading } = useSWR(url, (url) =>
+    fetcher<TCourse[]>(url)
   );
 
   return (
@@ -21,11 +25,13 @@ export default function AllCourses({ id }: { id: string }) {
         </div>
       ) : (
         <>
-          <Image
-            src={defaultImage}
+          {/* <Image
+            src={thumbnail}
+            width={0}
+            height={0}
             alt="categoryImage"
             style={{ width: "100%", height: "200px", objectFit: "cover" }}
-          />
+          /> */}
 
           <div className="grid grid-cols-4 gap-5 mt-5">
             {data?.map((value, index) => {

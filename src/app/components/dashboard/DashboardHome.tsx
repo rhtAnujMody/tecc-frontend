@@ -1,6 +1,6 @@
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
-import { TCourse, TDashboard } from "@/types";
+import { TDashboard } from "@/types";
 import useSWR from "swr";
 import Course from "../Course";
 import Loader from "../Loader";
@@ -10,14 +10,14 @@ import SectionHeaders from "./SectionHeaders";
 export default function DashboardHome({
   onClick,
 }: {
-  onClick: (id: string, title: string) => void;
+  onClick: (id: string, title: string, thumbnail: string) => void;
 }) {
   const { data, error, isLoading } = useSWR(
     createAPIEndpoint(`${DASHBOARD}`),
     (url) => fetcher<TDashboard>(url)
   );
   return (
-    <div className="mt-5 h-full flex flex-1">
+    <div className="mt-5 h-full ">
       {isLoading ? (
         <div className="flex flex-1 h-full justify-center items-center ">
           <Loader />

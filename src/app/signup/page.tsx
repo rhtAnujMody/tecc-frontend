@@ -1,17 +1,16 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { checkIsEmpty, validateEmail } from "@/lib/utils";
+import { ApiError } from "@/types";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useTransition } from "react";
 import lady from "../../../public/landing-girl.svg";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { signUpUser } from "../actions/auth_actions";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
-import { ApiError } from "@/types";
-import { checkIsEmpty, setLocalData, validateEmail } from "@/lib/utils";
-import { USERDATA } from "@/lib/constants";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");

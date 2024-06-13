@@ -45,7 +45,13 @@ export default function Course({
           </span>
           {credit && (
             <div className="flex flex-1 justify-center items-center  ">
-              <Image src={credits} alt="credits" width={15} height={15} />
+              <Image
+                src={credits}
+                alt="credits"
+                width={15}
+                height={15}
+                className="w-auto h-auto"
+              />
               <span className="text-text-primary font-normal text-sm ml-1">
                 {credit}
               </span>
@@ -58,7 +64,7 @@ export default function Course({
         <div className="absolute bottom-3 text-sm font-normal">
           <Button
             onClick={() => {
-              onClick && onClick(id!, title ?? "");
+              onClick && onClick(id!, title ?? "", thumbnail);
             }}
             className={cn(
               "bg-primary",
@@ -67,7 +73,11 @@ export default function Course({
                 : is_enrolled && "bg-[#E67E22]"
             )}
           >
-            {is_enrolled ? "Resume Course" : "View Course"}
+            {is_CourseCompleted
+              ? "Watch Again"
+              : is_enrolled
+              ? "Resume Course"
+              : "View Course"}
           </Button>
         </div>
       </div>
