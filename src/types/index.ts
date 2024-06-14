@@ -21,12 +21,12 @@ export type ApiError = {
 };
 
 export type UserData = {
-  first_name: string;
-  last_name: string;
+  first_name: string | null;
+  last_name: string | null;
   email: string;
   username: string;
   pkid: number;
-  credits: number;
+  credit: number;
 };
 
 export type SideBarItem = {
@@ -78,7 +78,7 @@ export type TCourse = {
   showLectures?: boolean;
   count_of_lectures?: string;
   showCredits?: boolean;
-  onClick?: (id: string, name: string) => void;
+  onClick?: (id: string, name: string, thumbnail: string) => void;
 };
 
 export type TDashboard = {

@@ -1,4 +1,11 @@
 "use client";
+import {
+  COMPLETED,
+  COURSESBYCATEGORY,
+  ENROLLED,
+  PENDING,
+  createAPIEndpoint,
+} from "@/lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
 import NavigationHeader from "../components/NavigationHeader";
@@ -8,6 +15,7 @@ import { useSidebar } from "../context/SideBarContext";
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
   const id = useRef("");
+  const catImage = useRef("");
   const [mainHeader, setMainHeader] = useState("Dashboard");
   const [secondaryHeader, setSecondaryHeader] = useState("");
 
@@ -28,9 +36,6 @@ export default function Dashboard() {
       case 4:
         setMainHeader("Certifications");
         break;
-      case 5:
-        setMainHeader("My Courses");
-        break;
 
       default:
         break;
@@ -42,18 +47,34 @@ export default function Dashboard() {
       case 0:
         return (
           <DashboardHome
-            onClick={(courseId, title) => {
+            onClick={(courseId, title, thumbnail) => {
               id.current = courseId;
+              catImage.current = thumbnail;
               setSecondaryHeader(title);
               updateSideBar(data, 5);
             }}
           />
         );
+      case 1:
+        setSecondaryHeader("");
+        return <AllCourses url={createAPIEndpoint(`${ENROLLED}`)} />;
+
+      case 2:
+        setSecondaryHeader("");
+        return <AllCourses url={createAPIEndpoint(`${PENDING}`)} />;
+
+      case 3:
+        setSecondaryHeader("");
+        return <AllCourses url={createAPIEndpoint(`${COMPLETED}`)} />;
 
       case 5:
-        return <AllCourses id={id.current} />;
+        return (
+          <AllCourses
+            url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
+          />
+        );
     }
-  }, [data, position, updateSideBar]);
+  }, [position]);
 
   console.log("Dashboard");
   return (

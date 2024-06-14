@@ -15,6 +15,6 @@ export const FETCHUSER = "v1/userData/getUserDetails/";
 export const SIGNUP = "v1/auth/users/";
 export const COURSESBYCATEGORY = "v1/courses/byCategory/";
 export const DASHBOARD = "v1/dashboard/getDashboardDetails/";
-export const ENROLLED = "v1/dashboard/getDashboardDetails/";
-
-//v1/enrollCourse/getEnrolledCourse/
+export const ENROLLED = "v1/enrollCourse/getEnrolledCourse/";
+export const PENDING = "v1/enrollCourse/getPendingCourse/";
+export const COMPLETED = "v1/enrollCourse/getCompletedCourse/";
