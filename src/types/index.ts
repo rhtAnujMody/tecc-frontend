@@ -66,6 +66,7 @@ export type TCourseHightlights = {
 export type TCourse = {
   id?: string;
   category?: string;
+  category_name?: string;
   title?: string;
   description?: string;
   thumbnail: string;
@@ -79,7 +80,37 @@ export type TCourse = {
   count_of_lectures?: string;
   showCredits?: boolean;
   onClick?: (id: string, name: string, thumbnail: string) => void;
+  sections: TSection[];
+  course_progress?: number;
 };
+
+export interface TSection {
+  id: string;
+  title: string;
+  contents: TContent[];
+}
+
+export interface TContent {
+  id: string;
+  section: string;
+  video_name?: string;
+  video_url?: string;
+  order: number;
+  is_completed: boolean;
+  article_name?: string;
+  article_url?: string;
+  quiz_name?: string;
+  quiz_schema?: TQuizSchema[];
+  is_mandatory?: boolean;
+  duration: string;
+  type: "video" | "article" | "quiz";
+}
+
+export interface TQuizSchema {
+  correct: string;
+  options: string[];
+  question: string;
+}
 
 export type TDashboard = {
   enrolled_course_count: number;
