@@ -25,6 +25,13 @@ export const getInitials = (str1: string, str2: string) => {
   return `${str1.charAt(0) + str2.charAt(0)}`;
 };
 
+export const capitializeFirstChar = (str1?: string) => {
+  if (!str1) {
+    return;
+  }
+  return `${str1.charAt(0).toUpperCase() + str1.slice(1)}`;
+};
+
 export const setLocalData = (key: string, data: string) => {
   if (localStorage) {
     localStorage.setItem(key, data);

@@ -1,5 +1,4 @@
-export const API_BASE_URL =
-  "https://31b1-2401-4900-883b-f7af-95dc-3033-54b0-e1e0.ngrok-free.app/api/";
+export const API_BASE_URL = "https://2cec-125-21-77-42.ngrok-free.app/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -19,4 +18,4 @@ export const ENROLLED = "v1/enrollCourse/getEnrolledCourse/";
 export const PENDING = "v1/enrollCourse/getPendingCourse/";
 export const COMPLETED = "v1/enrollCourse/getCompletedCourse/";
 export const COURSEDETAIL =
-  "v1/sections/getCourseDetails/529a193a-351e-48a2-986a-bca304efe42e/";
+  "v1/sections/getCourseDetails/d2a3c665-b90b-4c9a-b931-41cd2b11ab23/";

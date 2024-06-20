@@ -19,6 +19,7 @@ export default function Course({
   is_CourseCompleted,
   showLectures = true,
   count_of_lectures,
+  sections,
   onClick,
 }: TCourse) {
   return (

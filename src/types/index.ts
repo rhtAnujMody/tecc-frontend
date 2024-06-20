@@ -80,7 +80,7 @@ export type TCourse = {
   count_of_lectures?: string;
   showCredits?: boolean;
   onClick?: (id: string, name: string, thumbnail: string) => void;
-  sections: TSection[];
+  sections?: TSection[];
   course_progress?: number;
 };
 

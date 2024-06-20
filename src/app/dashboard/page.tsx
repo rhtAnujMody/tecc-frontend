@@ -11,18 +11,21 @@ import AllCourses from "../components/AllCourses";
 import NavigationHeader from "../components/NavigationHeader";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import { useSidebar } from "../context/SideBarContext";
+import CourseDetails from "../course/[courseId]/page";
 
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
   const id = useRef("");
   const catImage = useRef("");
   const [mainHeader, setMainHeader] = useState("Dashboard");
-  const [secondaryHeader, setSecondaryHeader] = useState("");
+  const [secondaryHeader, setSecondaryHeader] = useState(
+    "HIPAA Compliance Training"
+  );
 
   useEffect(() => {
     switch (position) {
       case 0:
-        setMainHeader("Dashboard");
+        setMainHeader("Home");
         break;
       case 1:
         setMainHeader("My Courses");
@@ -46,14 +49,15 @@ export default function Dashboard() {
     switch (position) {
       case 0:
         return (
-          <DashboardHome
-            onClick={(courseId, title, thumbnail) => {
-              id.current = courseId;
-              catImage.current = thumbnail;
-              setSecondaryHeader(title);
-              updateSideBar(data, 5);
-            }}
-          />
+          // <DashboardHome
+          //   onClick={(courseId, title, thumbnail) => {
+          //     id.current = courseId;
+          //     catImage.current = thumbnail;
+          //     setSecondaryHeader(title);
+          //     updateSideBar(data, 5);
+          //   }}
+          // />
+          <CourseDetails />
         );
       case 1:
         setSecondaryHeader("");
