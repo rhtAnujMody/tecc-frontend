@@ -5,7 +5,7 @@ export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 interface FetchOptions {
   method: HttpMethod;
   headers?: HeadersInit;
-  body?: Record<string, string>;
+  body?: Record<string, string> | FormData;
 }
 
 interface FetchResponse<T, E> {

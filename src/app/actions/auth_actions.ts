@@ -8,6 +8,7 @@ import {
   createAPIEndpoint,
 } from "@/lib/constants";
 import { ApiError, Tokens, UserData } from "@/types";
+import { File } from "buffer";
 import { cookies } from "next/headers";
 
 export async function signInUser(email: string, password: string) {
@@ -47,21 +48,35 @@ export async function signUpUser(
   lastName: string,
   email: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
+  employeeId: string,
+  photoFile: File|null,
 ) {
-  const json = {
-    email: email,
-    first_name: firstName,
-    last_name: lastName,
-    password: password,
-    re_password: confirmPassword,
-    username: `${firstName}${lastName}`,
-  };
+  console.log("test0", firstName, photoFile);
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("first_name", firstName);
+  formData.append("last_name", lastName);
+  formData.append("password", password);
+  formData.append("re_password", confirmPassword);
+  formData.append("username", `${firstName}${lastName}`);
+  formData.append("employee_id", employeeId);
+  if (photoFile) {
+    console.log("formData0",formData,photoFile);
+    formData.append("profile_pic", "");
+    console.log("formData",formData,photoFile);
+    
+  }else{
+    formData.append("profile_pic", "");
+    console.log("formData2",formData);
+  }
+  console.log("payload",formData);
+  
   const response = await fetchApi<UserData, ApiError>(
     createAPIEndpoint(SIGNUP),
     {
       method: "POST",
-      body: json,
+      body: formData,
     }
   );
   // if (response.ok) {
