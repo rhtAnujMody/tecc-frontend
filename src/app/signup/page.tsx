@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useTransition, useRef } from "react";
 import lady from "../../../public/landing-girl.svg";
-import ProfileIcon from "../../../public/ProfileIcon.svg";
+import EditIcon from "../../../public/EditIcon.svg"
 import { signUpUser } from "../actions/auth_actions";
 
 export default function SignUp() {
@@ -20,8 +20,8 @@ export default function SignUp() {
   const [employeeId, setEmployeeId] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [photoSrc, setPhotoSrc] = useState(ProfileIcon);
-  const [photoFile, setPhotoFile] = useState<Blob | null>(null);
+  const [photoSrc, setPhotoSrc] = useState(EditIcon);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
@@ -32,23 +32,15 @@ export default function SignUp() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
-      // const fileReader = new FileReader();
-
-      // console.log("iamge as blob: ", new Blob([file], { type: "image" }));
-
-      // fileReader.readAsText(file);
-
       if (!fileType.startsWith("image/")) {
         showErrorToast("Please select a valid image file.");
         return;
       }
 
       const newPhotoSrc = URL.createObjectURL(file);
-      console.log("start", file);
 
       setPhotoSrc(newPhotoSrc);
-      setPhotoFile(new Blob([file], { type: "image" }));
-      console.log("end", file);
+      setPhotoFile(file);
     }
   };
 
@@ -111,9 +103,7 @@ export default function SignUp() {
       formData.append("username", `${firstName}${lastName}`);
       formData.append("employee_id", employeeId);
       if (photoFile) {
-        console.log("formData0", formData, photoFile);
         formData.append("profile_pic", photoFile);
-        console.log("formData", formData, photoFile);
       }
 
       const response = await signUpUser(formData);
@@ -174,15 +164,15 @@ export default function SignUp() {
         <span className="text-text-primary mt-3">
           Please enter your details
         </span>
-        <div className="flex justify-center items-center mt-5 cursor-pointer">
+        <div className="flex justify-center items-center mt-5 cursor-pointer bg-white rounded-full">
           <Image
             src={photoSrc}
-            width={50}
-            height={50}
+            width={70}
+            height={70}
             alt="profileIcon"
             placeholder="empty"
             onClick={openFileExplorer}
-            style={{ borderRadius: "100%", objectFit: "cover" }}
+            style={{ borderRadius: "100%", objectFit: "scale-down" }}
           />
           <input
             id="fileInput"

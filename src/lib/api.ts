@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 
-export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
 interface FetchOptions {
   method: HttpMethod;
@@ -9,7 +9,7 @@ interface FetchOptions {
 }
 
 interface FetchResponse<T, E> {
-  data?: T | undefined;
+  data?: T  ;
   status: number;
   ok: boolean;
   error?: E | string;
@@ -21,25 +21,34 @@ async function fetchApi<TResponse, TError>(
 ): Promise<FetchResponse<TResponse, TError>> {
   const { method, headers, body } = options;
   let authJson = {};
-  if (cookies().get("token")) {
+  if (cookies().get('token')) {
     authJson = {
-      Authorization: `Bearer ${cookies().get("token")?.value}`,
+      Authorization: `Bearer ${cookies().get('token')?.value}`,
     };
   }
-
   console.log(url);
-
   try {
-    const response = await fetch(url, {
+    const fetchOptions: RequestInit = {
       signal: AbortSignal.timeout(5000),
       method,
       headers: {
         ...authJson,
-        "Content-Type": "application/json",
         ...headers,
       },
-      body: body ? JSON.stringify(body) : undefined,
-    });
+    };
+
+    // Handle different types of body
+    if (body instanceof FormData) {
+      fetchOptions.body = body;
+    } else if (typeof body === 'object' && body !== null) {
+      fetchOptions.headers = {
+        ...fetchOptions.headers,
+        'Content-Type': 'application/json',
+      };
+      fetchOptions.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, fetchOptions);
 
     let data: TResponse | undefined;
 
@@ -63,7 +72,7 @@ async function fetchApi<TResponse, TError>(
     return {
       status: 0,
       ok: false,
-      error: "Something Went Wrong, please try again later",
+      error: 'Something went wrong, please try again later',
     };
   }
 }

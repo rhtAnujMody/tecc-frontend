@@ -86,9 +86,18 @@ export default function SideBar() {
         <div className="flex flex-1 h-fit items-center px-5  justify-between">
           <div className="flex gap-2">
             <div className="w-14 h-14 border rounded-full flex justify-center items-center text-text-primary font-normal">
-              {getInitials(
-                userData?.first_name ?? "",
-                userData?.last_name ?? ""
+            {userData?.profile_pic ? (
+                <Image
+                  src={userData?.profile_pic}
+                  width={70}
+                  height={70}
+                  alt="profileIcon"
+                  placeholder="empty"
+                  className="rounded-full"
+                />
+              ) : (
+                // If profilePicUrl is undefined or null, show initials
+                getInitials(userData?.first_name ?? "", userData?.last_name ?? "")
               )}
             </div>
             <div className="flex flex-col justify-center">
