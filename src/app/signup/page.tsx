@@ -79,10 +79,10 @@ export default function SignUp() {
         return;
       }
 
-      // if (!validateEmployeeId(employeeId)) {
-      //   showErrorToast("Invalid Employee ID");
-      //   return;
-      // }
+      if (!validateEmployeeId(employeeId)) {
+        showErrorToast("Invalid Employee ID");
+        return;
+      }
 
       if (password !== confirmPassword) {
         showErrorToast("Passwords and Confirm Password do not match");
