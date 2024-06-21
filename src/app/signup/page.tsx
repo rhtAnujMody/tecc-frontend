@@ -164,11 +164,10 @@ export default function SignUp() {
         <span className="text-text-primary mt-3">
           Please enter your details
         </span>
-        <div className="flex justify-center items-center mt-5 cursor-pointer bg-white rounded-full">
+        <div className="flex justify-center items-center mt-5 cursor-pointer bg-white rounded-full relative h-20 w-20">
           <Image
             src={photoSrc}
-            width={70}
-            height={70}
+        fill={true}
             alt="profileIcon"
             placeholder="empty"
             onClick={openFileExplorer}
