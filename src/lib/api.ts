@@ -9,7 +9,7 @@ interface FetchOptions {
 }
 
 interface FetchResponse<T, E> {
-  data?: T  ;
+  data?: T | undefined  ;
   status: number;
   ok: boolean;
   error?: E | string;

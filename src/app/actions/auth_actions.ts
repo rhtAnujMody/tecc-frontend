@@ -8,9 +8,7 @@ import {
   createAPIEndpoint,
 } from "@/lib/constants";
 import { ApiError, Tokens, UserData } from "@/types";
-import { File } from "buffer";
 import { cookies } from "next/headers";
-import { blob } from "stream/consumers";
 
 export async function signInUser(email: string, password: string) {
   const json = {
