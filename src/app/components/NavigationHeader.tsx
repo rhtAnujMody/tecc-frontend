@@ -11,7 +11,7 @@ export default function NavigationHeader({
   onClick: () => void;
 }) {
   return (
-    <div className="flex text-text-primary text-base font-medium items-center bg-white sticky top-0">
+    <div className="flex text-text-primary text-base font-medium items-center bg-white sticky top-0 z-50">
       {secondary && (
         <Button variant={"ghost"} onClick={onClick}>
           <ArrowLeftIcon className="mr-1" />

@@ -97,3 +97,14 @@ export interface TCategory {
   courses_count: number;
   thumbnail: string;
 }
+
+export interface TCourseCard {
+  thumbnail: string;
+  header: string;
+  description: string;
+}
+
+export interface TDashBoardBanner {
+  header: string;
+  color: string;
+}
