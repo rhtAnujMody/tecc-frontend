@@ -27,6 +27,7 @@ export type UserData = {
   username: string;
   pkid: number;
   credit: number;
+  profile_pic : string | null;
 };
 
 export type SideBarItem = {
