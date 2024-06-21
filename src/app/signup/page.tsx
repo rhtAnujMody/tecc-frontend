@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useTransition, useRef } from "react";
 import lady from "../../../public/landing-girl.svg";
-import ProfileIcon from "../../../public/ProfileIcon.svg"
+import ProfileIcon from "../../../public/ProfileIcon.svg";
 import { signUpUser } from "../actions/auth_actions";
 
 export default function SignUp() {
@@ -21,7 +21,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [photoSrc, setPhotoSrc] = useState(ProfileIcon);
-  const [photoFile, setPhotoFile] = useState<File|null>(null);
+  const [photoFile, setPhotoFile] = useState<Blob | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
@@ -32,6 +32,11 @@ export default function SignUp() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
+      // const fileReader = new FileReader();
+
+      // console.log("iamge as blob: ", new Blob([file], { type: "image" }));
+
+      // fileReader.readAsText(file);
 
       if (!fileType.startsWith("image/")) {
         showErrorToast("Please select a valid image file.");
@@ -39,16 +44,16 @@ export default function SignUp() {
       }
 
       const newPhotoSrc = URL.createObjectURL(file);
-      console.log("start",file);
-      
+      console.log("start", file);
+
       setPhotoSrc(newPhotoSrc);
-      setPhotoFile(file); 
-      console.log("end",file);
+      setPhotoFile(new Blob([file], { type: "image" }));
+      console.log("end", file);
     }
   };
 
   const openFileExplorer = () => {
-   if (fileInputRef.current) {
+    if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
@@ -76,7 +81,7 @@ export default function SignUp() {
         showErrorToast("All fields are mandatory");
         return;
       }
-      
+
       if (!validateEmail(email)) {
         showErrorToast("Invalid Email");
         return;
@@ -97,15 +102,21 @@ export default function SignUp() {
         return;
       }
 
-      const response = await signUpUser(
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        employeeId,
-        photoFile?.type
-      );
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("first_name", firstName);
+      formData.append("last_name", lastName);
+      formData.append("password", password);
+      formData.append("re_password", confirmPassword);
+      formData.append("username", `${firstName}${lastName}`);
+      formData.append("employee_id", employeeId);
+      if (photoFile) {
+        console.log("formData0", formData, photoFile);
+        formData.append("profile_pic", photoFile);
+        console.log("formData", formData, photoFile);
+      }
+
+      const response = await signUpUser(formData);
       if (response.ok) {
         router.push("/login");
         toast({
@@ -164,67 +175,68 @@ export default function SignUp() {
           Please enter your details
         </span>
         <div className="flex justify-center items-center mt-5 cursor-pointer">
-          <Image  src={photoSrc}
-          width={50}
-          height={50}
-        alt="profileIcon"
-        placeholder="empty"
-        onClick={openFileExplorer}
-        style={{borderRadius:"100%",objectFit:"cover"}}
-        />
-        <input
-        id="fileInput"
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        style={{ display: "none" }}
-        onChange={handlePhotoChange}
-      />
+          <Image
+            src={photoSrc}
+            width={50}
+            height={50}
+            alt="profileIcon"
+            placeholder="empty"
+            onClick={openFileExplorer}
+            style={{ borderRadius: "100%", objectFit: "cover" }}
+          />
+          <input
+            id="fileInput"
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handlePhotoChange}
+          />
         </div>
         <div className="mt-5 w-full">
           <div className="flex gap-4">
-          <Input
-            label="First Name*"
-            placeholder="Enter your first name"
-            value={firstName}
-            onChange={handleFirstNameChange}
-          />
-          <Input
-            label="Last Name*"
-            placeholder="Enter your last name"
-            value={lastName}
-            onChange={handleLastNameChange}
-          />
+            <Input
+              label="First Name*"
+              placeholder="Enter your first name"
+              value={firstName}
+              onChange={handleFirstNameChange}
+            />
+            <Input
+              label="Last Name*"
+              placeholder="Enter your last name"
+              value={lastName}
+              onChange={handleLastNameChange}
+            />
           </div>
           <div className="flex gap-4">
-          <Input
-            label="Employee Id*"
-            placeholder="Enter your employee id"
-            value={employeeId}
-            onChange={handleEmployeeIdChange}
-          />
-          <Input
-            label="Email*"
-            placeholder="Enter your email id"
-            value={email}
-            onChange={handleEmailChange}
-          />
+            <Input
+              label="Employee Id*"
+              placeholder="Enter your employee id"
+              value={employeeId}
+              onChange={handleEmployeeIdChange}
+            />
+            <Input
+              label="Email*"
+              placeholder="Enter your email id"
+              value={email}
+              onChange={handleEmailChange}
+            />
           </div>
           <div className="flex gap-4">
-          <Input
-            label="Password*"
-            placeholder="Enter your password"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <Input
-            label="Confirm Password*"
-            placeholder="Enter confirm password"
-            type="password"
-            value={confirmPassword}
-            onChange={handleConfirmPasswordChange}
-          />
+            <Input
+              label="Password*"
+              placeholder="Enter your password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <Input
+              label="Confirm Password*"
+              placeholder="Enter confirm password"
+              type="password"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+            />
           </div>
         </div>
         <Button className="w-full" disabled={isPending} onClick={callAPI}>

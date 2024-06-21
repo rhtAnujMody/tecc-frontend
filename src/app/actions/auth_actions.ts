@@ -10,6 +10,7 @@ import {
 import { ApiError, Tokens, UserData } from "@/types";
 import { File } from "buffer";
 import { cookies } from "next/headers";
+import { blob } from "stream/consumers";
 
 export async function signInUser(email: string, password: string) {
   const json = {
@@ -44,39 +45,45 @@ export async function getUserData(token: string) {
 }
 
 export async function signUpUser(
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  confirmPassword: string,
-  employeeId: string,
-  photoFile: File|null,
+  // firstName: string,
+  // lastName: string,
+  // email: string,
+  // password: string,
+  // confirmPassword: string,
+  // employeeId: string,
+  // photoFile?: Blob | null
+  formData: FormData
 ) {
-  console.log("test0", firstName, photoFile);
-  const formData = new FormData();
-  formData.append("email", email);
-  formData.append("first_name", firstName);
-  formData.append("last_name", lastName);
-  formData.append("password", password);
-  formData.append("re_password", confirmPassword);
-  formData.append("username", `${firstName}${lastName}`);
-  formData.append("employee_id", employeeId);
-  if (photoFile) {
-    console.log("formData0",formData,photoFile);
-    formData.append("profile_pic", "");
-    console.log("formData",formData,photoFile);
-    
-  }else{
-    formData.append("profile_pic", "");
-    console.log("formData2",formData);
-  }
-  console.log("payload",formData);
-  
+  // console.log("test0", firstName, photoFile);
+  // const formData = new FormData();
+  // formData.append("email", email);
+  // formData.append("first_name", firstName);
+  // formData.append("last_name", lastName);
+  // formData.append("password", password);
+  // formData.append("re_password", confirmPassword);
+  // formData.append("username", `${firstName}${lastName}`);
+  // formData.append("employee_id", employeeId);
+  // if (photoFile) {
+  //   console.log("formData0", formData, photoFile);
+  //   formData.append("profile_pic", photoFile);
+  //   console.log("formData", formData, photoFile);
+  // } else {
+  //   formData.append("profile_pic", "");
+  //   console.log("formData2", formData);
+  // }
+  const rawFormData = Object.fromEntries(formData);
+  console.log("raw", rawFormData);
+  console.log("payload", formData);
+  // let json = {
+  //   email: formData.get(""),
+  // };
+
   const response = await fetchApi<UserData, ApiError>(
     createAPIEndpoint(SIGNUP),
     {
       method: "POST",
       body: formData,
+      headers: {},
     }
   );
   // if (response.ok) {
