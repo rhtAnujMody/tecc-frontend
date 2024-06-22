@@ -7,10 +7,20 @@ import {
 import { TSection } from "@/types";
 import CourseDetailContentItem from "./CourseDetailContentItem";
 
-export default function CourseDetailItem(props: TSection) {
+export default function CourseDetailItem({
+  props,
+  index,
+  isEnrolled,
+  revalidate,
+}: {
+  props: TSection;
+  index: number;
+  isEnrolled: boolean;
+  revalidate: () => void;
+}) {
   return (
     <>
-      <AccordionItem value={props.id}>
+      <AccordionItem value={`${index}`}>
         <AccordionTrigger>
           <span className="font-semibold text-xl text-text-primary">
             {props.title}
@@ -19,7 +29,11 @@ export default function CourseDetailItem(props: TSection) {
         {props.contents.map((value, index) => {
           return (
             <AccordionContent key={index} className="flex flex-col gap-5">
-              <CourseDetailContentItem {...value} />
+              <CourseDetailContentItem
+                props={{ ...value }}
+                isEnrolled={isEnrolled}
+                revalidate={revalidate}
+              />
             </AccordionContent>
           );
         })}

@@ -32,7 +32,7 @@ export default function Header() {
             height={15}
             className="w-auto h-auto"
           />
-          <span className="text-text-primary">{userData?.credit}</span>
+          <span className="text-text-primary">{userData?.credit ?? 0}</span>
         </div>
       </div>
     </div>

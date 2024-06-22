@@ -79,9 +79,10 @@ export type TCourse = {
   showLectures?: boolean;
   count_of_lectures?: string;
   showCredits?: boolean;
-  onClick?: (id: string, name: string, thumbnail: string) => void;
+  onClick?: (item: TCourse) => void;
   sections?: TSection[];
   course_progress?: number;
+  buttonText?: string;
 };
 
 export interface TSection {
@@ -97,13 +98,20 @@ export interface TContent {
   video_url?: string;
   order: number;
   is_completed: boolean;
-  article_name?: string;
-  article_url?: string;
+  articles?: Articles;
   quiz_name?: string;
   quiz_schema?: TQuizSchema[];
   is_mandatory?: boolean;
   duration: string;
   type: "video" | "article" | "quiz";
+}
+
+export interface Articles {
+  id: string;
+  article_name: string;
+  article_url: string;
+  order: number;
+  type: string;
 }
 
 export interface TQuizSchema {

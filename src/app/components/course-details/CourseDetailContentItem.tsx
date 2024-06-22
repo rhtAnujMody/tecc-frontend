@@ -1,19 +1,34 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import React from "react";
-import video from "../../../../public/video.svg";
-import time from "../../../../public/time.svg";
-import play from "../../../../public/play.svg";
+import { callAPI, cn, fetcher } from "@/lib/utils";
 import { TContent } from "@/types";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import lightBulb from "../../../../public/lightbulb.svg";
+import paperClip from "../../../../public/paperclip.svg";
+import playCircle from "../../../../public/play-circle.svg";
+import time from "../../../../public/time.svg";
+import yellowLightBulb from "../../../../public/yellow-bulb.svg";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { DialogOverlay, DialogTitle } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { X } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import fetchApi from "@/lib/api";
+import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
 
-export default function CourseDetailContentItem(props: TContent) {
+export default function CourseDetailContentItem({
+  props,
+  isEnrolled,
+  revalidate,
+}: {
+  props: TContent;
+  isEnrolled: boolean;
+  revalidate: () => void;
+}) {
+  const [showDialog, setshowDialog] = useState(false);
+  const { toast } = useToast();
   const getTitle = () => {
     switch (props.type) {
       case "video":
         return props.video_name;
-      case "article":
-        return props.article_name;
       case "quiz":
         return props.quiz_name;
     }
@@ -25,64 +40,155 @@ export default function CourseDetailContentItem(props: TContent) {
       case "article":
         return "View Article";
       case "quiz":
-        return "Take Quiz";
+        return "Start Quiz";
+    }
+  };
+
+  const markVideoAsComplete = async () => {
+    const response = await callAPI(createAPIEndpoint(TOGGLEPROGRESS), "POST", {
+      video_id: props.id,
+    });
+
+    if (response.status === 200) {
+      toast({ title: "Success" });
+      setshowDialog(false);
+      revalidate();
     }
   };
   return (
-    <div className="p-3 h-fit flex gap-2 border rounded-md">
-      {props.type === "video" ? (
-        <div className="w-[60px] h-[60px]">
-          <Image src={video} className="w-full h-full" alt="video" />
+    <>
+      <div className="p-3 h-fit flex gap-2 border rounded-md">
+        <div
+          className={cn(
+            "w-[60px] h-[60px] border-8 border-[#BCE4FF] rounded-lg flex justify-center items-center bg-[#F5FBFF]",
+            props.is_mandatory && "border-[#FFDF8D] bg-[#FFF8E5]"
+          )}
+        >
+          <Image
+            src={
+              props.type === "video"
+                ? playCircle
+                : props.is_mandatory
+                ? yellowLightBulb
+                : lightBulb
+            }
+            className="w-8 h-8"
+            alt="video"
+          />
         </div>
-      ) : null}
+        <div className="flex flex-1 justify-between flex-col gap-3">
+          <div className="flex gap-2  h-[70px]">
+            <div className="flex flex-1 justify-between pb-4 border-b ">
+              <div className="flex flex-col justify-between">
+                <span className="text-text-primary font-semibold text-lg">
+                  {getTitle()}
+                </span>
 
-      <div className="flex flex-1 justify-between flex-col gap-3">
-        <div className="flex gap-2  h-[70px]">
-          <div className="flex flex-1 justify-between pb-4 border-b ">
-            <div className="flex flex-col justify-between">
-              <span className="text-text-primary font-semibold text-lg">
-                {getTitle()}
-              </span>
+                {props.type === "video" ? (
+                  <div className="flex items-center gap-1">
+                    <Image src={time} alt="time" width={12} height={12} />
+                    <span className="text-text-secondary font-normal text-xs">
+                      {props.duration}
+                    </span>
+                  </div>
+                ) : null}
+              </div>
 
-              {props.type === "video" ? (
-                <div className="flex items-center gap-1">
-                  <Image src={time} alt="time" width={12} height={12} />
-                  <span className="text-text-secondary font-normal text-xs">
-                    {props.duration}
-                  </span>
-                </div>
-              ) : null}
-            </div>
-
-            <div
-              className={cn(
-                "py-2 px-3  h-fit rounded-2xl text-xs text-text-primary",
-                props.is_completed ? "bg-[#A2E6B9]" : "bg-[#FFE8BC]"
-              )}
-            >
-              Pending
+              <div
+                className={cn(
+                  "py-2 px-3  h-fit rounded-2xl text-xs text-text-primary",
+                  props.is_completed ? "bg-[#A2E6B9]" : "bg-[#FFE8BC]"
+                )}
+              >
+                {props.is_completed ? "Completed" : "Pending"}
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          <div className="flex w-fit gap-1 items-center ">
-            {props.type === "video" ? (
-              <Image
-                src={play}
-                alt="play"
-                className="border border-primary  rounded-sm w-4 h-4"
-              />
-            ) : null}
-
-            <a
-              className="text-primary font-normal text mr-2 cursor-pointer"
-              href={props.article_url}
+          <div className="flex gap-2">
+            <div
+              onClick={() => {
+                if (isEnrolled) {
+                  setshowDialog(true);
+                } else {
+                  toast({ title: "Please enroll first" });
+                }
+              }}
+              className={cn(
+                "flex w-fit gap-1 items-center",
+                props.articles && "border-r"
+              )}
             >
-              {getActionTitle()}
-            </a>
+              <Image
+                src={
+                  props.type === "video"
+                    ? playCircle
+                    : props.is_mandatory
+                    ? yellowLightBulb
+                    : lightBulb
+                }
+                alt="play"
+                className="rounded-sm w-4 h-4"
+              />
+
+              <span
+                className={cn(
+                  "text-primary font-normal text mr-2 cursor-pointer",
+                  props.is_mandatory && "text-[#FFB800]"
+                )}
+              >
+                {getActionTitle()}
+              </span>
+            </div>
+            {props.articles && (
+              <div className={cn("flex w-fit gap-1 items-center")}>
+                <Image
+                  src={paperClip}
+                  alt="play"
+                  className="rounded-sm w-4 h-4"
+                />
+                <a
+                  className={cn(
+                    "text-primary font-normal text mr-2 cursor-pointer"
+                  )}
+                  href={props.articles?.article_url}
+                  target="_blank"
+                >
+                  Resources
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+      {showDialog && (
+        <Dialog open={showDialog}>
+          <DialogOverlay>
+            <DialogContent className="max-w-4xl">
+              <div className="flex justify-between items-center">
+                <DialogTitle className="text-text-primary text-base font-semibold">
+                  {/* <span className="text-text-primary text-base"> */}
+                  {props.video_name}
+                  {/* </span> */}
+                </DialogTitle>
+                <X
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setshowDialog(false);
+                  }}
+                ></X>
+              </div>
+              <video
+                controls
+                className="w-full h-full"
+                onEnded={markVideoAsComplete}
+                controlsList="nodownload"
+              >
+                <source src={props.video_url} type="video/mp4" />
+              </video>
+            </DialogContent>
+          </DialogOverlay>
+        </Dialog>
+      )}
+    </>
   );
 }

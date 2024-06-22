@@ -1,6 +1,6 @@
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
-import { TDashboard } from "@/types";
+import { TCourse, TDashboard } from "@/types";
 import useSWR from "swr";
 import Course from "../Course";
 import Loader from "../Loader";
@@ -8,9 +8,11 @@ import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
 
 export default function DashboardHome({
-  onClick,
+  onCategoryCardClick,
+  onCourseClick,
 }: {
-  onClick: (id: string, title: string, thumbnail: string) => void;
+  onCategoryCardClick: (items: TCourse) => void;
+  onCourseClick: (items: TCourse) => void;
 }) {
   const { data, error, isLoading } = useSWR(
     createAPIEndpoint(`${DASHBOARD}`),
@@ -41,6 +43,7 @@ export default function DashboardHome({
                   <Course
                     {...value}
                     count_of_lectures={`${value.count_of_lectures} lectures`}
+                    onClick={onCourseClick}
                   />
                 </div>
               ))}
@@ -58,7 +61,8 @@ export default function DashboardHome({
                     description={value.description}
                     thumbnail={value.thumbnail}
                     count_of_lectures={`${value.courses_count} Courses`}
-                    onClick={onClick}
+                    onClick={onCategoryCardClick}
+                    buttonText="View Courses"
                   />
                 </div>
               ))}

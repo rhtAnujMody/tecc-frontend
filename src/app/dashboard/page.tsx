@@ -18,9 +18,7 @@ export default function Dashboard() {
   const id = useRef("");
   const catImage = useRef("");
   const [mainHeader, setMainHeader] = useState("Dashboard");
-  const [secondaryHeader, setSecondaryHeader] = useState(
-    "HIPAA Compliance Training"
-  );
+  const [secondaryHeader, setSecondaryHeader] = useState("");
 
   useEffect(() => {
     switch (position) {
@@ -49,15 +47,20 @@ export default function Dashboard() {
     switch (position) {
       case 0:
         return (
-          // <DashboardHome
-          //   onClick={(courseId, title, thumbnail) => {
-          //     id.current = courseId;
-          //     catImage.current = thumbnail;
-          //     setSecondaryHeader(title);
-          //     updateSideBar(data, 5);
-          //   }}
-          // />
-          <CourseDetails />
+          <DashboardHome
+            onCategoryCardClick={({ id: courseId, thumbnail, title }) => {
+              id.current = courseId!;
+              catImage.current = thumbnail;
+              setSecondaryHeader(title ?? "");
+              updateSideBar(data, 5);
+            }}
+            onCourseClick={({ id: courseId, title }) => {
+              id.current = courseId!;
+              setSecondaryHeader(title ?? "");
+              updateSideBar(data, 6);
+            }}
+          />
+          //
         );
       case 1:
         setSecondaryHeader("");
@@ -77,6 +80,8 @@ export default function Dashboard() {
             url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
           />
         );
+      case 6:
+        return <CourseDetails id={id.current} />;
     }
   }, [position]);
 
