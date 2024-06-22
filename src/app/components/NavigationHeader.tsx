@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronRightIcon, ArrowLeftIcon } from "@radix-ui/react-icons";
+import { ArrowLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 
 export default function NavigationHeader({
   main,

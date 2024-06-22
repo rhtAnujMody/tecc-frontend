@@ -8,7 +8,7 @@ export default function CourseCard({
   description,
 }: TCourseCard) {
   return (
-    <div className="h-[380px] border flex flex-col rounded-xl relative">
+    <div className="max-h-[380px] border flex flex-col rounded-xl relative pb-3">
       <Image
         src={thumbnail}
         sizes="100vh"
