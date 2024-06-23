@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
 
-function CourseDetails({ id }: { id: string }) {
+function CourseDetailsMain({ id }: { id: string }) {
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
   const { data, error, isLoading, mutate } = useSWR(
     createAPIEndpoint(`${COURSEDETAIL}${id}/`),
@@ -103,4 +103,4 @@ function CourseDetails({ id }: { id: string }) {
   );
 }
 
-export default CourseDetails;
+export default CourseDetailsMain;
