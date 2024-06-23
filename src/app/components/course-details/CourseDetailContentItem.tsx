@@ -1,18 +1,24 @@
-import { callAPI, cn, fetcher } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useToast } from "@/components/ui/use-toast";
+import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
+import { callAPI, cn } from "@/lib/utils";
 import { TContent } from "@/types";
+import { X } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import lightBulb from "../../../../public/lightbulb.svg";
 import paperClip from "../../../../public/paperclip.svg";
 import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { DialogOverlay, DialogTitle } from "@radix-ui/react-dialog";
-import { useState } from "react";
-import { X } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import fetchApi from "@/lib/api";
-import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
+import QuizDialog from "./QuizDialog";
 
 export default function CourseDetailContentItem({
   props,
@@ -23,14 +29,15 @@ export default function CourseDetailContentItem({
   isEnrolled: boolean;
   revalidate: () => void;
 }) {
-  const [showDialog, setshowDialog] = useState(false);
+  const [showVideoDialog, setShowVideoDialog] = useState(false);
+  const [showQuizDialog, setShowQuizDialog] = useState(false);
   const { toast } = useToast();
   const getTitle = () => {
     switch (props.type) {
       case "video":
         return props.video_name;
-      case "quiz":
-        return props.quiz_name;
+      default:
+        return props.title;
     }
   };
   const getActionTitle = () => {
@@ -44,14 +51,25 @@ export default function CourseDetailContentItem({
     }
   };
 
-  const markVideoAsComplete = async () => {
-    const response = await callAPI(createAPIEndpoint(TOGGLEPROGRESS), "POST", {
-      video_id: props.id,
-    });
-
+  const markVideoAsComplete = async (isVideo: boolean = true) => {
+    let json = {};
+    if (isVideo) {
+      json = {
+        video_id: props.id,
+      };
+    } else {
+      json = {
+        quiz_id: props.id,
+      };
+    }
+    const response = await callAPI(
+      createAPIEndpoint(TOGGLEPROGRESS),
+      "POST",
+      json
+    );
     if (response.status === 200) {
-      toast({ title: "Success" });
-      setshowDialog(false);
+      setShowVideoDialog(false);
+      setShowQuizDialog(false);
       revalidate();
     }
   };
@@ -108,7 +126,11 @@ export default function CourseDetailContentItem({
             <div
               onClick={() => {
                 if (isEnrolled) {
-                  setshowDialog(true);
+                  if (props.type === "video") {
+                    setShowVideoDialog(true);
+                  } else {
+                    setShowQuizDialog(true);
+                  }
                 } else {
                   toast({ title: "Please enroll first" });
                 }
@@ -160,8 +182,8 @@ export default function CourseDetailContentItem({
           </div>
         </div>
       </div>
-      {showDialog && (
-        <Dialog open={showDialog}>
+      {showVideoDialog && (
+        <Dialog open={showVideoDialog}>
           <DialogOverlay>
             <DialogContent className="max-w-4xl">
               <div className="flex justify-between items-center">
@@ -173,14 +195,16 @@ export default function CourseDetailContentItem({
                 <X
                   className="cursor-pointer"
                   onClick={() => {
-                    setshowDialog(false);
+                    setShowVideoDialog(false);
                   }}
                 ></X>
               </div>
               <video
                 controls
                 className="w-full h-full"
-                onEnded={markVideoAsComplete}
+                onEnded={() => {
+                  markVideoAsComplete();
+                }}
                 controlsList="nodownload"
               >
                 <source src={props.video_url} type="video/mp4" />
@@ -188,6 +212,22 @@ export default function CourseDetailContentItem({
             </DialogContent>
           </DialogOverlay>
         </Dialog>
+      )}
+      {showQuizDialog && (
+        <QuizDialog
+          questions={props.questions}
+          showDialog={showQuizDialog}
+          title={props.title ?? "Questions"}
+          id={props.id}
+          isMandatory={props.is_mandatory!}
+          closeQuiz={(revalidate) => {
+            if (revalidate) {
+              markVideoAsComplete(false);
+            } else {
+              setShowQuizDialog(false);
+            }
+          }}
+        />
       )}
     </>
   );

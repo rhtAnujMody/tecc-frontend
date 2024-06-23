@@ -1,37 +1,39 @@
-import Image from "next/image";
+import Loader from "@/app/components/Loader";
 import CourseDetailItem from "@/app/components/course-details/CourseDetailItem";
 import { Accordion } from "@/components/ui/accordion";
-import { Progress } from "@/components/ui/progress";
-import fetchApi from "@/lib/api";
-import { COURSEDETAIL, createAPIEndpoint } from "@/lib/constants";
-import { ApiError, TCourse } from "@/types";
-import course from "../../../../public/my-courses.svg";
-import useSWR from "swr";
-import { fetcher } from "@/lib/utils";
-import { Dialog, DialogOverlay } from "@/components/ui/dialog";
-import { DialogContent, DialogTrigger } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import Loader from "@/app/components/Loader";
-
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: { courseId: string };
-// }) {
-//   return {
-//     title: "Course Detail",
-//   };
-// }
+import { Progress } from "@/components/ui/progress";
+import { toast } from "@/components/ui/use-toast";
+import { COURSEDETAIL, ENROLLCOURSE, createAPIEndpoint } from "@/lib/constants";
+import { callAPI, fetcher } from "@/lib/utils";
+import { TCourse } from "@/types";
+import Image from "next/image";
+import { useState } from "react";
+import useSWR from "swr";
 
 function CourseDetails({ id }: { id: string }) {
+  const [isEnrollLoading, setIsEnrollLoading] = useState(false);
   const { data, error, isLoading, mutate } = useSWR(
     createAPIEndpoint(`${COURSEDETAIL}${id}/`),
     (url) => fetcher<TCourse>(url)
   );
 
+  const enrollCourse = async () => {
+    setIsEnrollLoading(true);
+    const response = await callAPI(createAPIEndpoint(ENROLLCOURSE), "POST", {
+      course_id: data?.id ?? "",
+    });
+    if (response.ok) {
+      mutate();
+    } else {
+      toast({ title: "Error" });
+    }
+    setIsEnrollLoading(false);
+  };
+
   return isLoading ? (
     <div className="flex flex-1 justify-center items-center">
-      <Loader></Loader>
+      <Loader />
     </div>
   ) : (
     <div className="flex flex-1 bg-white p-5 flex-col">
@@ -47,20 +49,36 @@ function CourseDetails({ id }: { id: string }) {
           <span className="text-text-secondary text-xs font-semibold">
             {data?.category_name}
           </span>
-          <span className="text-text-primary text-2xl font-semibold">
+          <span className="text-text-primary text-2xl font-semibold mt-2">
             {data?.title}
           </span>
           {!data?.is_enrolled ? (
-            <div>
-              <Button className="bg-primary">Enroll</Button>
+            <div className="h-10 items-center flex">
+              {isEnrollLoading ? (
+                <Loader />
+              ) : (
+                <Button className="bg-primary" onClick={enrollCourse}>
+                  Enroll
+                </Button>
+              )}
             </div>
           ) : (
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-1 justify-between text-xs text-text-secondary">
-                <span className="">Course Progress</span>
-                <span>{`${data?.course_progress}%`}</span>
+            <div className="flex flex-col gap-4 mt-2">
+              <div>
+                <div className="flex flex-1 justify-between text-xs text-text-secondary">
+                  <span className="">Course Progress</span>
+                  <span>{`${data?.course_progress}%`}</span>
+                </div>
+                <Progress value={data?.course_progress} className="h-2" />
               </div>
-              <Progress value={data?.course_progress} className="h-2" />
+              {data.is_CourseCompleted && (
+                <a
+                  href="https://drive.google.com/file/d/1yuAxSRZ8jK8bk-yrL61op-xEgQg4PWb1/view?usp=sharing"
+                  target="_blank"
+                >
+                  <Button className="w-40">View Certificate</Button>
+                </a>
+              )}
             </div>
           )}
         </div>

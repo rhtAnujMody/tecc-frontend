@@ -31,7 +31,7 @@ export async function getUserData(token: string) {
   const response = await fetchApi<UserData, ApiError>(
     createAPIEndpoint(FETCHUSER),
     { method: "GET" }
-  );
+  );  
 
   if (response.ok) {
     cookies().set("isLoggedIn", "true", { httpOnly: true });
@@ -43,25 +43,14 @@ export async function getUserData(token: string) {
 }
 
 export async function signUpUser(
-  firstName: string,
-  lastName: string,
-  email: string,
-  password: string,
-  confirmPassword: string
+  formData: FormData
 ) {
-  const json = {
-    email: email,
-    first_name: firstName,
-    last_name: lastName,
-    password: password,
-    re_password: confirmPassword,
-    username: `${firstName}${lastName}`,
-  };
+
   const response = await fetchApi<UserData, ApiError>(
     createAPIEndpoint(SIGNUP),
     {
       method: "POST",
-      body: json,
+      body: formData,
     }
   );
   // if (response.ok) {

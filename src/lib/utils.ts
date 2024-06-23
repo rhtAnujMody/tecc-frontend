@@ -21,6 +21,10 @@ export const validateEmail = (email: string) => {
     );
 };
 
+export const validateEmployeeId = (employeeID: string) => {
+  return /^[rR][0-9]{4}$/.test(employeeID);
+};
+
 export const getInitials = (str1: string, str2: string) => {
   return `${str1.charAt(0) + str2.charAt(0)}`;
 };

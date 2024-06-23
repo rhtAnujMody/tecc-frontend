@@ -10,7 +10,7 @@ import { capitializeFirstChar } from "@/lib/utils";
 export default function Header() {
   const { user: userData } = useUserContext();
   return (
-    <div className="top-0 sticky z-50 h-[80px] flex w-full py-7 px-5 justify-between items-center ">
+    <div className="top-0 sticky z-50 h-[80px] flex w-full py-7 px-5 justify-between items-center border-b">
       <div className="flex gap-2 items-center">
         <span className="text-2xl text-text-primary font-semibold">{`Welcome, ${capitializeFirstChar(
           userData?.first_name ?? ""
@@ -28,8 +28,8 @@ export default function Header() {
           <Image
             src={credit}
             alt="credit"
-            width={15}
-            height={15}
+            width={0}
+            height={0}
             className="w-auto h-auto"
           />
           <span className="text-text-primary">{userData?.credit ?? 0}</span>

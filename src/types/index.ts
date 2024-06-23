@@ -27,6 +27,7 @@ export type UserData = {
   username: string;
   pkid: number;
   credit: number;
+  profile_pic: string | null;
 };
 
 export type SideBarItem = {
@@ -98,8 +99,9 @@ export interface TContent {
   video_url?: string;
   order: number;
   is_completed: boolean;
+  questions: Question[];
   articles?: Articles;
-  quiz_name?: string;
+  title?: string;
   quiz_schema?: TQuizSchema[];
   is_mandatory?: boolean;
   duration: string;
@@ -112,6 +114,12 @@ export interface Articles {
   article_url: string;
   order: number;
   type: string;
+}
+
+export interface Question {
+  id: number;
+  text: string;
+  options: Record<string, string>;
 }
 
 export interface TQuizSchema {
@@ -135,3 +143,31 @@ export interface TCategory {
   courses_count: number;
   thumbnail: string;
 }
+
+export interface TCourseCard {
+  thumbnail: string;
+  header: string;
+  description: string;
+}
+
+export interface TDashBoardBanner {
+  header: string;
+  color: string;
+}
+
+export type TQuizDialog = {
+  showDialog: boolean;
+  id: string;
+  questions: Question[];
+  title: string;
+  isMandatory: boolean;
+  closeQuiz: (revalidate: boolean) => void;
+};
+
+export type TSubmitAnswer = {
+  score: number;
+  passed: boolean;
+  question_id: number;
+  is_correct: boolean;
+  correct_answers: string[];
+};

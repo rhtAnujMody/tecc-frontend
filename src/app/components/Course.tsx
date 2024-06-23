@@ -58,20 +58,19 @@ export default function Course({
           >
             {title}
           </span>
-          {credit && (
-            <div className="flex justify-center items-center  ">
-              <Image
-                src={credits}
-                alt="credits"
-                width={0}
-                height={0}
-                className="w-4 h-4"
-              />
-              <span className="text-text-primary font-normal text-sm ml-1">
-                {credit}
-              </span>
-            </div>
-          )}
+
+          <div className="flex justify-center items-center  ">
+            <Image
+              src={credits}
+              alt="credits"
+              width={0}
+              height={0}
+              className="w-4 h-4"
+            />
+            <span className="text-text-primary font-normal text-sm ml-1">
+              {credit}
+            </span>
+          </div>
         </div>
         <span className="line-clamp-3 text-text-secondary text-sm font-normal">
           {description}
