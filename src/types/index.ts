@@ -49,7 +49,7 @@ export type TSocialHandles = {
 
 export type TUserContext = {
   user: UserData | undefined;
-  updateUserData: (userData: UserData) => void;
+  updateUserData: (userData: UserData, callAPI: boolean) => void;
 };
 
 export type TSectionHeader = {

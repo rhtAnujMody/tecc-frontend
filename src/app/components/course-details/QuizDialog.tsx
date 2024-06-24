@@ -126,7 +126,7 @@ export default function QuizDialog({
                   <span className="text-sm font-medium text-text-secondary">
                     {`Question ${currentIndex + 1}:`}
                   </span>
-                  <span className="text-base font-medium text-text-primary">
+                  <span className="text-lg font-medium text-text-primary">
                     {questions[currentIndex].text}
                   </span>
                   <RadioGroup
@@ -150,7 +150,7 @@ export default function QuizDialog({
                             />
                             <span
                               className={cn(
-                                "text-lg text-text-secondary font-medium"
+                                "text-base text-text-secondary font-medium"
                               )}
                             >
                               {value}

@@ -1,5 +1,6 @@
 import Loader from "@/app/components/Loader";
 import CourseDetailItem from "@/app/components/course-details/CourseDetailItem";
+import { useUserContext } from "@/app/context/UserContext";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -12,10 +13,19 @@ import { useState } from "react";
 import useSWR from "swr";
 
 function CourseDetailsMain({ id }: { id: string }) {
+  const { updateUserData, user } = useUserContext();
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
   const { data, error, isLoading, mutate } = useSWR(
     createAPIEndpoint(`${COURSEDETAIL}${id}/`),
-    (url) => fetcher<TCourse>(url)
+    (url) => fetcher<TCourse>(url),
+    {
+      onSuccess(data, key, config) {
+        console.log("on success");
+        if (data.is_CourseCompleted) {
+          updateUserData(user!, true);
+        }
+      },
+    }
   );
 
   const enrollCourse = async () => {

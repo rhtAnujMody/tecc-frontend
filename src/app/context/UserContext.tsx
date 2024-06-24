@@ -1,6 +1,11 @@
 "use client";
-import { USERDATA } from "@/lib/constants";
-import { getLocalData } from "@/lib/utils";
+import {
+  FETCHUSER,
+  SIGNUP,
+  USERDATA,
+  createAPIEndpoint,
+} from "@/lib/constants";
+import { callAPI, getLocalData, setLocalData } from "@/lib/utils";
 import { TUserContext, UserData } from "@/types";
 import {
   ReactNode,
@@ -18,8 +23,21 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     updateUserData: () => {},
   });
 
-  const updateUserData = (newUserData: UserData) => {
-    setUserData((prev) => ({ ...prev, user: newUserData }));
+  const callUserDataAPI = async () => {
+    const response = await callAPI(createAPIEndpoint(FETCHUSER));
+    if (response.ok) {
+      const userData = (await response.json()) as UserData;
+      setLocalData(USERDATA, JSON.stringify(userData));
+      updateUserData(userData);
+    }
+  };
+
+  const updateUserData = (newUserData: UserData, callAPI: boolean = false) => {
+    if (callAPI) {
+      callUserDataAPI();
+    } else {
+      setUserData((prev) => ({ ...prev, user: newUserData }));
+    }
   };
   useEffect(() => {
     updateUserData(JSON.parse(getLocalData(USERDATA)!));
