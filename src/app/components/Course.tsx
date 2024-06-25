@@ -19,8 +19,23 @@ export default function Course({
   is_CourseCompleted,
   showLectures = true,
   count_of_lectures,
+  sections,
+  buttonText = "View Course",
   onClick,
 }: TCourse) {
+  const handleClick = () => {
+    if (certification_course_url) {
+      window.open(certification_course_url, "_blank", "noopener,noreferrer");
+    } else {
+      const data: Partial<TCourse> = {
+        id: id,
+        thumbnail: thumbnail,
+        title: title,
+      };
+      onClick && onClick(data as TCourse);
+    }
+  };
+
   return (
     <div className="h-[380px] min-w-[300px] border flex flex-col rounded-lg relative">
       <Image
@@ -43,6 +58,7 @@ export default function Course({
           >
             {title}
           </span>
+
           {credit && (
             <div className="flex justify-center items-center  ">
               <Image
@@ -63,17 +79,7 @@ export default function Course({
         </span>
         <div className="absolute bottom-3 text-sm font-normal">
           <Button
-            onClick={() => {
-              if (certification_course_url) {
-                window.open(
-                  certification_course_url,
-                  "_blank",
-                  "noopener,noreferrer"
-                );
-              } else {
-                onClick && onClick(id!, title ?? "", thumbnail);
-              }
-            }}
+            onClick={handleClick}
             className={cn(
               "bg-primary",
               is_CourseCompleted
@@ -85,7 +91,7 @@ export default function Course({
               ? "Watch Again"
               : is_enrolled
               ? "Resume Course"
-              : "View Course"}
+              : buttonText}
           </Button>
         </div>
       </div>

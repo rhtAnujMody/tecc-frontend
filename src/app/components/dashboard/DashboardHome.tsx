@@ -1,7 +1,7 @@
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
-import { TDashboard } from "@/types";
+import { TCourse, TDashboard } from "@/types";
 import Autoplay from "embla-carousel-autoplay";
 import useSWR from "swr";
 import CaseStudies from "../../../../public/CaseStudies.svg";
@@ -19,9 +19,11 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 export default function DashboardHome({
-	onClick,
+	onCategoryCardClick,
+	onCourseClick,
 }: {
-	onClick: (id: string, title: string, thumbnail: string) => void;
+	onCategoryCardClick: (items: TCourse) => void;
+	onCourseClick: (items: TCourse) => void;
 }) {
 	const { data, error, isLoading } = useSWR(
 		createAPIEndpoint(`${DASHBOARD}`),
@@ -123,13 +125,13 @@ export default function DashboardHome({
 							header="Mandatory Courses"
 							desc="These Courses are mandatory and needs to be completed within this month"
 						/>
-
 						<div className=" flex w-full gap-5 overflow-x-auto mt-3">
 							{data?.mandatory_courses.map((value) => (
 								<div key={value.id}>
 									<Course
 										{...value}
 										count_of_lectures={`${value.count_of_lectures} lectures`}
+										onClick={onCourseClick}
 									/>
 								</div>
 							))}
@@ -147,7 +149,8 @@ export default function DashboardHome({
 										description={value.description}
 										thumbnail={value.thumbnail}
 										count_of_lectures={`${value.courses_count} Courses`}
-										onClick={onClick}
+										onClick={onCategoryCardClick}
+										buttonText="View Courses"
 									/>
 								</div>
 							))}
