@@ -1,8 +1,6 @@
-import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
 import { TCourse, TDashboard } from "@/types";
-import Autoplay from "embla-carousel-autoplay";
 import useSWR from "swr";
 import CaseStudies from "../../../../public/CaseStudies.svg";
 import Certifications from "../../../../public/Certifications.svg";
@@ -14,9 +12,9 @@ import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 
 export default function DashboardHome({
 	onCategoryCardClick,
@@ -45,8 +43,8 @@ export default function DashboardHome({
 		{
 			header:
 				"Unlock your potential with our diverse courses, designed to empower your skills and elevate your career. Start learning today and lead with confidence tomorrow!",
-			left: "#8CFF79",
-			right: "#CDFFC4",
+			left: "#87CEFA",
+			right: "#CEE4F2",
 		},
 		{
 			header:
@@ -57,8 +55,8 @@ export default function DashboardHome({
 		{
 			header:
 				"Dive into our case studies to explore real-world solutions and success stories. Learn from the best, gain practical insights, and inspire your own journey to success.",
-			left: "#87CEFA",
-			right: "#CEE4F2",
+			left: "#8CFF79",
+			right: "#CDFFC4",
 		},
 	];
 
