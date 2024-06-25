@@ -227,6 +227,7 @@ export default function SignUp() {
 							placeholder="R0001"
 							value={employeeId}
 							onChange={handleEmployeeIdChange}
+							className="capitalize"
 						/>
 						<Input
 							label="Email*"
