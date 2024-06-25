@@ -106,5 +106,6 @@ export interface TCourseCard {
 
 export interface TDashBoardBanner {
   header: string;
-  color: string;
+  left: string;
+  right:string;
 }
