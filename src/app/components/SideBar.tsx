@@ -83,7 +83,7 @@ export default function SideBar() {
         width={100}
         height={40}
         priority={false}
-        className="mx-10 mt-5 w-auto h-auto"
+        className="mx-10 mt-5 self-center"
       />
       <div className=" h-full mt-5 flex flex-1 flex-col">
         <div className="flex basis-[90%] border-b ">
