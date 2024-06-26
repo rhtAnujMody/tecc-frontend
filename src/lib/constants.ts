@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  "https://8988-2401-4900-883b-e172-522-38d0-aaeb-b0aa.ngrok-free.app/api/";
+  "http://ec2-3-111-27-109.ap-south-1.compute.amazonaws.com/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -22,3 +22,5 @@ export const COURSEDETAIL = "v1/sections/getCourseDetails/";
 export const TOGGLEPROGRESS = "v1/progress/markCompleted/";
 export const SUBMITANSWER = "v1/quiz/submitQuestionAnswer/";
 export const ENROLLCOURSE = "v1/enrollCourse/enroll/";
+export const KNOWLEDGEBANK = "v1/knowledgeBank/";
+export const GETDROPDOWN = "v1/dropdown/?filter=";
