@@ -30,10 +30,17 @@ export type UserData = {
   profile_pic: string | null;
 };
 
+export type subItem = {
+  header: string;
+  isSelected: boolean;
+  icon: StaticImport;
+}
+
 export type SideBarItem = {
   header: string;
   isSelected: boolean;
   icon: StaticImport;
+  subItems: subItem[] | null;
 };
 
 export interface ISideBar {
@@ -152,7 +159,8 @@ export interface TCourseCard {
 
 export interface TDashBoardBanner {
   header: string;
-  color: string;
+  left: string;
+  right:string;
 }
 
 export type TQuizDialog = {

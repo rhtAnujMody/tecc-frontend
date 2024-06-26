@@ -26,17 +26,23 @@ export default function Dashboard() {
       case 0:
         setMainHeader("Home");
         break;
-      case 1:
+      case 10:
         setMainHeader("My Courses");
         break;
-      case 2:
-        setMainHeader("Peding Courses");
+      case 11:
+        setMainHeader("Pending Courses");
         break;
-      case 3:
+      case 12:
         setMainHeader("Completed Courses");
         break;
-      case 4:
+      case 13:
         setMainHeader("Certifications");
+        break;
+      case 2:
+        setMainHeader("Case Studies");
+        break;
+      case 3:
+        setMainHeader("Knowledge Bank");
         break;
 
       default:
@@ -51,23 +57,25 @@ export default function Dashboard() {
   };
 
   const getComponent = useMemo(() => {
+    console.log(position);
+
     switch (position) {
       case 0:
         return (
-          // <DashboardHome
-          //   onCategoryCardClick={({ id: courseId, thumbnail, title }) => {
-          //     id.current = courseId!;
-          //     catImage.current = thumbnail;
-          //     setSecondaryHeader(title ?? "");
-          //     updateSideBar(data, 5);
-          //   }}
-          //   onCourseClick={({ id: courseId, title }) => {
-          //     openCourse(courseId!, title!);
-          //   }}
-          // />
-          <KnowledgeBankParent />
+          <DashboardHome
+            onCategoryCardClick={({ id: courseId, thumbnail, title }) => {
+              id.current = courseId!;
+              catImage.current = thumbnail;
+              setSecondaryHeader(title ?? "");
+              updateSideBar(data, 5);
+            }}
+            onCourseClick={({ id: courseId, title }) => {
+              openCourse(courseId!, title!);
+            }}
+          />
+          //
         );
-      case 1:
+      case 10:
         setSecondaryHeader("");
         return (
           <AllCourses
@@ -78,7 +86,7 @@ export default function Dashboard() {
           />
         );
 
-      case 2:
+      case 11:
         setSecondaryHeader("");
         return (
           <AllCourses
@@ -89,7 +97,7 @@ export default function Dashboard() {
           />
         );
 
-      case 3:
+      case 12:
         setSecondaryHeader("");
         return (
           <AllCourses
@@ -111,6 +119,8 @@ export default function Dashboard() {
         );
       case 6:
         return <CourseDetailsMain id={id.current} />;
+      case 3:
+        return <KnowledgeBankParent />;
     }
   }, [position]);
 

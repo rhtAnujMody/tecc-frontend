@@ -2,6 +2,8 @@
 
 import { ISideBar, SideBarItem } from "@/types";
 import { ReactNode, createContext, useContext, useState } from "react";
+import caseStudiesIcon from "../../../public/CaseStudiesIcon.svg";
+import knowledgeBankIcon from "../../../public/KnowledgeBankIcon.svg";
 import certificates from "../../../public/certificates.svg";
 import completedCourses from "../../../public/completed-courses.svg";
 import home from "../../../public/home.svg";
@@ -16,26 +18,46 @@ export const SideBarProvider = ({ children }: { children: ReactNode }) => {
       header: "Home",
       isSelected: true,
       icon: home,
+      subItems: null,
     },
     {
-      header: "My Courses",
+      header: "Courses",
       isSelected: false,
       icon: myCourses,
+      subItems: [
+        {
+          header: "Enrolled",
+          isSelected: false,
+          icon: myCourses,
+        },
+        {
+          header: "Pending",
+          isSelected: false,
+          icon: pendingCouses,
+        },
+        {
+          header: "Completed",
+          isSelected: false,
+          icon: completedCourses,
+        },
+        {
+          header: "Certifications",
+          isSelected: false,
+          icon: certificates,
+        },
+      ],
     },
     {
-      header: "Pending Courses",
+      header: "Case Studies",
       isSelected: false,
-      icon: pendingCouses,
+      icon: caseStudiesIcon,
+      subItems: null,
     },
     {
-      header: "Completed Courses",
+      header: "Knowledge Bank",
       isSelected: false,
-      icon: completedCourses,
-    },
-    {
-      header: "Certifications",
-      isSelected: false,
-      icon: certificates,
+      icon: knowledgeBankIcon,
+      subItems: null,
     },
   ];
   const [sideBarData, setSideBarData] = useState<ISideBar>({

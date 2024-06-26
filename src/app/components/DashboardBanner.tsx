@@ -1,18 +1,32 @@
 import { CarouselItem } from "@/components/ui/carousel";
 import { TDashBoardBanner } from "@/types";
+import Stars from "../../../public/Stars.svg";
+import Image from "next/image";
 
 export default function DashboardBanner({
-  header,
-  color = "#3498DB",
+	header,
+	left = "#3498DB",
+	right = "#3498DB",
 }: TDashBoardBanner) {
-  return (
-    <CarouselItem
-      className="w-full h-[180px] rounded-3xl py-12"
-      style={{ backgroundColor: color }}
-    >
-      <div className="text-2xl font-semibold leading-[36px] text-white w-4/6">
-        {header}
-      </div>
-    </CarouselItem>
-  );
+	return (
+		<div
+			className="w-[98%] h-[180px] rounded-3xl pl-5 mx-auto flex justify-between"
+			style={{
+				background: `linear-gradient(${left},${right})`,
+			}}
+		>
+			<div className="font-semibold w-4/6 text-xl leading-[30px] py-12 text-text-primary">
+				{header}
+			</div>
+			<div style={{ height: "100%", display: "block" }}>
+				<Image
+					src={Stars}
+					alt="stars"
+					placeholder="empty"
+					priority={false}
+					style={{ objectFit: "cover" }}
+				/>
+			</div>
+		</div>
+	);
 }
