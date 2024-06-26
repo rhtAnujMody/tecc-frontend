@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TDropdown } from "@/types";
 import { CaretDownIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
 
 export default function DropDown({
   props,
@@ -16,14 +15,13 @@ export default function DropDown({
 }: {
   props: TDropdown[];
   selectedFilter: string;
-  onClick: <T>(value: T) => void;
+  onClick: (value: TDropdown) => void;
 }) {
-  const [filter, setFilter] = useState<TDropdown>({ id: "", name: "View All" });
-
-  const handleOnClick = <T,>(item: T) => {
-    setFilter(item as TDropdown);
+  const handleOnClick = (item: TDropdown) => {
     onClick(item);
   };
+
+  console.log("dropdown called", props);
 
   return (
     <div>

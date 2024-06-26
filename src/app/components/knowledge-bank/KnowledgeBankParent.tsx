@@ -10,16 +10,20 @@ import NoData from "../NoData";
 
 export default function KnowledgeBankParent() {
   const [filter, setFilter] = useState<TDropdown | string>("");
-  const dropdownArray = useRef<TDropdown[]>([]);
+  const [dropDownArray, setDropDownArray] = useState<TDropdown[]>();
+  //const dropdownArray = useRef<TDropdown[]>([]);
   const isAPICalled = useRef(false);
 
   const endpoint = createAPIEndpoint(
     `${KNOWLEDGEBANK}?category_id=${filter && (filter as TDropdown).id}`
   );
 
-  const { data: dropdownData, error: dropdownError } = useSWR(
-    isAPICalled.current ? null : createAPIEndpoint(`${GETDROPDOWN}category`),
-    (url) => fetcher<TDropdown[]>(url)
+  const {
+    data: dropdownData,
+    error: dropdownError,
+    isLoading: dropdownLoading,
+  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}category`), (url) =>
+    fetcher<TDropdown[]>(url)
   );
 
   const { data, error, isLoading, mutate } = useSWR(endpoint, (url) =>
@@ -27,9 +31,12 @@ export default function KnowledgeBankParent() {
   );
 
   useEffect(() => {
-    if (dropdownData) {
-      dropdownArray.current = dropdownData;
-    }
+    console.log("dd", dropdownData);
+    setDropDownArray(dropdownData);
+    // console.log("dropdown array", dropdownArray.current);
+    return () => {
+      console.log("cleanup");
+    };
   }, [dropdownData]);
 
   return (
@@ -42,18 +49,15 @@ export default function KnowledgeBankParent() {
         <div className="flex flex-1 flex-col">
           <div className="flex justify-end">
             <DropDown
-              props={dropdownArray.current ?? []}
+              props={dropDownArray ?? []}
               selectedFilter={(filter as TDropdown).name ?? "View All"}
               onClick={(value) => {
                 isAPICalled.current = true;
-                console.log((value as TDropdown).name);
-                setFilter(value as TDropdown);
-                //mutate();
-
-                //
+                setFilter(value);
               }}
             />
           </div>
+
           {data && data.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-8 w-full h-fit mt-5">
               {data?.map((value) => {
