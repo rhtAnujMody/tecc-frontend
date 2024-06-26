@@ -12,7 +12,7 @@ export default function RootLayout({
     <UserContextProvider>
       <SideBarProvider>
         <div className={`flex flex-1 overflow-hidden`}>
-          <div className="flex basis-1/5">
+          <div className="basis-1/5 hidden sm:flex">
             <SideBar />
           </div>
 

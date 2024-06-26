@@ -12,6 +12,7 @@ import NavigationHeader from "../components/NavigationHeader";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import { useSidebar } from "../context/SideBarContext";
+import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
 
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
@@ -53,18 +54,18 @@ export default function Dashboard() {
     switch (position) {
       case 0:
         return (
-          <DashboardHome
-            onCategoryCardClick={({ id: courseId, thumbnail, title }) => {
-              id.current = courseId!;
-              catImage.current = thumbnail;
-              setSecondaryHeader(title ?? "");
-              updateSideBar(data, 5);
-            }}
-            onCourseClick={({ id: courseId, title }) => {
-              openCourse(courseId!, title!);
-            }}
-          />
-          //
+          // <DashboardHome
+          //   onCategoryCardClick={({ id: courseId, thumbnail, title }) => {
+          //     id.current = courseId!;
+          //     catImage.current = thumbnail;
+          //     setSecondaryHeader(title ?? "");
+          //     updateSideBar(data, 5);
+          //   }}
+          //   onCourseClick={({ id: courseId, title }) => {
+          //     openCourse(courseId!, title!);
+          //   }}
+          // />
+          <KnowledgeBankParent />
         );
       case 1:
         setSecondaryHeader("");
@@ -113,29 +114,30 @@ export default function Dashboard() {
     }
   }, [position]);
 
-  console.log("Dashboard");
   return (
     <main className="flex flex-col px-5 flex-1 my-5 overflow-auto">
-      <NavigationHeader
-        main={mainHeader}
-        secondary={secondaryHeader}
-        onClick={() => {
-          setSecondaryHeader("");
+      {secondaryHeader != "" && (
+        <NavigationHeader
+          main={mainHeader}
+          secondary={secondaryHeader}
+          onClick={() => {
+            setSecondaryHeader("");
 
-          updateSideBar(
-            data.map((data, pos) => {
-              if (pos === 0) {
-                return {
-                  ...data,
-                  isSelected: true,
-                };
-              }
-              return { ...data, isSelected: false };
-            }),
-            0
-          );
-        }}
-      />
+            updateSideBar(
+              data.map((data, pos) => {
+                if (pos === 0) {
+                  return {
+                    ...data,
+                    isSelected: true,
+                  };
+                }
+                return { ...data, isSelected: false };
+              }),
+              0
+            );
+          }}
+        />
+      )}
       {getComponent}
     </main>
   );

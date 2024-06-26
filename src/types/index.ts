@@ -171,3 +171,19 @@ export type TSubmitAnswer = {
   is_correct: boolean;
   correct_answers: string[];
 };
+
+export type TKnowledgeBank = {
+  id: string;
+  category_name: string;
+  category_id: string;
+  article: Articles;
+  order: number;
+  thumbnail: string;
+  title: string;
+  description: string;
+};
+
+export type TDropdown = {
+  id: string;
+  name: string;
+};
