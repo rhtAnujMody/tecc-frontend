@@ -8,6 +8,7 @@ import {
 } from "@/lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
+import CertificationsDashboard from "../components/CertificationsDashboard";
 import NavigationHeader from "../components/NavigationHeader";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
@@ -104,6 +105,10 @@ export default function Dashboard() {
 						}}
 					/>
 				);
+
+			case 13:
+				setSecondaryHeader("");
+				return <CertificationsDashboard />;
 
 			case 5:
 				return (

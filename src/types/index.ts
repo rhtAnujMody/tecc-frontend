@@ -93,6 +93,17 @@ export type TCourse = {
   buttonText?: string;
 };
 
+export type TCertifications = {
+  id?: string;
+  profile?: number;
+  course_id?: string;
+  certification_url?: string;
+  course_name?: string;
+  course_category?: string;
+  credits_earned?: number;
+  completion_date?: string;
+};
+
 export interface TSection {
   id: string;
   title: string;
@@ -179,3 +190,26 @@ export type TSubmitAnswer = {
   is_correct: boolean;
   correct_answers: string[];
 };
+
+export interface TAppTable {
+  headers: string[];
+  data: undefined | { [key: string]: any }[];
+  itemsPerPage: number;
+  currentPage: number;
+  type?: string;
+}
+
+export interface TPagination {
+  data: TCertifications | undefined | { [key: string]: any }[];
+  itemsPerPage: number;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+}
+
+export interface TRowData {
+	course_name: string;
+	course_category: string;
+	credits_earned: number;
+	completion_date: string;
+  certification_url:string
+}
