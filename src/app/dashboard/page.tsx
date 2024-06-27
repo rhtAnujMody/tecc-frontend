@@ -2,6 +2,7 @@
 import {
   COMPLETED,
   COURSEDETAILINDEX,
+  COURSESBYCATEGORY,
   ENROLLED,
   PENDING,
   createAPIEndpoint,
@@ -45,7 +46,6 @@ export default function Dashboard() {
         break;
       case 3:
         setMainHeader("Knowledge Bank");
-        break;
 
       default:
         break;
@@ -98,6 +98,16 @@ export default function Dashboard() {
       case 3:
         return <KnowledgeBankParent />;
 
+      case 5:
+        return (
+          <AllCourses
+            onCourseClick={({ id: courseId, title }) => {
+              openCourse(courseId!, title!);
+            }}
+            url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
+          />
+        );
+
       case 10:
         return (
           <AllCourses
@@ -137,7 +147,7 @@ export default function Dashboard() {
 
   return (
     <main className="flex flex-col px-5 flex-1 my-5 overflow-auto">
-      {position === COURSEDETAILINDEX && (
+      {(position === COURSEDETAILINDEX || position === 5) && (
         <NavigationHeader
           main={mainHeader}
           secondary={secondaryHeader}
