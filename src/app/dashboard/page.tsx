@@ -9,13 +9,13 @@ import {
 } from "@/lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
-import CertificationsDashboard from "../components/CertificationsDashboard";
 import NavigationHeader from "../components/NavigationHeader";
 import CaseStudyParent from "../components/case-study/CaseStudyParent";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
 import { useSidebar } from "../context/SideBarContext";
+import CertificationsDashboard from "../components/CertificationsDashboard";
 
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
