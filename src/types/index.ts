@@ -35,6 +35,7 @@ export type subItem = {
   isSelected: boolean;
   icon: StaticImport;
 };
+};
 
 export type SideBarItem = {
   header: string;
@@ -166,6 +167,7 @@ export interface TCourseCard {
   thumbnail: string;
   header: string;
   description: string;
+  onClick?:()=>void
 }
 
 export interface TDashBoardBanner {
@@ -228,10 +230,21 @@ export type TDropdown = {
 };
 
 export type TContentData = {
-  data: { [key: string]: any }[];
-  headers: string[];
-  currentPage: number;
-  type: string;
-  tabValue: string;
-  setCurrentPage: (page: number) => void;
+  data:{ [key: string]: any }[];
+  headers:string[];
+  currentPage:number;
+  type:string;
+  tabValue:string;
+  setCurrentPage:(page: number) => void;
+}
+export type TCaseStudy = {
+  id: string;
+  client: string;
+  client_name: string;
+  article: Articles;
+  title: string;
+  description: string;
+  thumbnail: string;
+  order: number;
 };
+

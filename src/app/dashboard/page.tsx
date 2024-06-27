@@ -1,6 +1,7 @@
 "use client";
 import {
   COMPLETED,
+  COURSEDETAILINDEX,
   COURSESBYCATEGORY,
   ENROLLED,
   PENDING,
@@ -10,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
 import CertificationsDashboard from "../components/CertificationsDashboard";
 import NavigationHeader from "../components/NavigationHeader";
+import CaseStudyParent from "../components/case-study/CaseStudyParent";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
@@ -54,12 +56,28 @@ export default function Dashboard() {
   const openCourse = (courseId: string, title: string) => {
     id.current = courseId!;
     setSecondaryHeader(title ?? "");
-    updateSideBar(data, 6);
+    updateSideBar(data, COURSEDETAILINDEX);
+  };
+
+  const handleOnTopCardClick = (index: number) => {
+    switch (index) {
+      case 0:
+        updateSideBar(data, 3);
+        break;
+      case 1:
+        updateSideBar(data, 2);
+        break;
+      case 2:
+        updateSideBar(data, 13);
+        break;
+
+      default:
+        break;
+    }
   };
 
   const getComponent = useMemo(() => {
     console.log(position);
-
     switch (position) {
       case 0:
         return (
@@ -73,11 +91,15 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            onTopCardsClick={handleOnTopCardClick}
           />
-          //
         );
+      case 2:
+        return <CaseStudyParent />;
+      case 3:
+        return <KnowledgeBankParent />;
+
       case 10:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${ENROLLED}`)}
@@ -88,7 +110,6 @@ export default function Dashboard() {
         );
 
       case 11:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${PENDING}`)}
@@ -98,12 +119,7 @@ export default function Dashboard() {
           />
         );
 
-      case 13:
-        setSecondaryHeader("");
-        return <CertificationsDashboard />;
-
       case 12:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${COMPLETED}`)}
@@ -112,26 +128,14 @@ export default function Dashboard() {
             }}
           />
         );
-
-      case 5:
-        return (
-          <AllCourses
-            url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
-            onCourseClick={({ id: courseId, title }) => {
-              openCourse(courseId!, title!);
-            }}
-          />
-        );
-      case 6:
-        return <CourseDetailsMain id={id.current} />;
-      case 3:
-        return <KnowledgeBankParent />;
+      case 13:
+        return <CertificationsDashboard />;
     }
   }, [position]);
 
   return (
     <main className="flex flex-col px-5 flex-1 my-5 overflow-auto">
-      {secondaryHeader != "" && (
+      {position === COURSEDETAILINDEX && (
         <NavigationHeader
           main={mainHeader}
           secondary={secondaryHeader}

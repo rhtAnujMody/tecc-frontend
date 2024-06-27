@@ -33,7 +33,7 @@ export default function DropDown({
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuGroup className="w-full px-2">
+          <DropdownMenuGroup className="w-full min-w-[200px] px-2">
             <DropdownMenuItem
               onClick={() => {
                 handleOnClick({ id: "", name: "View All" });

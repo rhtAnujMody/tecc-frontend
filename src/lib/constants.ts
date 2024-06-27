@@ -8,6 +8,9 @@ export const createAPIEndpoint = (path: string) => {
 export const USERDATA = "userData";
 export const TOKEN = "token";
 
+//SideBar
+export const COURSEDETAILINDEX = 100;
+
 //api urls
 export const LOGIN = "v1/auth/jwt/create/";
 export const FETCHUSER = "v1/userData/getUserDetails/";
@@ -24,6 +27,8 @@ export const ENROLLCOURSE = "v1/enrollCourse/enroll/";
 export const CERTIFICATIONSEARNED = "v1/certificate/?isExternal=";
 export const KNOWLEDGEBANK = "v1/knowledgeBank/";
 export const GETDROPDOWN = "v1/dropdown/?filter=";
+export const CASESTUDY = "v1/caseStudy/";
 
 //dashboard items
 export const ITEMSPERPAGE = 5;
+
