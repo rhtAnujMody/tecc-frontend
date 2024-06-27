@@ -90,7 +90,7 @@ export default function Course({
             {is_CourseCompleted
               ? "Watch Again"
               : is_enrolled
-              ? "Resume Course"
+              ? "Resume"
               : buttonText}
           </Button>
         </div>

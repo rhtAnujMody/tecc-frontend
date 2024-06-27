@@ -9,9 +9,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SUBMITANSWER, createAPIEndpoint } from "@/lib/constants";
 import { callAPI, cn } from "@/lib/utils";
 import { TQuizDialog, TSubmitAnswer } from "@/types";
-import { ReloadIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export default function QuizDialog({
@@ -58,7 +58,7 @@ export default function QuizDialog({
         setCurrentIndex((prev) => prev + 1);
       } else {
         if (currentIndex === questions.length - 1) {
-          buttonText.current = "Okay";
+          buttonText.current = "Submit";
         } else {
           buttonText.current = "Next";
         }
@@ -158,10 +158,26 @@ export default function QuizDialog({
                             {Object.keys(questions[currentIndex].options)[
                               index
                             ] === correctAns && (
-                              <span className="text-xs text-green-500 font-medium">
-                                Correct Answer
-                              </span>
+                              // <span className="text-xs text-green-500 font-medium">
+                              //   Correct Answer
+                              // </span>
+                              <Check style={{ color: "green" }} />
                             )}
+                            {Object.keys(questions[currentIndex].options)[
+                              index
+                            ] === selectedAns &&
+                              correctAns &&
+                              Object.keys(questions[currentIndex].options)[
+                                index
+                              ] !== correctAns && (
+                                <Cross2Icon
+                                  style={{
+                                    color: "red",
+                                    width: 20,
+                                    height: 20,
+                                  }}
+                                />
+                              )}
                           </div>
                         );
                       }
