@@ -15,7 +15,7 @@ import useSWR from "swr";
 function CourseDetailsMain({ id }: { id: string }) {
   const { updateUserData, user } = useUserContext();
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading, mutate, isValidating } = useSWR(
     createAPIEndpoint(`${COURSEDETAIL}${id}/`),
     (url) => fetcher<TCourse>(url),
     {
@@ -41,7 +41,39 @@ function CourseDetailsMain({ id }: { id: string }) {
     setIsEnrollLoading(false);
   };
 
-  return isLoading ? (
+  const getCurrentOpenIndex = () => {
+    let currentIndex = "0";
+
+    // Check if data and sections exist
+    if (data?.sections) {
+      for (let index = 0; index < data.sections.length; index++) {
+        const section = data.sections[index];
+
+        if (section.contents) {
+          for (
+            let contentIndex = 0;
+            contentIndex < section.contents.length;
+            contentIndex++
+          ) {
+            const content = section.contents[contentIndex];
+            console.log("index", index);
+            console.log("content index", contentIndex);
+            console.log("is completed", content.is_completed);
+            console.log("current index", currentIndex);
+
+            if (!content.is_completed) {
+              currentIndex = `${index}`;
+              return currentIndex;
+            }
+          }
+        }
+      }
+    }
+
+    return currentIndex;
+  };
+
+  return isLoading || isValidating ? (
     <div className="flex flex-1 justify-center items-center">
       <Loader />
     </div>
@@ -80,6 +112,7 @@ function CourseDetailsMain({ id }: { id: string }) {
                   <span>{`${data?.course_progress}%`}</span>
                 </div>
                 <Progress value={data?.course_progress} className="h-2" />
+                {/* <Loader className="self-center" /> */}
               </div>
               {data.is_CourseCompleted && (
                 <a
@@ -94,7 +127,12 @@ function CourseDetailsMain({ id }: { id: string }) {
         </div>
       </div>
       {/* Sections */}
-      <Accordion type="single" collapsible className="mt-5" defaultValue="0">
+      <Accordion
+        type="single"
+        collapsible
+        className="mt-5"
+        defaultValue={getCurrentOpenIndex()}
+      >
         {data?.sections?.map((sections, index) => {
           return (
             <CourseDetailItem

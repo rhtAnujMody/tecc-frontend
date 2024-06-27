@@ -1,6 +1,7 @@
 "use client";
 import {
 	COMPLETED,
+	COURSEDETAILINDEX,
 	COURSESBYCATEGORY,
 	ENROLLED,
 	PENDING,
@@ -14,6 +15,7 @@ import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import { useSidebar } from "../context/SideBarContext";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
+import CaseStudyParent from "../components/case-study/CaseStudyParent";
 
 export default function Dashboard() {
 	const { position, data, updateSideBar } = useSidebar();
@@ -54,12 +56,11 @@ export default function Dashboard() {
 	const openCourse = (courseId: string, title: string) => {
 		id.current = courseId!;
 		setSecondaryHeader(title ?? "");
-		updateSideBar(data, 6);
+		updateSideBar(data, COURSEDETAILINDEX);
 	};
 
 	const getComponent = useMemo(() => {
 		console.log(position);
-
 		switch (position) {
 			case 0:
 				return (
@@ -74,8 +75,12 @@ export default function Dashboard() {
 							openCourse(courseId!, title!);
 						}}
 					/>
-					//
 				);
+			case 2:
+				return <CaseStudyParent />;
+			case 3:
+				return <KnowledgeBankParent />;
+
 			case 10:
 				setSecondaryHeader("");
 				return (

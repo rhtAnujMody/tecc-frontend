@@ -23,11 +23,11 @@ export default function AllCourses({
   return (
     <div className="flex flex-1 flex-col pb-5">
       {isLoading ? (
-        <div className="flex flex-1 h-[3000px] justify-center items-center ">
+        <div className="flex flex-1 justify-center items-center ">
           <Loader />
         </div>
       ) : data && data?.length > 0 ? (
-        <div className="grid grid-cols-4 gap-5 mt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-5 w-full h-fit">
           {data?.map((value, index) => {
             return (
               <Course
