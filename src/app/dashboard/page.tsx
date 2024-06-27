@@ -9,13 +9,13 @@ import {
 } from "@/lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
-import CertificationsDashboard from "../components/CertificationsDashboard";
 import NavigationHeader from "../components/NavigationHeader";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import { useSidebar } from "../context/SideBarContext";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
 import CaseStudyParent from "../components/case-study/CaseStudyParent";
+import CertificationsDashboard from "../components/CertificationsDashboard";
 
 export default function Dashboard() {
 	const { position, data, updateSideBar } = useSidebar();
@@ -102,11 +102,9 @@ export default function Dashboard() {
 						}}
 					/>
 				);
-
 			case 13:
 				setSecondaryHeader("");
 				return <CertificationsDashboard />;
-
 			case 12:
 				setSecondaryHeader("");
 				return (
@@ -117,26 +115,14 @@ export default function Dashboard() {
 						}}
 					/>
 				);
-
-			case 5:
-				return (
-					<AllCourses
-						url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
-						onCourseClick={({ id: courseId, title }) => {
-							openCourse(courseId!, title!);
-						}}
-					/>
-				);
-			case 6:
+			case COURSEDETAILINDEX:
 				return <CourseDetailsMain id={id.current} />;
-			case 3:
-				return <KnowledgeBankParent />;
 		}
 	}, [position]);
 
 	return (
 		<main className="flex flex-col px-5 flex-1 my-5 overflow-auto">
-			{secondaryHeader != "" && (
+			{position === COURSEDETAILINDEX && (
 				<NavigationHeader
 					main={mainHeader}
 					secondary={secondaryHeader}
