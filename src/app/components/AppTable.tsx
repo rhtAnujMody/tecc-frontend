@@ -13,54 +13,18 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import download from "../../../public/download.svg";
 import { TAppTable, TCertifications } from "@/types";
+import { ITEMSPERPAGE } from "@/lib/constants";
 
 export default function AppTable({
 	headers,
 	data,
 	currentPage,
-	itemsPerPage,
 	type,
 }: TAppTable) {
 	const currentData = (data as TCertifications[]).slice(
-		(currentPage - 1) * itemsPerPage || 0,
-		currentPage * itemsPerPage
+		(currentPage - 1) * ITEMSPERPAGE || 0,
+		currentPage * ITEMSPERPAGE
 	);
-
-	const dataWithImage = (name: string, imageUrl: string, size: number) => {
-		return (
-			<TableCell className="text-sm font-medium text-text-primary">
-				<div className="flex items-center gap-2">
-					<Image
-						src={imageUrl}
-						alt="image"
-						width={size}
-						height={size}
-						priority={false}
-					/>
-					{name}
-				</div>
-			</TableCell>
-		);
-	};
-
-	const buttonWithText = (text: string, imageUrl: string, size: number) => {
-		return (
-			<TableCell>
-				<div className="flex items-center gap-5">
-					<Button className="w-24" type="submit">
-						{text}
-					</Button>
-					<Image
-						src={imageUrl}
-						alt="image"
-						width={size}
-						height={size}
-						priority={false}
-					/>
-				</div>
-			</TableCell>
-		);
-	};
 
 	const certificationCells = (row: TCertifications) => {
 		const formattedDate = row.completion_date
@@ -118,6 +82,7 @@ export default function AppTable({
 							width={20}
 							height={20}
 							priority={false}
+							className="hidden"
 						/>
 					</div>
 				</TableCell>

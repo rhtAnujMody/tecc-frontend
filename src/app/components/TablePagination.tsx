@@ -7,18 +7,18 @@ import {
 	PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { TPagination } from "@/types";
+import { ITEMSPERPAGE } from "@/lib/constants";
 
 export default function TablePagination({
 	currentPage,
 	setCurrentPage,
 	data,
-	itemsPerPage,
 }: TPagination) {
 	const handlePageChange = (pageNumber: number) => {
 		setCurrentPage(pageNumber);
 	};
 
-	const totalPages = Math.ceil((data as any[]).length / itemsPerPage);
+	const totalPages = Math.ceil((data as any[]).length / ITEMSPERPAGE);
 
 	const renderPaginationItems = () => {
 		const pages = [];

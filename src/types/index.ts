@@ -191,18 +191,15 @@ export type TSubmitAnswer = {
   correct_answers: string[];
 };
 
-<<<<<<< HEAD
 export interface TAppTable {
   headers: string[];
   data: undefined | { [key: string]: any }[];
-  itemsPerPage: number;
   currentPage: number;
   type?: string;
 }
 
 export interface TPagination {
   data: TCertifications | undefined | { [key: string]: any }[];
-  itemsPerPage: number;
   currentPage: number;
   setCurrentPage: (page: number) => void;
 }
@@ -214,7 +211,6 @@ export interface TRowData {
 	completion_date: string;
   certification_url:string
 }
-=======
 export type TKnowledgeBank = {
   id: string;
   category_name: string;
@@ -230,4 +226,12 @@ export type TDropdown = {
   id: string;
   name: string;
 };
->>>>>>> 6aced1c9b525feb7566c1123f867d6a6f3c7755a
+
+export type TContentData = {
+  data:{ [key: string]: any }[];
+  headers:string[];
+  currentPage:number;
+  type:string;
+  tabValue:string;
+  setCurrentPage:(page: number) => void;
+}
