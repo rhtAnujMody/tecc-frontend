@@ -35,6 +35,7 @@ export type subItem = {
   isSelected: boolean;
   icon: StaticImport;
 };
+};
 
 export type SideBarItem = {
   header: string;
@@ -91,6 +92,17 @@ export type TCourse = {
   sections?: TSection[];
   course_progress?: number;
   buttonText?: string;
+};
+
+export type TCertifications = {
+  id?: string;
+  profile?: number;
+  course_id?: string;
+  certification_url?: string;
+  course_name?: string;
+  course_category?: string;
+  credits_earned?: number;
+  completion_date?: string;
 };
 
 export interface TSection {
@@ -155,6 +167,7 @@ export interface TCourseCard {
   thumbnail: string;
   header: string;
   description: string;
+  onClick?:()=>void
 }
 
 export interface TDashBoardBanner {
@@ -180,6 +193,26 @@ export type TSubmitAnswer = {
   correct_answers: string[];
 };
 
+export interface TAppTable {
+  headers: string[];
+  data: undefined | { [key: string]: any }[];
+  currentPage: number;
+  type?: string;
+}
+
+export interface TPagination {
+  data: TCertifications | undefined | { [key: string]: any }[];
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+}
+
+export interface TRowData {
+  course_name: string;
+  course_category: string;
+  credits_earned: number;
+  completion_date: string;
+  certification_url: string;
+}
 export type TKnowledgeBank = {
   id: string;
   category_name: string;
@@ -196,6 +229,14 @@ export type TDropdown = {
   name: string;
 };
 
+export type TContentData = {
+  data:{ [key: string]: any }[];
+  headers:string[];
+  currentPage:number;
+  type:string;
+  tabValue:string;
+  setCurrentPage:(page: number) => void;
+}
 export type TCaseStudy = {
   id: string;
   client: string;
@@ -206,3 +247,4 @@ export type TCaseStudy = {
   thumbnail: string;
   order: number;
 };
+

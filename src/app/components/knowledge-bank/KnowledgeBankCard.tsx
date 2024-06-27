@@ -12,7 +12,7 @@ export default function KnowledgeBankCard({
 }) {
   return (
     <a href={props.article.article_url} target="_blank">
-      <div className="h-[380px] min-w-[300px] flex flex-col rounded-lg">
+      <div className="h-[380px] min-w-[300px] flex flex-col rounded-lg border">
         <Image
           src={props.thumbnail}
           className="rounded-lg "

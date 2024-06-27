@@ -1,6 +1,9 @@
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
 import { TCourse, TDashboard } from "@/types";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import useSWR from "swr";
 import CaseStudies from "../../../../public/CaseStudies.svg";
 import Certifications from "../../../../public/Certifications.svg";
@@ -11,16 +14,15 @@ import DashboardBanner from "../DashboardBanner";
 import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 
 export default function DashboardHome({
   onCategoryCardClick,
   onCourseClick,
+  onTopCardsClick,
 }: {
   onCategoryCardClick: (items: TCourse) => void;
   onCourseClick: (items: TCourse) => void;
+  onTopCardsClick: (index: number) => void;
 }) {
   const { data, error, isLoading } = useSWR(
     createAPIEndpoint(`${DASHBOARD}`),
@@ -107,6 +109,9 @@ export default function DashboardHome({
                 thumbnail={item.thumbnail}
                 description={item.description}
                 key={index}
+                onClick={() => {
+                  onTopCardsClick(index);
+                }}
               />
             ))}
           </div>

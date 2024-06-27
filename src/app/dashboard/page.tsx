@@ -10,11 +10,12 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
 import NavigationHeader from "../components/NavigationHeader";
+import CaseStudyParent from "../components/case-study/CaseStudyParent";
 import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
-import { useSidebar } from "../context/SideBarContext";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
-import CaseStudyParent from "../components/case-study/CaseStudyParent";
+import { useSidebar } from "../context/SideBarContext";
+import CertificationsDashboard from "../components/CertificationsDashboard";
 
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
@@ -58,6 +59,23 @@ export default function Dashboard() {
     updateSideBar(data, COURSEDETAILINDEX);
   };
 
+  const handleOnTopCardClick = (index: number) => {
+    switch (index) {
+      case 0:
+        updateSideBar(data, 3);
+        break;
+      case 1:
+        updateSideBar(data, 2);
+        break;
+      case 2:
+        updateSideBar(data, 13);
+        break;
+
+      default:
+        break;
+    }
+  };
+
   const getComponent = useMemo(() => {
     console.log(position);
     switch (position) {
@@ -73,6 +91,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            onTopCardsClick={handleOnTopCardClick}
           />
         );
       case 2:
@@ -81,7 +100,6 @@ export default function Dashboard() {
         return <KnowledgeBankParent />;
 
       case 10:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${ENROLLED}`)}
@@ -92,7 +110,6 @@ export default function Dashboard() {
         );
 
       case 11:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${PENDING}`)}
@@ -103,7 +120,6 @@ export default function Dashboard() {
         );
 
       case 12:
-        setSecondaryHeader("");
         return (
           <AllCourses
             url={createAPIEndpoint(`${COMPLETED}`)}
@@ -112,8 +128,8 @@ export default function Dashboard() {
             }}
           />
         );
-      case COURSEDETAILINDEX:
-        return <CourseDetailsMain id={id.current} />;
+      case 13:
+        return <CertificationsDashboard />;
     }
   }, [position]);
 
