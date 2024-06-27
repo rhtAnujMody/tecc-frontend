@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 export const API_BASE_URL =
   "https://64ac-125-21-77-42.ngrok-free.app/api/";
+=======
+export const API_BASE_URL = "https://64ac-125-21-77-42.ngrok-free.app/api/";
+>>>>>>> 6aced1c9b525feb7566c1123f867d6a6f3c7755a
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -22,4 +26,9 @@ export const COURSEDETAIL = "v1/sections/getCourseDetails/";
 export const TOGGLEPROGRESS = "v1/progress/markCompleted/";
 export const SUBMITANSWER = "v1/quiz/submitQuestionAnswer/";
 export const ENROLLCOURSE = "v1/enrollCourse/enroll/";
+<<<<<<< HEAD
 export const CERTIFICATIONSEARNED = "v1/certificate/"
+=======
+export const KNOWLEDGEBANK = "v1/knowledgeBank/";
+export const GETDROPDOWN = "v1/dropdown/?filter=";
+>>>>>>> 6aced1c9b525feb7566c1123f867d6a6f3c7755a

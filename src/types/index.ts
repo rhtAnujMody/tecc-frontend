@@ -191,6 +191,7 @@ export type TSubmitAnswer = {
   correct_answers: string[];
 };
 
+<<<<<<< HEAD
 export interface TAppTable {
   headers: string[];
   data: undefined | { [key: string]: any }[];
@@ -213,3 +214,20 @@ export interface TRowData {
 	completion_date: string;
   certification_url:string
 }
+=======
+export type TKnowledgeBank = {
+  id: string;
+  category_name: string;
+  category_id: string;
+  article: Articles;
+  order: number;
+  thumbnail: string;
+  title: string;
+  description: string;
+};
+
+export type TDropdown = {
+  id: string;
+  name: string;
+};
+>>>>>>> 6aced1c9b525feb7566c1123f867d6a6f3c7755a
