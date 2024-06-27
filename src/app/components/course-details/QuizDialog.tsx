@@ -13,6 +13,7 @@ import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Check, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import Loader from "../Loader";
 
 export default function QuizDialog({
   showDialog,
@@ -27,6 +28,7 @@ export default function QuizDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAns, setSelectedAns] = useState("");
   const [showResultView, setShowResultView] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const buttonText = useRef(isMandatory ? "Next" : "Check Answer");
   const radioGroupRef =
     useRef<React.ElementRef<typeof RadioGroupPrimitive.Root>>(null);
@@ -106,19 +108,23 @@ export default function QuizDialog({
                     : "Unfortunately you need to take quiz again to obtain certificate."}
                 </span>
 
-                <Button
-                  className="w-36 mt-5"
-                  onClick={() => {
-                    if (resultData?.current?.passed) {
-                      closeQuiz(true);
-                    } else {
-                      setCurrentIndex(0);
-                      setShowResultView(false);
-                    }
-                  }}
-                >
-                  {resultData.current?.passed ? "Close" : "Retry Again"}
-                </Button>
+                <div className="flex items-center">
+                  {buttonLoading && <Loader />}
+                  <Button
+                    className="w-36 mt-5"
+                    onClick={() => {
+                      if (resultData?.current?.passed) {
+                        setButtonLoading(true);
+                        closeQuiz(true);
+                      } else {
+                        setCurrentIndex(0);
+                        setShowResultView(false);
+                      }
+                    }}
+                  >
+                    {resultData.current?.passed ? "Close" : "Retry Again"}
+                  </Button>
+                </div>
               </div>
             ) : (
               <>
