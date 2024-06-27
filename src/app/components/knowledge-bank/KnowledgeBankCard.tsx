@@ -1,9 +1,15 @@
-import { TKnowledgeBank } from "@/types";
+import { TCaseStudy, TKnowledgeBank } from "@/types";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import React from "react";
 
-export default function KnowledgeBankCard(props: TKnowledgeBank) {
+export default function KnowledgeBankCard({
+  props,
+  fromCaseStudy,
+}: {
+  props: TKnowledgeBank | TCaseStudy;
+  fromCaseStudy: boolean;
+}) {
   return (
     <a href={props.article.article_url} target="_blank">
       <div className="h-[380px] min-w-[300px] flex flex-col rounded-lg">
@@ -18,7 +24,9 @@ export default function KnowledgeBankCard(props: TKnowledgeBank) {
         />
         <div className="p-3 flex flex-col gap-2">
           <span className="text-primary text-sm font-semibold">
-            {props.category_name}
+            {fromCaseStudy
+              ? (props as TCaseStudy).client_name
+              : (props as TKnowledgeBank).category_name}
           </span>
           <div className="flex flex-1 items-center">
             <span className="text-2xl basis-[95%] font-semibold line-clamp-1">

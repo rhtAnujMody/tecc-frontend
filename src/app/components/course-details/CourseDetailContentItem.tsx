@@ -116,7 +116,11 @@ export default function CourseDetailContentItem({
                   props.is_completed ? "bg-[#A2E6B9]" : "bg-[#FFE8BC]"
                 )}
               >
-                {props.is_completed ? "Completed" : "Pending"}
+                {isEnrolled
+                  ? props.is_completed
+                    ? "Completed"
+                    : "Pending"
+                  : "Not Started"}
               </div>
             </div>
           </div>
@@ -167,6 +171,12 @@ export default function CourseDetailContentItem({
                   className="rounded-sm w-4 h-4"
                 />
                 <a
+                  onClick={(event) => {
+                    if (!isEnrolled) {
+                      event.preventDefault();
+                      toast({ title: "Please enroll first" });
+                    }
+                  }}
                   className={cn(
                     "text-primary font-normal text mr-2 cursor-pointer"
                   )}

@@ -34,7 +34,7 @@ export type subItem = {
   header: string;
   isSelected: boolean;
   icon: StaticImport;
-}
+};
 
 export type SideBarItem = {
   header: string;
@@ -160,7 +160,7 @@ export interface TCourseCard {
 export interface TDashBoardBanner {
   header: string;
   left: string;
-  right:string;
+  right: string;
 }
 
 export type TQuizDialog = {
@@ -194,4 +194,15 @@ export type TKnowledgeBank = {
 export type TDropdown = {
   id: string;
   name: string;
+};
+
+export type TCaseStudy = {
+  id: string;
+  client: string;
+  client_name: string;
+  article: Articles;
+  title: string;
+  description: string;
+  thumbnail: string;
+  order: number;
 };

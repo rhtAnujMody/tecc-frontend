@@ -1,31 +1,36 @@
-import { GETDROPDOWN, KNOWLEDGEBANK, createAPIEndpoint } from "@/lib/constants";
+import {
+  CASESTUDY,
+  GETDROPDOWN,
+  KNOWLEDGEBANK,
+  createAPIEndpoint,
+} from "@/lib/constants";
 import { fetcher } from "@/lib/utils";
-import { TDropdown, TKnowledgeBank } from "@/types";
+import { TCaseStudy, TDropdown, TKnowledgeBank } from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DropDown from "../DropDown";
 import Loader from "../Loader";
 import NoData from "../NoData";
-import KnowledgeBankCard from "./KnowledgeBankCard";
+import KnowledgeBankCard from "../knowledge-bank/KnowledgeBankCard";
 
-export default function KnowledgeBankParent() {
+export default function CaseStudyParent() {
   const [filter, setFilter] = useState<TDropdown | string>("");
   const [dropDownArray, setDropDownArray] = useState<TDropdown[]>();
 
   const endpoint = createAPIEndpoint(
-    `${KNOWLEDGEBANK}?category_id=${filter && (filter as TDropdown).id}`
+    `${CASESTUDY}?client_id=${filter && (filter as TDropdown).id}`
   );
 
   const {
     data: dropdownData,
     error: dropdownError,
     isLoading: dropdownLoading,
-  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}category`), (url) =>
+  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}client`), (url) =>
     fetcher<TDropdown[]>(url)
   );
 
   const { data, error, isLoading, mutate } = useSWR(endpoint, (url) =>
-    fetcher<TKnowledgeBank[]>(url)
+    fetcher<TCaseStudy[]>(url)
   );
 
   useEffect(() => {
@@ -65,7 +70,7 @@ export default function KnowledgeBankParent() {
                   <KnowledgeBankCard
                     key={value.id}
                     props={{ ...value }}
-                    fromCaseStudy={false}
+                    fromCaseStudy
                   />
                 );
               })}
