@@ -21,7 +21,7 @@ export default function AllCourses({
   );
 
   return (
-    <div className="flex flex-1 flex-col pb-5">
+    <div className="flex flex-1 flex-col pb-5 mt-5">
       {isLoading ? (
         <div className="flex flex-1 justify-center items-center ">
           <Loader />
