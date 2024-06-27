@@ -21,7 +21,7 @@ export const COURSEDETAIL = "v1/sections/getCourseDetails/";
 export const TOGGLEPROGRESS = "v1/progress/markCompleted/";
 export const SUBMITANSWER = "v1/quiz/submitQuestionAnswer/";
 export const ENROLLCOURSE = "v1/enrollCourse/enroll/";
-export const CERTIFICATIONSEARNED = "v1/certificate/?isExternal="
+export const CERTIFICATIONSEARNED = "v1/certificate/?isExternal=";
 export const KNOWLEDGEBANK = "v1/knowledgeBank/";
 export const GETDROPDOWN = "v1/dropdown/?filter=";
 

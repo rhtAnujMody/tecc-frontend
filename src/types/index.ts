@@ -34,7 +34,7 @@ export type subItem = {
   header: string;
   isSelected: boolean;
   icon: StaticImport;
-}
+};
 
 export type SideBarItem = {
   header: string;
@@ -171,7 +171,7 @@ export interface TCourseCard {
 export interface TDashBoardBanner {
   header: string;
   left: string;
-  right:string;
+  right: string;
 }
 
 export type TQuizDialog = {
@@ -205,11 +205,11 @@ export interface TPagination {
 }
 
 export interface TRowData {
-	course_name: string;
-	course_category: string;
-	credits_earned: number;
-	completion_date: string;
-  certification_url:string
+  course_name: string;
+  course_category: string;
+  credits_earned: number;
+  completion_date: string;
+  certification_url: string;
 }
 export type TKnowledgeBank = {
   id: string;
@@ -228,10 +228,10 @@ export type TDropdown = {
 };
 
 export type TContentData = {
-  data:{ [key: string]: any }[];
-  headers:string[];
-  currentPage:number;
-  type:string;
-  tabValue:string;
-  setCurrentPage:(page: number) => void;
-}
+  data: { [key: string]: any }[];
+  headers: string[];
+  currentPage: number;
+  type: string;
+  tabValue: string;
+  setCurrentPage: (page: number) => void;
+};
