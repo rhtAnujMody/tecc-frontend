@@ -178,14 +178,19 @@ export default function Dashboard() {
 						setSecondaryHeader("");
 
 						updateSideBar(
-							data.map((data, pos) => {
+							data.map((item, pos) => {
 								if (pos === 0) {
-									return {
-										...data,
-										isSelected: true,
-									};
+									return { ...item, isSelected: true };
 								}
-								return { ...data, isSelected: false };
+								return {
+									...item,
+									isSelected: false,
+									subItems:
+										item.subItems?.map((subItem) => ({
+											...subItem,
+											isSelected: false,
+										})) || null,
+								};
 							}),
 							0
 						);
