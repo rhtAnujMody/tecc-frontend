@@ -50,7 +50,7 @@ export default function DashboardHome({
     },
     {
       header:
-        "Discover a treasure trove of knowledge with our extensive library of articles and resources. Stay informed, stay ahead, and fuel your passion for learning.",
+        "Discover a treasure of knowledge with our extensive library of articles and resources. Stay informed, stay ahead, and fuel your passion for learning.",
       left: "#FF9960",
       right: "#FFD9C4",
     },
@@ -67,19 +67,19 @@ export default function DashboardHome({
       thumbnail: KnowledgeBank,
       header: "Knowledge bank",
       description:
-        "Dive into a treasure trove of wisdom with our Knowledge Bank. Whether you're curious or ambitious, find the insights and tools you need to fuel your learning journey. Your quest for knowledge starts here!",
+        "Explore a wealth of wisdom with our knowledge bank. Whether you’re driven by curiosity or ambition, discover the insights and tools you need to propel your learning journey. Your pursuit of knowledge begins here!",
     },
     {
       thumbnail: CaseStudies,
       header: "Case studies",
       description:
-        "Discover the power of real-world success stories in our Case Studies. See how theory translates into practice, and gain valuable insights from the challenges and triumphs of others. Learn from the best to become the best!",
+        "Uncover the impact of real-world success stories in our case studies. Witness how theory transforms into practice and gains invaluable insights from others’ challenges and victories. Learn from the best to become the best!",
     },
     {
       thumbnail: Certifications,
       header: "Certifications",
       description:
-        "Celebrate your learning milestones with our Certifications. Every badge and certificate you earn reflects your dedication and expertise, empowering you to make a mark in your industry. Proudly display your hard-earned achievements!",
+        "Celebrate your learning milestones with our certifications. Each badge and certificate represent your dedication and expertise, empowering you to stand out in your industry. Proudly showcase your hard-earned achievements!",
     },
   ];
 

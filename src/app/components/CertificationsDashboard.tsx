@@ -44,58 +44,60 @@ export default function CertificationsDashboard() {
 
   return (
     <>
-      {isLoading || !data ? (
-        <div className="flex flex-1 h-full justify-center items-center ">
-          <Loader />
-        </div>
-      ) : (
-        <div
-          className="overflow-x-auto border mt-3 py-5 rounded-xl"
-          style={{ borderColor: "#D0D5DD" }}
-        >
-          <Tabs defaultValue={defaultValue}>
-            <div className="flex justify-between items-center px-5 mb-5">
-              <TabsList className="flex gap-4 bg-white">
-                {tabs.map((item, index) => (
-                  <TabsTrigger
-                    value={item.value}
-                    className="!shadow-none text-lg p-0 data-[state=active]:underline data-[state=active]:underline-offset-8"
-                    onClick={() => {
-                      setDefaultValue(item.value);
-                      setFilter(item.filter);
-                    }}
-                    key={index}
-                  >
-                    {item.heading}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+      <div
+        className="overflow-x-auto border mt-3 py-5 rounded-xl"
+        style={{ borderColor: "#D0D5DD" }}
+      >
+        <Tabs defaultValue={defaultValue}>
+          <div className="flex justify-between items-center px-5 mb-5">
+            <TabsList className="flex gap-4 bg-white">
+              {tabs.map((item, index) => (
+                <TabsTrigger
+                  value={item.value}
+                  className="!shadow-none text-lg p-0 data-[state=active]:underline data-[state=active]:underline-offset-8"
+                  onClick={() => {
+                    setDefaultValue(item.value);
+                    setFilter(item.filter);
+                  }}
+                  key={index}
+                >
+                  {item.heading}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-              <TabsContent value="externalCertificate" className="mt-0">
-                <Button className="w-40" type="submit">
-                  Upload Certificate
-                </Button>
-              </TabsContent>
+            <TabsContent value="externalCertificate" className="mt-0">
+              <Button className="w-40" type="submit">
+                Upload Certificate
+              </Button>
+            </TabsContent>
+          </div>
+          {isLoading || !data ? (
+            <div className="flex flex-1 h-full justify-center items-center ">
+              <Loader />
             </div>
-            <TabContentData
-              data={data}
-              headers={headers}
-              currentPage={earnedcurrentPage}
-              type="certifications"
-              setCurrentPage={setEarnedCurrentPage}
-              tabValue="earnedCertificate"
-            />
-            <TabContentData
-              data={data}
-              headers={headers}
-              currentPage={externalCurrentPage}
-              type="certifications"
-              setCurrentPage={setExternalCurrentPage}
-              tabValue="externalCertificate"
-            />
-          </Tabs>
-        </div>
-      )}
+          ) : (
+            <>
+              <TabContentData
+                data={data}
+                headers={headers}
+                currentPage={earnedcurrentPage}
+                type="certifications"
+                setCurrentPage={setEarnedCurrentPage}
+                tabValue="earnedCertificate"
+              />
+              <TabContentData
+                data={data}
+                headers={headers}
+                currentPage={externalCurrentPage}
+                type="certifications"
+                setCurrentPage={setExternalCurrentPage}
+                tabValue="externalCertificate"
+              />
+            </>
+          )}
+        </Tabs>
+      </div>
     </>
   );
 }

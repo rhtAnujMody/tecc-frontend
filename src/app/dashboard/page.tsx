@@ -12,10 +12,10 @@ import AllCourses from "../components/AllCourses";
 import CertificationsDashboard from "../components/CertificationsDashboard";
 import NavigationHeader from "../components/NavigationHeader";
 import CaseStudyParent from "../components/case-study/CaseStudyParent";
+import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 import DashboardHome from "../components/dashboard/DashboardHome";
 import KnowledgeBankParent from "../components/knowledge-bank/KnowledgeBankParent";
 import { useSidebar } from "../context/SideBarContext";
-import CourseDetailsMain from "../components/course-details/CourseDetailMain";
 
 export default function Dashboard() {
   const { position, data, updateSideBar } = useSidebar();
@@ -56,15 +56,44 @@ export default function Dashboard() {
   };
 
   const handleOnTopCardClick = (index: number) => {
+    const newData = data.map((item, pos) => {
+      if ((index === 0 && pos === 3) || (index === 1 && pos === 2)) {
+        return { ...item, isSelected: true };
+      } else if (pos === 1 && index == 2) {
+        return {
+          ...item,
+          isSelected: true,
+          subItems:
+            item.subItems?.map((subItem, subPos) => {
+              return {
+                ...subItem,
+                isSelected: subPos === 3,
+              };
+            }) || null,
+        };
+      }
+      return {
+        ...item,
+        isSelected: false,
+        subItems:
+          item.subItems?.map((subItem) => ({
+            ...subItem,
+            isSelected: false,
+          })) || null,
+      };
+    });
     switch (index) {
       case 0:
-        updateSideBar(data, 3);
+        updateSideBar(newData, 3);
         break;
       case 1:
-        updateSideBar(data, 2);
+        updateSideBar(newData, 2);
         break;
       case 2:
-        updateSideBar(data, 13);
+        updateSideBar(newData, 13);
+        break;
+
+      default:
         break;
     }
   };
@@ -149,14 +178,19 @@ export default function Dashboard() {
             setSecondaryHeader("");
 
             updateSideBar(
-              data.map((data, pos) => {
+              data.map((item, pos) => {
                 if (pos === 0) {
-                  return {
-                    ...data,
-                    isSelected: true,
-                  };
+                  return { ...item, isSelected: true };
                 }
-                return { ...data, isSelected: false };
+                return {
+                  ...item,
+                  isSelected: false,
+                  subItems:
+                    item.subItems?.map((subItem) => ({
+                      ...subItem,
+                      isSelected: false,
+                    })) || null,
+                };
               }),
               0
             );
