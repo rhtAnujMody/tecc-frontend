@@ -29,6 +29,11 @@ export default function Dashboard() {
 			case 0:
 				setMainHeader("Home");
 				break;
+			case 2:
+				setMainHeader("Case Studies");
+				break;
+			case 3:
+				setMainHeader("Knowledge Bank");
 			case 10:
 				setMainHeader("My Courses");
 				break;
@@ -40,14 +45,6 @@ export default function Dashboard() {
 				break;
 			case 13:
 				setMainHeader("Certifications");
-				break;
-			case 2:
-				setMainHeader("Case Studies");
-				break;
-			case 3:
-				setMainHeader("Knowledge Bank");
-
-			default:
 				break;
 		}
 	}, [position]);
