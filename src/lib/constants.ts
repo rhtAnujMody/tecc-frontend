@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  "https://1330-2401-4900-883b-e172-91ab-646e-56c9-4489.ngrok-free.app/api/";
+  "http://ec2-3-111-27-109.ap-south-1.compute.amazonaws.com/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
