@@ -16,13 +16,13 @@ export default function AllCourses({
   thumbnail?: string;
   onCourseClick: (items: TCourse) => void;
 }) {
-  const { data, error, isLoading } = useSWR(url, (url) =>
+  const { data, error, isLoading, isValidating } = useSWR(url, (url) =>
     fetcher<TCourse[]>(url)
   );
 
   return (
     <div className="flex flex-1 flex-col pb-5 mt-5">
-      {isLoading ? (
+      {isLoading || isValidating ? (
         <div className="flex flex-1 justify-center items-center ">
           <Loader />
         </div>
