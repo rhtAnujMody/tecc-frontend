@@ -14,6 +14,7 @@ import DashboardBanner from "../DashboardBanner";
 import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
+import Error from "../Error";
 
 export default function DashboardHome({
   onCategoryCardClick,
@@ -82,6 +83,10 @@ export default function DashboardHome({
         "Celebrate your learning milestones with our Certifications. Every badge and certificate you earn reflects your dedication and expertise, empowering you to make a mark in your industry. Proudly display your hard-earned achievements!",
     },
   ];
+
+  if (error) {
+    return <Error />;
+  }
 
   return (
     <div className="mt-5 h-full">
