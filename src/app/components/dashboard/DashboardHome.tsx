@@ -1,4 +1,5 @@
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
+import { fetcher } from "@/lib/api";
 import { TCourse, TDashboard } from "@/types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,7 +15,6 @@ import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
 import Error from "../Error";
-import fetchApi from "@/lib/api";
 
 export default function DashboardHome({
   onCategoryCardClick,
@@ -26,17 +26,8 @@ export default function DashboardHome({
   onTopCardsClick: (index: number) => void;
 }) {
   const { data, error, isLoading } = useSWR(
-    createAPIEndpoint(`${DASHBOARD}`), async (url) => {
-      const response = await fetchApi<TDashboard, any>(url, { method: 'GET' });
-
-      if (response.ok) {
-        console.log(response);
-        return response.data;
-      } else {
-        console.log('error');
-        throw new Error(response.error as string);
-      }
-    }
+    createAPIEndpoint(`${DASHBOARD}`),
+    (url) => fetcher<TDashboard>(url)
   );
 
   var settings = {
@@ -92,7 +83,6 @@ export default function DashboardHome({
         "Celebrate your learning milestones with our certifications. Each badge and certificate represent your dedication and expertise, empowering you to stand out in your industry. Proudly showcase your hard-earned achievements!",
     },
   ];
-
   if (error) {
     return <Error />;
   }

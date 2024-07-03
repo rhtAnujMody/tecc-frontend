@@ -5,9 +5,10 @@ import { useState } from "react";
 import useSWR from "swr";
 import Loader from "./Loader";
 import TabContentData from "./TabContentData";
-import fetchApi from "@/lib/api";
+import { fetcher } from "@/lib/api";
 
 import { INTERNALCERTIFICATIONSEARNED, EXTERNALCERTIFICATIONSEARNED, createAPIEndpoint } from "@/lib/constants";
+import Error from "./Error";
 
 export default function CertificationsDashboard() {
 	const [isExternal, setIsExternal] = useState(false);
@@ -15,17 +16,8 @@ export default function CertificationsDashboard() {
 	const api = isExternal ? EXTERNALCERTIFICATIONSEARNED : INTERNALCERTIFICATIONSEARNED;
 	const endpoint = createAPIEndpoint(api);
 
-	const { data, error, isLoading } = useSWR(endpoint, async (url) => {
-		const response = await fetchApi<TCertifications[], any>(url, { method: 'GET' });
-
-		if (response.ok) {
-			console.log(response);
-			return response.data;
-		} else {
-			console.log('error');
-			throw new Error(response.error as string);
-		}
-	}
+	const { data, error, isLoading } = useSWR(endpoint, (url) =>
+		fetcher<TCertifications[]>(url)
 	);
 
 	const headers = [
@@ -51,6 +43,8 @@ export default function CertificationsDashboard() {
 
 	const [earnedcurrentPage, setEarnedCurrentPage] = useState(1);
 	const [externalCurrentPage, setExternalCurrentPage] = useState(1);
+
+	if (error) return <Error />
 
 	return (
 		<>

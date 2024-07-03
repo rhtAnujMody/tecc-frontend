@@ -6,7 +6,7 @@ import {
   createAPIEndpoint,
 } from "@/lib/constants";
 import { getLocalData, setLocalData } from "@/lib/utils";
-import { TUserContext, UserData } from "@/types";
+import { ApiError, TUserContext, UserData } from "@/types";
 import {
   ReactNode,
   createContext,
@@ -14,7 +14,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import fetchApi from "@/lib/api";
+import { fetchApi } from "@/lib/api";
 
 export const UserContext = createContext<TUserContext | undefined>(undefined);
 
@@ -25,7 +25,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const callUserDataAPI = async () => {
-    const response = await fetchApi<UserData, any>(
+    const response = await fetchApi<UserData, ApiError>(
       createAPIEndpoint(FETCHUSER), { method: "GET" }
     );
     if (response.ok && response.data) {

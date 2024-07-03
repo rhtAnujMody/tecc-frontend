@@ -8,13 +8,13 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SUBMITANSWER, createAPIEndpoint } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { TQuizDialog, TSubmitAnswer } from "@/types";
+import { ApiError, TQuizDialog, TSubmitAnswer } from "@/types";
 import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Check, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Loader from "../Loader";
-import fetchApi from "@/lib/api";
+import { fetchApi } from "@/lib/api";
 
 export default function QuizDialog({
   showDialog,
@@ -42,7 +42,7 @@ export default function QuizDialog({
 
   const checkAnswer = async () => {
     setIsLoading(true);
-    const response = await fetchApi<TSubmitAnswer, any>(
+    const response = await fetchApi<TSubmitAnswer, ApiError>(
       createAPIEndpoint(`${SUBMITANSWER}${id}/`),
       {
         method: "POST",

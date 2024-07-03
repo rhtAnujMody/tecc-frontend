@@ -1,5 +1,5 @@
 import { COURSESBYCATEGORY, createAPIEndpoint } from "@/lib/constants";
-import fetchApi from "@/lib/api";
+import { fetcher } from "@/lib/api";
 import { TCourse } from "@/types";
 import Image from "next/image";
 import useSWR from "swr";
@@ -16,15 +16,9 @@ export default function AllCourses({
   thumbnail?: string;
   onCourseClick: (items: TCourse) => void;
 }) {
-  const { data, error, isLoading, isValidating } = useSWR(url, async (url) => {
-    const response = await fetchApi<TCourse[], any>(url, { method: 'GET' });
-
-    if (response.ok) {
-      return response.data;
-    } else {
-      throw new Error(response.error as string);
-    }
-  });
+  const { data, error, isLoading, isValidating } = useSWR(url, (url) =>
+    fetcher<TCourse[]>(url)
+  );
 
   return (
     <div className="flex flex-1 flex-col pb-5 mt-5">

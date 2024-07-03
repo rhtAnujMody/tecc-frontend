@@ -1,5 +1,4 @@
 
-import { cookies } from "next/headers";
 import { TOKEN } from "./constants";
 import { getLocalData } from "./utils";
 
@@ -18,10 +17,11 @@ interface FetchResponse<T, E> {
   error?: E | string;
 }
 
-async function fetchApi<TResponse, TError>(
+
+export const fetchApi = async <TResponse, TError>(
   url: string,
   options: FetchOptions
-): Promise<FetchResponse<TResponse, TError>> {
+): Promise<FetchResponse<TResponse, TError>> => {
   const { method, headers = {}, body } = options;
 
   const token = getLocalData(TOKEN);
@@ -29,7 +29,8 @@ async function fetchApi<TResponse, TError>(
   // Construct authorization headers if token is present
   const authHeaders: HeadersInit = {};
   if (token) {
-    authHeaders["Authorization"] = `Bearer ${token}`;  }
+    authHeaders["Authorization"] = `Bearer ${token}`;
+  }
 
   const fetchOptions: RequestInit = {
     method,
@@ -69,6 +70,22 @@ async function fetchApi<TResponse, TError>(
       error: "Something went wrong, please try again later",
     };
   }
-}
+};
 
-export default fetchApi;
+export const fetcher = async <T>(
+  url: string,
+  method: "GET" | "POST" = "GET",
+  body?: Record<string, string>
+) => {
+  const res = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getLocalData(TOKEN),
+      "ngrok-skip-browser-warning": "true",
+    },
+    body: JSON.stringify(body),
+  });
+  const data: T = await res.json();
+  return data;
+};
