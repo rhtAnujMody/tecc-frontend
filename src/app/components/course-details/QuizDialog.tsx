@@ -7,13 +7,14 @@ import {
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { SUBMITANSWER, createAPIEndpoint } from "@/lib/constants";
-import { callAPI, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { TQuizDialog, TSubmitAnswer } from "@/types";
 import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import { Check, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Loader from "../Loader";
+import fetchApi from "@/lib/api";
 
 export default function QuizDialog({
   showDialog,
@@ -41,16 +42,19 @@ export default function QuizDialog({
 
   const checkAnswer = async () => {
     setIsLoading(true);
-    const response = await callAPI(
+    const response = await fetchApi<TSubmitAnswer, any>(
       createAPIEndpoint(`${SUBMITANSWER}${id}/`),
-      "POST",
       {
-        question_id: "" + questions[currentIndex].id,
-        selected_option: selectedAns,
+        method: "POST",
+        body: {
+          question_id: "" + questions[currentIndex].id,
+          selected_option: selectedAns,
+        },
       }
     );
-    if (response.status === 200 || 201) {
-      resultData.current = (await response.json()) as TSubmitAnswer;
+
+    if (response.ok && response.data) {
+      resultData.current = response.data;
       if (isMandatory) {
         if (currentIndex === questions.length - 1) {
           setShowResultView(true);
@@ -64,7 +68,7 @@ export default function QuizDialog({
         } else {
           buttonText.current = "Next";
         }
-        setCorrectAns(resultData.current.correct_answers[0]);
+        setCorrectAns(resultData.current?.correct_answers[0]);
       }
     }
     setIsLoading(false);
@@ -164,17 +168,17 @@ export default function QuizDialog({
                             {Object.keys(questions[currentIndex].options)[
                               index
                             ] === correctAns && (
-                              // <span className="text-xs text-green-500 font-medium">
-                              //   Correct Answer
-                              // </span>
-                              <Check style={{ color: "green" }} />
-                            )}
+                                // <span className="text-xs text-green-500 font-medium">
+                                //   Correct Answer
+                                // </span>
+                                <Check style={{ color: "green" }} />
+                              )}
                             {Object.keys(questions[currentIndex].options)[
                               index
                             ] === selectedAns &&
                               correctAns &&
                               Object.keys(questions[currentIndex].options)[
-                                index
+                              index
                               ] !== correctAns && (
                                 <Cross2Icon
                                   style={{
@@ -221,9 +225,8 @@ export default function QuizDialog({
                   </div>
                 </div>
                 <div className="flex gap-3 mt-5 justify-center">
-                  <span className="font-light text-xs text-text-secondary">{`${
-                    currentIndex + 1
-                  } of ${questions.length} Questions`}</span>
+                  <span className="font-light text-xs text-text-secondary">{`${currentIndex + 1
+                    } of ${questions.length} Questions`}</span>
                 </div>
               </>
             )}

@@ -1,5 +1,4 @@
 import { GETDROPDOWN, KNOWLEDGEBANK, createAPIEndpoint } from "@/lib/constants";
-import { fetcher } from "@/lib/utils";
 import { TDropdown, TKnowledgeBank } from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -7,6 +6,7 @@ import DropDown from "../DropDown";
 import Loader from "../Loader";
 import NoData from "../NoData";
 import KnowledgeBankCard from "./KnowledgeBankCard";
+import fetchApi from "@/lib/api";
 
 export default function KnowledgeBankParent() {
   const [filter, setFilter] = useState<TDropdown | string>("");
@@ -20,12 +20,30 @@ export default function KnowledgeBankParent() {
     data: dropdownData,
     error: dropdownError,
     isLoading: dropdownLoading,
-  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}category`), (url) =>
-    fetcher<TDropdown[]>(url)
+  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}category`), async (url) => {
+    const response = await fetchApi<TDropdown[], any>(url, { method: 'GET' });
+
+    if (response.ok) {
+      console.log(response);
+      return response.data;
+    } else {
+      console.log('error');
+      throw new Error(response.error as string);
+    }
+  }
   );
 
-  const { data, error, isLoading, mutate } = useSWR(endpoint, (url) =>
-    fetcher<TKnowledgeBank[]>(url)
+  const { data, error, isLoading, mutate } = useSWR(endpoint, async (url) => {
+    const response = await fetchApi<TKnowledgeBank[], any>(url, { method: 'GET' });
+
+    if (response.ok) {
+      console.log(response);
+      return response.data;
+    } else {
+      console.log('error');
+      throw new Error(response.error as string);
+    }
+  }
   );
 
   useEffect(() => {

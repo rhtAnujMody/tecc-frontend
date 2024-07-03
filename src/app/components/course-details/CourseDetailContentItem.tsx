@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
-import { callAPI, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { TContent } from "@/types";
 import { X } from "lucide-react";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
 import QuizDialog from "./QuizDialog";
+import fetchApi from "@/lib/api";
 
 export default function CourseDetailContentItem({
   props,
@@ -60,11 +61,13 @@ export default function CourseDetailContentItem({
         quiz_id: props.id,
       };
     }
-    const response = await callAPI(
-      createAPIEndpoint(TOGGLEPROGRESS),
-      "POST",
-      json
-    );
+    const endpoint = createAPIEndpoint(TOGGLEPROGRESS);
+
+    const response = await fetchApi<void, any>(endpoint, {
+      method: 'POST',
+      body: json,
+    });
+
     if (response.status === 200) {
       setShowVideoDialog(false);
       setShowQuizDialog(false);
@@ -85,8 +88,8 @@ export default function CourseDetailContentItem({
               props.type === "video"
                 ? playCircle
                 : props.is_mandatory
-                ? yellowLightBulb
-                : lightBulb
+                  ? yellowLightBulb
+                  : lightBulb
             }
             className="w-8 h-8"
             alt="video"
@@ -147,8 +150,8 @@ export default function CourseDetailContentItem({
                   props.type === "video"
                     ? playCircle
                     : props.is_mandatory
-                    ? yellowLightBulb
-                    : lightBulb
+                      ? yellowLightBulb
+                      : lightBulb
                 }
                 alt="play"
                 className="rounded-sm w-4 h-4"

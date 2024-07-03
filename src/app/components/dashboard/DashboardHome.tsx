@@ -1,5 +1,4 @@
 import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
-import { fetcher } from "@/lib/utils";
 import { TCourse, TDashboard } from "@/types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,6 +13,7 @@ import DashboardBanner from "../DashboardBanner";
 import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
+import fetchApi from "@/lib/api";
 
 export default function DashboardHome({
   onCategoryCardClick,
@@ -25,8 +25,17 @@ export default function DashboardHome({
   onTopCardsClick: (index: number) => void;
 }) {
   const { data, error, isLoading } = useSWR(
-    createAPIEndpoint(`${DASHBOARD}`),
-    (url) => fetcher<TDashboard>(url)
+    createAPIEndpoint(`${DASHBOARD}`), async (url) => {
+      const response = await fetchApi<TDashboard, any>(url, { method: 'GET' });
+
+      if (response.ok) {
+        console.log(response);
+        return response.data;
+      } else {
+        console.log('error');
+        throw new Error(response.error as string);
+      }
+    }
   );
 
   var settings = {

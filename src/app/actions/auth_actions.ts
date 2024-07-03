@@ -20,17 +20,13 @@ export async function signInUser(email: string, password: string) {
     body: json,
   });
 
-  if (response.ok) {
-    cookies().set(TOKEN, response.data?.access ?? "", { httpOnly: true });
-    //const userData = getUserData(response.data?.access || "");
-  }
   return response;
 }
 
 export async function getUserData(token: string) {
   const response = await fetchApi<UserData, ApiError>(
     createAPIEndpoint(FETCHUSER),
-    { method: "GET" }
+    { method: "GET", headers:{"Authorization":`Bearer ${token}`} }
   );  
 
   if (response.ok) {
@@ -53,11 +49,5 @@ export async function signUpUser(
       body: formData,
     }
   );
-  // if (response.ok) {
-  //   cookies().set("isLoggedIn", "true", { httpOnly: true });
-  //   cookies().set("userData", JSON.stringify(response.data), {
-  //     httpOnly: true,
-  //   });
-  // }
   return response;
 }
