@@ -13,6 +13,7 @@ import DashboardBanner from "../DashboardBanner";
 import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
+import Error from "../Error";
 import fetchApi from "@/lib/api";
 
 export default function DashboardHome({
@@ -91,6 +92,10 @@ export default function DashboardHome({
         "Celebrate your learning milestones with our certifications. Each badge and certificate represent your dedication and expertise, empowering you to stand out in your industry. Proudly showcase your hard-earned achievements!",
     },
   ];
+
+  if (error) {
+    return <Error />;
+  }
 
   return (
     <div className="mt-5 h-full">

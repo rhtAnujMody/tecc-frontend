@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 export const API_BASE_URL =
   "https://b574-125-21-77-42.ngrok-free.app/api/";
+=======
+export const API_BASE_URL = "https://b574-125-21-77-42.ngrok-free.app/api/";
+>>>>>>> 9b51002b1e00eb6b0928085520cd88cc04fbdf44
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
