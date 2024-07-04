@@ -225,7 +225,7 @@ export default function CourseDetailContentItem({
                 }}
                 controlsList="nodownload"
               >
-                <source src={`${props.video_url}ad`} type="video/mp4" />
+                <source src={props.video_url} type="video/mp4" />
               </video>
             </DialogContent>
           </DialogOverlay>
