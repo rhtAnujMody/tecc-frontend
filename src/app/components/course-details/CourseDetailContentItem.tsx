@@ -5,6 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { fetchApi } from "@/lib/api";
 import { TOGGLEPROGRESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TContent } from "@/types";
@@ -17,7 +18,6 @@ import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
 import QuizDialog from "./QuizDialog";
-import { fetchApi } from "@/lib/api";
 
 export default function CourseDetailContentItem({
   props,
@@ -216,11 +216,16 @@ export default function CourseDetailContentItem({
                   markVideoAsComplete();
                 }}
                 onError={(e) => {
-                  console.log("error", e);
+                  toast({
+                    title: "Error",
+                    variant: "destructive",
+                    description:
+                      "Video file not found or file might be corrupted",
+                  });
                 }}
                 controlsList="nodownload"
               >
-                <source src={props.video_url} type="video/mp4" />
+                <source src={`${props.video_url}ad`} type="video/mp4" />
               </video>
             </DialogContent>
           </DialogOverlay>
