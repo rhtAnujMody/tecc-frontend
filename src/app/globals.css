@@ -74,3 +74,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+.custom-video::-webkit-media-controls-timeline,
+.custom-video::-webkit-media-controls-current-time-display,
+.custom-video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
+
+.custom-video::-webkit-media-controls-seek-back-button,
+.custom-video::-webkit-media-controls-seek-forward-button {
+  display: none !important;
+}

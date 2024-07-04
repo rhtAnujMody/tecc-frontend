@@ -211,9 +211,12 @@ export default function CourseDetailContentItem({
               </div>
               <video
                 controls
-                className="w-full h-full"
+                className="w-full h-full custom-video"
                 onEnded={() => {
                   markVideoAsComplete();
+                }}
+                onError={(e) => {
+                  console.log("error", e);
                 }}
                 controlsList="nodownload"
               >
