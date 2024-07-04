@@ -1,20 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fetcher } from "@/lib/utils";
 import { TCertifications } from "@/types";
 import { useState } from "react";
 import useSWR from "swr";
 import Loader from "./Loader";
 import TabContentData from "./TabContentData";
+import { fetcher } from "@/lib/api";
 
-import { CERTIFICATIONSEARNED, createAPIEndpoint } from "@/lib/constants";
+import {
+  INTERNALCERTIFICATIONSEARNED,
+  EXTERNALCERTIFICATIONSEARNED,
+} from "@/lib/constants";
+import Error from "./Error";
 
 export default function CertificationsDashboard() {
-  const [filter, setFilter] = useState("");
+  const [isExternal, setIsExternal] = useState(false);
   const [defaultValue, setDefaultValue] = useState("earnedCertificate");
-  const endpoint = createAPIEndpoint(`${CERTIFICATIONSEARNED}${filter}`);
+  const api = isExternal
+    ? EXTERNALCERTIFICATIONSEARNED
+    : INTERNALCERTIFICATIONSEARNED;
 
-  const { data, error, isLoading } = useSWR(endpoint, (url) =>
+  const { data, error, isLoading } = useSWR(api, (url: string) =>
     fetcher<TCertifications[]>(url)
   );
 
@@ -29,18 +35,20 @@ export default function CertificationsDashboard() {
   const tabs = [
     {
       value: "earnedCertificate",
-      filter: "",
+      isExternal: false,
       heading: "Reveal Certifications",
     },
     {
       value: "externalCertificate",
-      filter: "true",
+      isExternal: true,
       heading: "External Certifications",
     },
   ];
 
   const [earnedcurrentPage, setEarnedCurrentPage] = useState(1);
   const [externalCurrentPage, setExternalCurrentPage] = useState(1);
+
+  if (error) return <Error />;
 
   return (
     <>
@@ -57,7 +65,7 @@ export default function CertificationsDashboard() {
                   className="!shadow-none text-lg p-0 data-[state=active]:underline data-[state=active]:underline-offset-8"
                   onClick={() => {
                     setDefaultValue(item.value);
-                    setFilter(item.filter);
+                    setIsExternal(item.isExternal);
                   }}
                   key={index}
                 >

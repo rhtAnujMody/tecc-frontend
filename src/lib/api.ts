@@ -1,4 +1,7 @@
-import { cookies } from "next/headers";
+
+import { TOKEN } from "./constants";
+import { getLocalData } from "./utils";
+import { createAPIEndpoint } from "./constants";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -15,41 +18,35 @@ interface FetchResponse<T, E> {
   error?: E | string;
 }
 
-async function fetchApi<TResponse, TError>(
+
+export const fetchApi = async <TResponse, TError>(
   url: string,
   options: FetchOptions
-): Promise<FetchResponse<TResponse, TError>> {
-  const { method, headers, body } = options;
-  let authJson = {};
-  if (cookies().get("token")) {
-    authJson = {
-      Authorization: `Bearer ${cookies().get("token")?.value}`,
-    };
+): Promise<FetchResponse<TResponse, TError>> => {
+  const { method, headers = {}, body } = options;
+
+  const token = getLocalData(TOKEN);
+
+  // Construct authorization headers if token is present
+  const authHeaders: HeadersInit = {};
+  if (token) {
+    authHeaders["Authorization"] = `Bearer ${token}`;
   }
-  console.log(url);
+
+  const fetchOptions: RequestInit = {
+    method,
+    headers: {
+      ...authHeaders,
+      ...headers,
+      ...(body && !(body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
+      "ngrok-skip-browser-warning": "true",
+    },
+    body: body instanceof FormData ? body : JSON.stringify(body),
+  };
+
   try {
-    const fetchOptions: RequestInit = {
-      // signal: AbortSignal.timeout(5000),
-      method,
-      headers: {
-        ...authJson,
-        ...headers,
-      },
-    };
-
-    // Handle different types of body
-    if (body instanceof FormData) {
-      fetchOptions.body = body;
-    } else if (typeof body === "object" && body !== null) {
-      fetchOptions.headers = {
-        ...fetchOptions.headers,
-        "Content-Type": "application/json",
-      };
-      fetchOptions.body = JSON.stringify(body);
-    }
-
-    const response = await fetch(url, fetchOptions);
-
+    const endpoint = createAPIEndpoint(url)
+    const response = await fetch(endpoint, fetchOptions);
     let data: TResponse | undefined;
 
     if (response.status === 200 || response.status === 201) {
@@ -75,6 +72,22 @@ async function fetchApi<TResponse, TError>(
       error: "Something went wrong, please try again later",
     };
   }
-}
+};
 
-export default fetchApi;
+export const fetcher = async <T>(
+  url: string,
+  method: "GET" | "POST" = "GET",
+  body?: Record<string, string>
+) => {
+  const res = await fetch(createAPIEndpoint(url), {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getLocalData(TOKEN),
+      "ngrok-skip-browser-warning": "true",
+    },
+    body: JSON.stringify(body),
+  });
+  const data: T = await res.json();
+  return data;
+};

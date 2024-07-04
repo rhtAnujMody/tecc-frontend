@@ -5,7 +5,6 @@ import {
   COURSESBYCATEGORY,
   ENROLLED,
   PENDING,
-  createAPIEndpoint,
 } from "@/lib/constants";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AllCourses from "../components/AllCourses";
@@ -127,14 +126,14 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
-            url={createAPIEndpoint(`${COURSESBYCATEGORY}${id.current}/`)}
+            url={`${COURSESBYCATEGORY}${id.current}/`}
           />
         );
 
       case 10:
         return (
           <AllCourses
-            url={createAPIEndpoint(`${ENROLLED}`)}
+            url={`${ENROLLED}`}
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
@@ -144,7 +143,7 @@ export default function Dashboard() {
       case 11:
         return (
           <AllCourses
-            url={createAPIEndpoint(`${PENDING}`)}
+            url={PENDING}
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
@@ -154,7 +153,7 @@ export default function Dashboard() {
       case 12:
         return (
           <AllCourses
-            url={createAPIEndpoint(`${COMPLETED}`)}
+            url={COMPLETED}
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}

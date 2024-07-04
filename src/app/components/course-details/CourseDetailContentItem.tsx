@@ -5,9 +5,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
-import { callAPI, cn } from "@/lib/utils";
-import { TContent } from "@/types";
+import { TOGGLEPROGRESS } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import { ApiError, TContent } from "@/types";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,6 +17,7 @@ import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
 import QuizDialog from "./QuizDialog";
+import { fetchApi } from "@/lib/api";
 
 export default function CourseDetailContentItem({
   props,
@@ -60,11 +61,12 @@ export default function CourseDetailContentItem({
         quiz_id: props.id,
       };
     }
-    const response = await callAPI(
-      createAPIEndpoint(TOGGLEPROGRESS),
-      "POST",
-      json
-    );
+
+    const response = await fetchApi<void, ApiError>(TOGGLEPROGRESS, {
+      method: "POST",
+      body: json,
+    });
+
     if (response.status === 200) {
       setShowVideoDialog(false);
       setShowQuizDialog(false);

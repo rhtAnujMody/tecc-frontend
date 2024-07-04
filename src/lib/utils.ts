@@ -50,42 +50,6 @@ export const getLocalData = (key: string) => {
   return null;
 };
 
-export const fetcher = async <T>(
-  url: string,
-  method: "GET" | "POST" = "GET",
-  body?: Record<string, string>
-) => {
-  const res = await fetch(url, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getLocalData(TOKEN),
-      "ngrok-skip-browser-warning": "true",
-    },
-    body: JSON.stringify(body),
-  });
-  const data: T = await res.json();
-  return data;
-};
-
-export const callAPI = async <T>(
-  url: string,
-  method: "GET" | "POST" = "GET",
-  body?: Record<string, string>
-) => {
-  const res = await fetch(url, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + getLocalData(TOKEN),
-      "ngrok-skip-browser-warning": "true",
-    },
-    body: JSON.stringify(body),
-  });
-
-  return res;
-};
-
 export const deleteLocalData = () => {
   if (localStorage) {
     localStorage.clear();

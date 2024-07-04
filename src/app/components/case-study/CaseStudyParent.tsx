@@ -1,10 +1,5 @@
-import {
-  CASESTUDY,
-  GETDROPDOWN,
-  KNOWLEDGEBANK,
-  createAPIEndpoint,
-} from "@/lib/constants";
-import { fetcher } from "@/lib/utils";
+import { CASESTUDY, GETDROPDOWN, KNOWLEDGEBANK } from "@/lib/constants";
+import { fetcher } from "@/lib/api";
 import { TCaseStudy, TDropdown, TKnowledgeBank } from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -12,22 +7,21 @@ import DropDown from "../DropDown";
 import Loader from "../Loader";
 import NoData from "../NoData";
 import KnowledgeBankCard from "../knowledge-bank/KnowledgeBankCard";
+import Error from "../Error";
 
 export default function CaseStudyParent() {
   const [filter, setFilter] = useState<TDropdown | string>("");
   const [dropDownArray, setDropDownArray] = useState<TDropdown[]>();
 
-  const endpoint = createAPIEndpoint(
-    `${CASESTUDY}?client_id=${filter && (filter as TDropdown).id}`
-  );
+  const endpoint = `${CASESTUDY}?client_id=${
+    filter && (filter as TDropdown).id
+  }`;
 
   const {
     data: dropdownData,
     error: dropdownError,
     isLoading: dropdownLoading,
-  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}client`), (url) =>
-    fetcher<TDropdown[]>(url)
-  );
+  } = useSWR(`${GETDROPDOWN}client`, (url) => fetcher<TDropdown[]>(url));
 
   const { data, error, isLoading, mutate } = useSWR(endpoint, (url) =>
     fetcher<TCaseStudy[]>(url)
@@ -44,6 +38,10 @@ export default function CaseStudyParent() {
       </div>
     );
   };
+
+  if (error || dropdownError) {
+    return <Error />;
+  }
 
   return (
     <div className="flex flex-1 w-full ">

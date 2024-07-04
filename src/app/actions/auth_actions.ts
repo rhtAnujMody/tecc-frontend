@@ -1,11 +1,10 @@
 "use server";
-import fetchApi from "@/lib/api";
+import { fetchApi } from "@/lib/api";
 import {
   FETCHUSER,
   LOGIN,
   SIGNUP,
   TOKEN,
-  createAPIEndpoint,
 } from "@/lib/constants";
 import { ApiError, Tokens, UserData } from "@/types";
 import { cookies } from "next/headers";
@@ -15,22 +14,18 @@ export async function signInUser(email: string, password: string) {
     email: email,
     password: password,
   };
-  const response = await fetchApi<Tokens, ApiError>(createAPIEndpoint(LOGIN), {
+  const response = await fetchApi<Tokens, ApiError>(LOGIN, {
     method: "POST",
     body: json,
   });
 
-  if (response.ok) {
-    cookies().set(TOKEN, response.data?.access ?? "", { httpOnly: true });
-    //const userData = getUserData(response.data?.access || "");
-  }
   return response;
 }
 
 export async function getUserData(token: string) {
   const response = await fetchApi<UserData, ApiError>(
-    createAPIEndpoint(FETCHUSER),
-    { method: "GET" }
+    FETCHUSER,
+    { method: "GET", headers:{"Authorization":`Bearer ${token}`} }
   );  
 
   if (response.ok) {
@@ -47,17 +42,11 @@ export async function signUpUser(
 ) {
 
   const response = await fetchApi<UserData, ApiError>(
-    createAPIEndpoint(SIGNUP),
+    SIGNUP,
     {
       method: "POST",
       body: formData,
     }
   );
-  // if (response.ok) {
-  //   cookies().set("isLoggedIn", "true", { httpOnly: true });
-  //   cookies().set("userData", JSON.stringify(response.data), {
-  //     httpOnly: true,
-  //   });
-  // }
   return response;
 }

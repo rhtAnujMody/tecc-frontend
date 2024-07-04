@@ -5,18 +5,19 @@ import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
-import { COURSEDETAIL, ENROLLCOURSE, createAPIEndpoint } from "@/lib/constants";
-import { callAPI, fetcher } from "@/lib/utils";
-import { TCourse } from "@/types";
+import { fetcher, fetchApi } from "@/lib/api";
+import { COURSEDETAIL, ENROLLCOURSE } from "@/lib/constants";
+import { ApiError, TCourse } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
+import Error from "../Error";
 
 function CourseDetailsMain({ id }: { id: string }) {
   const { updateUserData, user } = useUserContext();
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
   const { data, error, isLoading, mutate, isValidating } = useSWR(
-    createAPIEndpoint(`${COURSEDETAIL}${id}/`),
+    `${COURSEDETAIL}${id}/`,
     (url) => fetcher<TCourse>(url),
     {
       onSuccess(data, key, config) {
@@ -30,9 +31,14 @@ function CourseDetailsMain({ id }: { id: string }) {
 
   const enrollCourse = async () => {
     setIsEnrollLoading(true);
-    const response = await callAPI(createAPIEndpoint(ENROLLCOURSE), "POST", {
-      course_id: data?.id ?? "",
+
+    const response = await fetchApi<void, ApiError>(ENROLLCOURSE, {
+      method: "POST",
+      body: {
+        course_id: data?.id ?? "",
+      },
     });
+
     if (response.ok) {
       mutate();
     } else {
@@ -72,6 +78,8 @@ function CourseDetailsMain({ id }: { id: string }) {
 
     return currentIndex;
   };
+
+  if (error) return <Error />;
 
   return isLoading || isValidating ? (
     <div className="flex flex-1 justify-center items-center">
