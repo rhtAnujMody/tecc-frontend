@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
 import { fetcher, fetchApi } from "@/lib/api";
-import { COURSEDETAIL, ENROLLCOURSE, createAPIEndpoint } from "@/lib/constants";
+import { COURSEDETAIL, ENROLLCOURSE } from "@/lib/constants";
 import { ApiError, TCourse } from "@/types";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,7 +17,7 @@ function CourseDetailsMain({ id }: { id: string }) {
   const { updateUserData, user } = useUserContext();
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
   const { data, error, isLoading, mutate, isValidating } = useSWR(
-    createAPIEndpoint(`${COURSEDETAIL}${id}/`),
+    `${COURSEDETAIL}${id}/`,
     (url) => fetcher<TCourse>(url),
     {
       onSuccess(data, key, config) {
@@ -32,10 +32,8 @@ function CourseDetailsMain({ id }: { id: string }) {
   const enrollCourse = async () => {
     setIsEnrollLoading(true);
 
-    const endpoint = createAPIEndpoint(ENROLLCOURSE);
-
-    const response = await fetchApi<void, ApiError>(endpoint, {
-      method: 'POST',
+    const response = await fetchApi<void, ApiError>(ENROLLCOURSE, {
+      method: "POST",
       body: {
         course_id: data?.id ?? "",
       },
@@ -81,7 +79,7 @@ function CourseDetailsMain({ id }: { id: string }) {
     return currentIndex;
   };
 
-  if (error) return <Error />
+  if (error) return <Error />;
 
   return isLoading || isValidating ? (
     <div className="flex flex-1 justify-center items-center">

@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { SUBMITANSWER, createAPIEndpoint } from "@/lib/constants";
+import { SUBMITANSWER } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TQuizDialog, TSubmitAnswer } from "@/types";
 import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
@@ -43,7 +43,7 @@ export default function QuizDialog({
   const checkAnswer = async () => {
     setIsLoading(true);
     const response = await fetchApi<TSubmitAnswer, ApiError>(
-      createAPIEndpoint(`${SUBMITANSWER}${id}/`),
+      `${SUBMITANSWER}${id}/`,
       {
         method: "POST",
         body: {
@@ -168,17 +168,17 @@ export default function QuizDialog({
                             {Object.keys(questions[currentIndex].options)[
                               index
                             ] === correctAns && (
-                                // <span className="text-xs text-green-500 font-medium">
-                                //   Correct Answer
-                                // </span>
-                                <Check style={{ color: "green" }} />
-                              )}
+                              // <span className="text-xs text-green-500 font-medium">
+                              //   Correct Answer
+                              // </span>
+                              <Check style={{ color: "green" }} />
+                            )}
                             {Object.keys(questions[currentIndex].options)[
                               index
                             ] === selectedAns &&
                               correctAns &&
                               Object.keys(questions[currentIndex].options)[
-                              index
+                                index
                               ] !== correctAns && (
                                 <Cross2Icon
                                   style={{
@@ -225,8 +225,9 @@ export default function QuizDialog({
                   </div>
                 </div>
                 <div className="flex gap-3 mt-5 justify-center">
-                  <span className="font-light text-xs text-text-secondary">{`${currentIndex + 1
-                    } of ${questions.length} Questions`}</span>
+                  <span className="font-light text-xs text-text-secondary">{`${
+                    currentIndex + 1
+                  } of ${questions.length} Questions`}</span>
                 </div>
               </>
             )}

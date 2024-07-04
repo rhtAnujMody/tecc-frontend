@@ -1,4 +1,4 @@
-import { DASHBOARD, createAPIEndpoint } from "@/lib/constants";
+import { DASHBOARD } from "@/lib/constants";
 import { fetcher } from "@/lib/api";
 import { TCourse, TDashboard } from "@/types";
 import Slider from "react-slick";
@@ -25,9 +25,8 @@ export default function DashboardHome({
   onCourseClick: (items: TCourse) => void;
   onTopCardsClick: (index: number) => void;
 }) {
-  const { data, error, isLoading } = useSWR(
-    createAPIEndpoint(`${DASHBOARD}`),
-    (url) => fetcher<TDashboard>(url)
+  const { data, error, isLoading } = useSWR(DASHBOARD, (url) =>
+    fetcher<TDashboard>(url)
   );
 
   var settings = {

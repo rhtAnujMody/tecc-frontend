@@ -1,10 +1,5 @@
 "use client";
-import {
-  FETCHUSER,
-  SIGNUP,
-  USERDATA,
-  createAPIEndpoint,
-} from "@/lib/constants";
+import { FETCHUSER, SIGNUP, USERDATA } from "@/lib/constants";
 import { getLocalData, setLocalData } from "@/lib/utils";
 import { ApiError, TUserContext, UserData } from "@/types";
 import {
@@ -21,13 +16,13 @@ export const UserContext = createContext<TUserContext | undefined>(undefined);
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [userData, setUserData] = useState<TUserContext>({
     user: undefined,
-    updateUserData: () => { },
+    updateUserData: () => {},
   });
 
   const callUserDataAPI = async () => {
-    const response = await fetchApi<UserData, ApiError>(
-      createAPIEndpoint(FETCHUSER), { method: "GET" }
-    );
+    const response = await fetchApi<UserData, ApiError>(FETCHUSER, {
+      method: "GET",
+    });
     if (response.ok && response.data) {
       const userData = response.data;
       setLocalData(USERDATA, JSON.stringify(userData));

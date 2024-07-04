@@ -1,6 +1,7 @@
 
 import { TOKEN } from "./constants";
 import { getLocalData } from "./utils";
+import { createAPIEndpoint } from "./constants";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -44,7 +45,8 @@ export const fetchApi = async <TResponse, TError>(
   };
 
   try {
-    const response = await fetch(url, fetchOptions);
+    const endpoint = createAPIEndpoint(url)
+    const response = await fetch(endpoint, fetchOptions);
     let data: TResponse | undefined;
 
     if (response.status === 200 || response.status === 201) {
@@ -77,7 +79,7 @@ export const fetcher = async <T>(
   method: "GET" | "POST" = "GET",
   body?: Record<string, string>
 ) => {
-  const res = await fetch(url, {
+  const res = await fetch(createAPIEndpoint(url), {
     method: method,
     headers: {
       "Content-Type": "application/json",

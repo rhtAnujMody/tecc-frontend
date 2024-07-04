@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
-import { TOGGLEPROGRESS, createAPIEndpoint } from "@/lib/constants";
+import { TOGGLEPROGRESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TContent } from "@/types";
 import { X } from "lucide-react";
@@ -61,10 +61,9 @@ export default function CourseDetailContentItem({
         quiz_id: props.id,
       };
     }
-    const endpoint = createAPIEndpoint(TOGGLEPROGRESS);
 
-    const response = await fetchApi<void, ApiError>(endpoint, {
-      method: 'POST',
+    const response = await fetchApi<void, ApiError>(TOGGLEPROGRESS, {
+      method: "POST",
       body: json,
     });
 
@@ -88,8 +87,8 @@ export default function CourseDetailContentItem({
               props.type === "video"
                 ? playCircle
                 : props.is_mandatory
-                  ? yellowLightBulb
-                  : lightBulb
+                ? yellowLightBulb
+                : lightBulb
             }
             className="w-8 h-8"
             alt="video"
@@ -150,8 +149,8 @@ export default function CourseDetailContentItem({
                   props.type === "video"
                     ? playCircle
                     : props.is_mandatory
-                      ? yellowLightBulb
-                      : lightBulb
+                    ? yellowLightBulb
+                    : lightBulb
                 }
                 alt="play"
                 className="rounded-sm w-4 h-4"

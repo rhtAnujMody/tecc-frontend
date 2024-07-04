@@ -11,6 +11,7 @@ export const handleLogoutAction = async () => {
       });
     return true;
   }
+console.log("Performance");
 
   return false;
 };

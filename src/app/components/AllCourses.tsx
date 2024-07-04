@@ -1,4 +1,3 @@
-import { COURSESBYCATEGORY, createAPIEndpoint } from "@/lib/constants";
 import { fetcher } from "@/lib/api";
 import { TCourse } from "@/types";
 import Image from "next/image";

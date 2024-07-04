@@ -5,7 +5,6 @@ import {
   LOGIN,
   SIGNUP,
   TOKEN,
-  createAPIEndpoint,
 } from "@/lib/constants";
 import { ApiError, Tokens, UserData } from "@/types";
 import { cookies } from "next/headers";
@@ -15,7 +14,7 @@ export async function signInUser(email: string, password: string) {
     email: email,
     password: password,
   };
-  const response = await fetchApi<Tokens, ApiError>(createAPIEndpoint(LOGIN), {
+  const response = await fetchApi<Tokens, ApiError>(LOGIN, {
     method: "POST",
     body: json,
   });
@@ -25,7 +24,7 @@ export async function signInUser(email: string, password: string) {
 
 export async function getUserData(token: string) {
   const response = await fetchApi<UserData, ApiError>(
-    createAPIEndpoint(FETCHUSER),
+    FETCHUSER,
     { method: "GET", headers:{"Authorization":`Bearer ${token}`} }
   );  
 
@@ -43,7 +42,7 @@ export async function signUpUser(
 ) {
 
   const response = await fetchApi<UserData, ApiError>(
-    createAPIEndpoint(SIGNUP),
+    SIGNUP,
     {
       method: "POST",
       body: formData,

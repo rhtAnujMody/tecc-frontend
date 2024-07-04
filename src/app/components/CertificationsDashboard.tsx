@@ -10,7 +10,6 @@ import { fetcher } from "@/lib/api";
 import {
   INTERNALCERTIFICATIONSEARNED,
   EXTERNALCERTIFICATIONSEARNED,
-  createAPIEndpoint,
 } from "@/lib/constants";
 import Error from "./Error";
 
@@ -20,9 +19,8 @@ export default function CertificationsDashboard() {
   const api = isExternal
     ? EXTERNALCERTIFICATIONSEARNED
     : INTERNALCERTIFICATIONSEARNED;
-  const endpoint = createAPIEndpoint(api);
 
-  const { data, error, isLoading } = useSWR(endpoint, (url) =>
+  const { data, error, isLoading } = useSWR(api, (url: string) =>
     fetcher<TCertifications[]>(url)
   );
 

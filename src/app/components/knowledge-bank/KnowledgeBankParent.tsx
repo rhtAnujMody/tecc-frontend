@@ -1,4 +1,4 @@
-import { GETDROPDOWN, KNOWLEDGEBANK, createAPIEndpoint } from "@/lib/constants";
+import { GETDROPDOWN, KNOWLEDGEBANK } from "@/lib/constants";
 import { TDropdown, TKnowledgeBank } from "@/types";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -13,17 +13,15 @@ export default function KnowledgeBankParent() {
   const [filter, setFilter] = useState<TDropdown | string>("");
   const [dropDownArray, setDropDownArray] = useState<TDropdown[]>();
 
-  const endpoint = createAPIEndpoint(
-    `${KNOWLEDGEBANK}?category_id=${filter && (filter as TDropdown).id}`
-  );
+  const endpoint = `${KNOWLEDGEBANK}?category_id=${
+    filter && (filter as TDropdown).id
+  }`;
 
   const {
     data: dropdownData,
     error: dropdownError,
     isLoading: dropdownLoading,
-  } = useSWR(createAPIEndpoint(`${GETDROPDOWN}category`), (url) =>
-    fetcher<TDropdown[]>(url)
-  );
+  } = useSWR(`${GETDROPDOWN}category`, (url) => fetcher<TDropdown[]>(url));
 
   const { data, error, isLoading, mutate } = useSWR(endpoint, (url) =>
     fetcher<TKnowledgeBank[]>(url)
@@ -33,7 +31,7 @@ export default function KnowledgeBankParent() {
     setDropDownArray(dropdownData);
   }, [dropdownData]);
 
-  if (error || dropdownError) return <Error />
+  if (error || dropdownError) return <Error />;
 
   const showLoading = () => {
     return (
