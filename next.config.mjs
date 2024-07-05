@@ -10,6 +10,11 @@ const nextConfig = {
         hostname: "d1rckynvzvnkn3.cloudfront.net",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "d1gt2w0mc3uw79.cloudfront.net",
+        port: "",
+      },
     ],
   },
 };
