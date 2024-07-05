@@ -13,6 +13,7 @@ import Image from "next/image";
 import trophy from "../../../public/credit.svg";
 import download from "../../../public/download.svg";
 import certificate from "../../../public/miniCertificate.svg";
+import ViewCertificate from "./ViewCertificate";
 
 export default function AppTable({
   headers,
@@ -69,11 +70,7 @@ export default function AppTable({
         </TableCell>
         <TableCell>
           <div className="flex items-center gap-5">
-            <a href={driveUrl} target="_blank">
-              <Button className="w-24" type="submit">
-                View
-              </Button>
-            </a>
+            <ViewCertificate data={row} />
 
             <Image
               src={download}

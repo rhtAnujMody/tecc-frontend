@@ -18,6 +18,7 @@ import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
 import QuizDialog from "./QuizDialog";
 import { fetchApi } from "@/lib/api";
+import CommonDialog from "../CommonDialog";
 
 export default function CourseDetailContentItem({
   props,
@@ -192,37 +193,24 @@ export default function CourseDetailContentItem({
           </div>
         </div>
       </div>
-      {showVideoDialog && (
-        <Dialog open={showVideoDialog}>
-          <DialogOverlay>
-            <DialogContent className="max-w-4xl">
-              <div className="flex justify-between items-center">
-                <DialogTitle className="text-text-primary text-base font-semibold">
-                  {/* <span className="text-text-primary text-base"> */}
-                  {props.video_name}
-                  {/* </span> */}
-                </DialogTitle>
-                <X
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setShowVideoDialog(false);
-                  }}
-                ></X>
-              </div>
-              <video
-                controls
-                className="w-full h-full"
-                onEnded={() => {
-                  markVideoAsComplete();
-                }}
-                controlsList="nodownload"
-              >
-                <source src={props.video_url} type="video/mp4" />
-              </video>
-            </DialogContent>
-          </DialogOverlay>
-        </Dialog>
-      )}
+      <CommonDialog
+        open={showVideoDialog}
+        setDefault={() => setShowVideoDialog(false)}
+        title={props.video_name}
+        classes="max-w-5xl"
+      >
+        <video
+          controls
+          className="w-full h-full"
+          onEnded={() => {
+            markVideoAsComplete();
+          }}
+          controlsList="nodownload"
+        >
+          <source src={props.video_url} type="video/mp4" />
+        </video>
+      </CommonDialog>
+
       {showQuizDialog && (
         <QuizDialog
           questions={props.questions}

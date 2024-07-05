@@ -27,7 +27,10 @@ const config = {
         text: {
           primary: "#344054",
           secondary: "#808080",
+          header:"#106EAC",
+          descColor:"#475467",
         },
+        greyBackground:"#F2F2F2F2",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

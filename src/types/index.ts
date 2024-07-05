@@ -1,4 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { ReactNode } from 'react';
 
 export default interface ModulesWeOffer {
   header: string;
@@ -246,3 +247,24 @@ export type TCaseStudy = {
   thumbnail: string;
   order: number;
 };
+
+export interface CommonDialogProps {
+  open: boolean;
+  title?: string;
+  onClose?: () => void; 
+  children: ReactNode;
+  classes?:string | null;
+  setDefault:() => void; 
+}
+
+export interface TDatePicker {
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
+}
+
+export interface TUploadCertificateModal {
+  setShowDialog:(isVisible: boolean) => void;
+  open: boolean;
+  title: string;
+  onClose: () => void; 
+}

@@ -1,4 +1,4 @@
-export const API_BASE_URL = "https://7734-223-185-132-24.ngrok-free.app/api/";
+export const API_BASE_URL = "https://bc30-223-185-129-114.ngrok-free.app/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -29,6 +29,7 @@ export const EXTERNALCERTIFICATIONSEARNED = "v1/externalCertificate/";
 export const KNOWLEDGEBANK = "v1/knowledgeBank/";
 export const GETDROPDOWN = "v1/dropdown/?filter=";
 export const CASESTUDY = "v1/caseStudy/";
+export const UPLOADCERTIFICATE = "v1/externalCertificate/uploadCertification/"
 
 //dashboard items
 export const ITEMSPERPAGE = 5;
