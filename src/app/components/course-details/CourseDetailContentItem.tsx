@@ -5,6 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
+import { fetchApi } from "@/lib/api";
 import { TOGGLEPROGRESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TContent } from "@/types";
