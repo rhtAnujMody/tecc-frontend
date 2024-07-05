@@ -21,7 +21,7 @@ export default function CertificationsDashboard() {
     ? EXTERNALCERTIFICATIONSEARNED
     : INTERNALCERTIFICATIONSEARNED;
 
-  const { data, error, isLoading } = useSWR(api, (url: string) =>
+  const { data, error, isLoading, isValidating } = useSWR(api, (url: string) =>
     fetcher<TCertifications[]>(url)
   );
 
@@ -94,14 +94,14 @@ export default function CertificationsDashboard() {
               onClose={handleCloseDialog}
             />
           </div>
-          {isLoading || !data ? (
+          {isLoading || isValidating ? (
             <div className="flex flex-1 h-full justify-center items-center ">
               <Loader />
             </div>
           ) : (
             <>
               <TabContentData
-                data={data}
+                data={data ?? []}
                 headers={headers}
                 currentPage={earnedcurrentPage}
                 type="certifications"
@@ -109,7 +109,7 @@ export default function CertificationsDashboard() {
                 tabValue="earnedCertificate"
               />
               <TabContentData
-                data={data}
+                data={data ?? []}
                 headers={headers}
                 currentPage={externalCurrentPage}
                 type="certifications"

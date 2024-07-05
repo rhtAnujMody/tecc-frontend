@@ -1,15 +1,8 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogOverlay,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { fetchApi } from "@/lib/api";
 import { TOGGLEPROGRESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TContent } from "@/types";
-import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import lightBulb from "../../../../public/lightbulb.svg";
@@ -17,9 +10,8 @@ import paperClip from "../../../../public/paperclip.svg";
 import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
-import QuizDialog from "./QuizDialog";
-import { fetchApi } from "@/lib/api";
 import CommonDialog from "../CommonDialog";
+import QuizDialog from "./QuizDialog";
 
 export default function CourseDetailContentItem({
   props,
@@ -202,11 +194,18 @@ export default function CourseDetailContentItem({
       >
         <video
           controls
-          className="w-full h-full"
+          className="w-full h-full custom-video"
           onEnded={() => {
             markVideoAsComplete();
           }}
           controlsList="nodownload"
+          onError={(e) => {
+            toast({
+              title: "Error",
+              variant: "destructive",
+              description: "Video file not found or file might be corrupted",
+            });
+          }}
         >
           <source src={props.video_url} type="video/mp4" />
         </video>

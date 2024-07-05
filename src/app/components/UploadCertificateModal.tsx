@@ -119,6 +119,7 @@ export default function UploadCertificateModal({
           title: "Success",
           description: "Uploaded certificate successfully",
         });
+        setDefault();
         onClose();
       } else {
         console.log("error", response.error);
@@ -147,6 +148,7 @@ export default function UploadCertificateModal({
             description: errMessage,
             variant: "destructive",
           });
+          setDefault();
           onClose();
         } else {
           toast({
@@ -155,6 +157,7 @@ export default function UploadCertificateModal({
               "Something unexpected error occurred. Please try again later.",
             variant: "destructive",
           });
+          setDefault();
           onClose();
         }
       }
@@ -204,7 +207,7 @@ export default function UploadCertificateModal({
               />
               <div className="flex-1 bg-white px-5 py-2 rounded-lg font-normal text-sm text-text-descColor">
                 <span style={{ color: "#3498DB" }}>Click to upload</span> or
-                drag and drop SVG, PNG, JPG or PDF (max. 800x400px)
+                drag and drop PNG, JPG or PDF (max. 800x400px)
               </div>
             </div>
           </div>
