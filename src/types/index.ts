@@ -268,3 +268,9 @@ export interface TUploadCertificateModal {
   title: string;
   onClose: () => void; 
 }
+
+export interface TDatePickerModal {
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
+  disableFutureDates?: boolean;
+}

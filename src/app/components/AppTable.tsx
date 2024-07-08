@@ -26,63 +26,67 @@ export default function AppTable({
     currentPage * ITEMSPERPAGE
   );
 
-  const certificationCells = (row: TCertifications) => {
-    const formattedDate = row.completion_date
-      ? new Date(row.completion_date).toLocaleDateString()
-      : "N/A";
-
-    const driveUrl = row.certification_url
-      ? `https://drive.google.com/viewerng/viewer?url=${encodeURIComponent(
-          row.certification_url
-        )}`
-      : "#";
+  const courseCell = (val: string | number) => {
     return (
-      <>
-        <TableCell className="text-sm font-medium text-text-primary">
-          <div className="flex items-center gap-2">
-            <Image
-              src={certificate}
-              alt="image"
-              width={50}
-              height={50}
-              priority={false}
-            />
-            {row.course_name}
+      <TableCell className="text-sm font-medium text-text-primary">
+        <div className="flex items-center gap-2">
+          <Image
+            src={certificate}
+            alt="image"
+            width={50}
+            height={50}
+            priority={false}
+          />
+          <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
+            {val}
           </div>
-        </TableCell>
-        <TableCell className="text-sm font-medium text-text-primary">
-          {row.course_category}
-        </TableCell>
-        <TableCell className="text-sm font-medium text-text-primary">
-          {formattedDate}
-        </TableCell>
-        <TableCell className="text-sm font-medium text-text-primary">
-          <div className="flex items-center gap-2">
-            <Image
-              src={trophy}
-              alt="image"
-              width={20}
-              height={20}
-              priority={false}
-            />
-            {row.credits_earned}
-          </div>
-        </TableCell>
-        <TableCell>
-          <div className="flex items-center gap-5">
-            <ViewCertificate data={row} />
+        </div>
+      </TableCell>
+    );
+  };
 
-            <Image
-              src={download}
-              alt="image"
-              width={20}
-              height={20}
-              priority={false}
-              className="hidden"
-            />
-          </div>
-        </TableCell>
-      </>
+  const completionDateCell = (val: string | number) => {
+    const formattedDate = new Date(val).toLocaleDateString();
+    return (
+      <TableCell className="text-sm font-medium text-text-primary">
+        {formattedDate}
+      </TableCell>
+    );
+  };
+
+  const creditsCell = (val: string | number) => {
+    return (
+      <TableCell className="text-sm font-medium text-text-primary">
+        <div className="flex items-center gap-2">
+          <Image
+            src={trophy}
+            alt="image"
+            width={20}
+            height={20}
+            priority={false}
+          />
+          {val}
+        </div>
+      </TableCell>
+    );
+  };
+
+  const viewBtnCell = (row: TCertifications) => {
+    return (
+      <TableCell>
+        <div className="flex items-center gap-5">
+          <ViewCertificate data={row} />
+
+          <Image
+            src={download}
+            alt="image"
+            width={20}
+            height={20}
+            priority={false}
+            className="hidden"
+          />
+        </div>
+      </TableCell>
     );
   };
 
@@ -103,16 +107,30 @@ export default function AppTable({
       <TableBody>
         {currentData.map((row) => (
           <TableRow key={row.id}>
-            {type === "certifications"
-              ? certificationCells(row)
-              : Object.entries(row).map(([key, value], i) => (
-                  <TableCell
-                    key={key}
-                    className="text-sm font-medium text-text-primary"
-                  >
+            {Object.entries(row).map(([key, value], i) => {
+              if (i > 5 || i === 0) {
+                return null;
+              }
+
+              return key === "course_name" ? (
+                courseCell(value)
+              ) : key === "course_completion_date" ? (
+                completionDateCell(value)
+              ) : key === "credits_earned" ? (
+                creditsCell(value)
+              ) : key === "certification_url" ? (
+                viewBtnCell(row)
+              ) : (
+                <TableCell
+                  key={key}
+                  className="text-sm font-medium text-text-primary"
+                >
+                  <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
                     {value}
-                  </TableCell>
-                ))}
+                  </div>
+                </TableCell>
+              );
+            })}
           </TableRow>
         ))}
       </TableBody>

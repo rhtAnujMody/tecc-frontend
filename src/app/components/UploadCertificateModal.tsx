@@ -13,6 +13,7 @@ import DatePicker from "./DatePicker";
 import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
 import { ApiError } from "@/types";
+import certificate from "../../../public/miniCertificate.svg";
 
 export default function UploadCertificateModal({
   setShowDialog,
@@ -54,15 +55,17 @@ export default function UploadCertificateModal({
       const file = e.target.files[0];
       const fileType = file.type;
 
-      const validTypes = ["image/jpeg", "image/png", "application/pdf"];
-      if (!validTypes.includes(fileType)) {
-        showErrorToast("Please select a valid JPG, PNG, or PDF file.");
+      const validImageTypes = ["image/jpeg", "image/png"];
+      if (fileType === "application/pdf") {
+        setPhotoSrc(certificate);
+      } else if (validImageTypes.includes(fileType)) {
+        const newPhotoSrc = URL.createObjectURL(file);
+        setPhotoSrc(newPhotoSrc);
+      } else {
+        showErrorToast("Please select a valid JPG, PNG, GIF, or PDF file.");
         return;
       }
 
-      const newPhotoSrc = URL.createObjectURL(file);
-
-      setPhotoSrc(newPhotoSrc);
       setPhotoFile(file);
     }
   };
@@ -225,7 +228,11 @@ export default function UploadCertificateModal({
               onChange={handleCourseNameChange}
             />
             <div className="w-full">
-              <DatePicker date={date} setDate={setDate} />
+              <DatePicker
+                date={date}
+                setDate={setDate}
+                disableFutureDates={true}
+              />
             </div>
             <Button className="w-full" disabled={isPending} onClick={callAPI}>
               {isPending && (

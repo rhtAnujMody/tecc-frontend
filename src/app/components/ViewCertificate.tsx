@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CommonDialog from "./CommonDialog";
 import { Button } from "@/components/ui/button";
 import { TCertifications } from "@/types";
+import Image from "next/image";
 
 interface ViewCertificateProps {
   data: TCertifications;
@@ -11,14 +12,9 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
   const [open, setOpen] = useState(false);
   console.log(data);
 
-  const fileExtension =
-    data.certification_url && data.certification_url.split(".").pop();
-  const isImage =
-    fileExtension &&
-    ["jpg", "jpeg", "png", "gif", "bmp", "webp"].includes(
-      fileExtension.toLowerCase()
-    );
-  const isPdf = fileExtension && fileExtension.toLowerCase() === "pdf";
+  const isPdf = (url: string) => {
+    return url.toLowerCase().endsWith(".pdf");
+  };
 
   return (
     <>
@@ -30,7 +26,7 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
         setDefault={() => {
           setOpen(false);
         }}
-        classes="max-w-5xl"
+        classes="max-w-3xl"
       >
         <div>
           <div className="text-lg font-semibold text-text-primary">
@@ -41,14 +37,24 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
               {data.credits_earned} credits earned
             </div>
           )}
-          <div className="mt-4" style={{ height: "300px" }}>
-            <embed
-              src={data.certification_url}
-              type="application/pdf"
-              width="100%"
-              height="100%"
-              style={{ border: "none" }}
-            />
+          <div className="mt-4 relative w-full h-[500px] overflow-hidden">
+            {data.certification_url ? (
+              isPdf(data.certification_url) ? (
+                <embed
+                  src={`${data.certification_url}#toolbar=0&navpanes=0&scrollbar=0`}
+                  type="application/pdf"
+                  className="w-full h-full"
+                ></embed>
+              ) : (
+                <Image
+                  placeholder="empty"
+                  src={data.certification_url}
+                  alt="certificate"
+                  fill={true}
+                  priority={false}
+                />
+              )
+            ) : null}
           </div>
           <hr />
           <div className="flex justify-end mt-4">

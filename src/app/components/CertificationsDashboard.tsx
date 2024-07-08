@@ -42,6 +42,13 @@ export default function CertificationsDashboard() {
     "View / Download",
   ];
 
+  const externalCertificateHeaders = [
+    "Course Name",
+    "Institute Name",
+    "Completion Date",
+    "View/Download",
+  ];
+
   const tabs = [
     {
       value: "earnedCertificate",
@@ -110,7 +117,7 @@ export default function CertificationsDashboard() {
               />
               <TabContentData
                 data={data ?? []}
-                headers={headers}
+                headers={externalCertificateHeaders}
                 currentPage={externalCurrentPage}
                 type="certifications"
                 setCurrentPage={setExternalCurrentPage}

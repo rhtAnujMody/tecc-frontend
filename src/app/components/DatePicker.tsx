@@ -8,14 +8,15 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import CommonDialog from "./CommonDialog";
+import { TDatePickerModal } from "@/types";
 
-interface TDatePickerModal {
-  date: Date | undefined;
-  setDate: (date: Date | undefined) => void;
-}
-
-const DatePicker = ({ date, setDate }: TDatePickerModal) => {
+const DatePicker = ({
+  date,
+  setDate,
+  disableFutureDates = false,
+}: TDatePickerModal) => {
   const [open, setOpen] = useState(false);
+  const today = new Date();
   return (
     <>
       <div className="mb-5">
@@ -51,6 +52,7 @@ const DatePicker = ({ date, setDate }: TDatePickerModal) => {
               setOpen(false);
             }}
             initialFocus
+            disabled={disableFutureDates ? (date) => date > today : undefined}
           />
         </div>
       </CommonDialog>
