@@ -1,15 +1,8 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogOverlay,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { fetchApi } from "@/lib/api";
 import { TOGGLEPROGRESS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TContent } from "@/types";
-import { X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import lightBulb from "../../../../public/lightbulb.svg";
@@ -17,6 +10,7 @@ import paperClip from "../../../../public/paperclip.svg";
 import playCircle from "../../../../public/play-circle.svg";
 import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
+import CommonDialog from "../CommonDialog";
 import QuizDialog from "./QuizDialog";
 
 export default function CourseDetailContentItem({
@@ -192,45 +186,31 @@ export default function CourseDetailContentItem({
           </div>
         </div>
       </div>
-      {showVideoDialog && (
-        <Dialog open={showVideoDialog}>
-          <DialogOverlay>
-            <DialogContent className="max-w-4xl">
-              <div className="flex justify-between items-center">
-                <DialogTitle className="text-text-primary text-base font-semibold">
-                  {/* <span className="text-text-primary text-base"> */}
-                  {props.video_name}
-                  {/* </span> */}
-                </DialogTitle>
-                <X
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setShowVideoDialog(false);
-                  }}
-                ></X>
-              </div>
-              <video
-                controls
-                className="w-full h-full custom-video"
-                onEnded={() => {
-                  markVideoAsComplete();
-                }}
-                onError={(e) => {
-                  toast({
-                    title: "Error",
-                    variant: "destructive",
-                    description:
-                      "Video file not found or file might be corrupted",
-                  });
-                }}
-                controlsList="nodownload"
-              >
-                <source src={props.video_url} type="video/mp4" />
-              </video>
-            </DialogContent>
-          </DialogOverlay>
-        </Dialog>
-      )}
+      <CommonDialog
+        open={showVideoDialog}
+        closeDialog={() => setShowVideoDialog(false)}
+        title={props.video_name}
+        classes="max-w-5xl"
+      >
+        <video
+          controls
+          className="w-full h-full custom-video"
+          onEnded={() => {
+            markVideoAsComplete();
+          }}
+          controlsList="nodownload"
+          onError={(e) => {
+            toast({
+              title: "Error",
+              variant: "destructive",
+              description: "Video file not found or file might be corrupted",
+            });
+          }}
+        >
+          <source src={props.video_url} type="video/mp4" />
+        </video>
+      </CommonDialog>
+
       {showQuizDialog && (
         <QuizDialog
           questions={props.questions}

@@ -2,10 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TCertifications } from "@/types";
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Loader from "./Loader";
 import TabContentData from "./TabContentData";
 import { fetcher } from "@/lib/api";
+import UploadCertificateModal from "./UploadCertificateModal";
 
 import {
   INTERNALCERTIFICATIONSEARNED,
@@ -20,9 +21,18 @@ export default function CertificationsDashboard() {
     ? EXTERNALCERTIFICATIONSEARNED
     : INTERNALCERTIFICATIONSEARNED;
 
-  const { data, error, isLoading } = useSWR(api, (url: string) =>
+  const { data, error, isLoading, isValidating } = useSWR(api, (url: string) =>
     fetcher<TCertifications[]>(url)
   );
+
+  const handleCloseDialog = () => {
+    setShowDialog(false);
+    setExternalCurrentPage(1);
+    // Re-fetch the external certificates data when dialog closes
+    if (isExternal) {
+      mutate(EXTERNALCERTIFICATIONSEARNED);
+    }
+  };
 
   const headers = [
     "Course Name",
@@ -30,6 +40,13 @@ export default function CertificationsDashboard() {
     "Completion Date",
     "Credits Earned",
     "View / Download",
+  ];
+
+  const externalCertificateHeaders = [
+    "Course Name",
+    "Institute Name",
+    "Completion Date",
+    "View/Download",
   ];
 
   const tabs = [
@@ -47,6 +64,9 @@ export default function CertificationsDashboard() {
 
   const [earnedcurrentPage, setEarnedCurrentPage] = useState(1);
   const [externalCurrentPage, setExternalCurrentPage] = useState(1);
+
+  //dialog box settings
+  const [showDialog, setShowDialog] = useState(false);
 
   if (error) return <Error />;
 
@@ -74,20 +94,21 @@ export default function CertificationsDashboard() {
               ))}
             </TabsList>
 
-            <TabsContent value="externalCertificate" className="mt-0">
-              <Button className="w-40" type="submit">
-                Upload Certificate
-              </Button>
-            </TabsContent>
+            <UploadCertificateModal
+              setShowDialog={setShowDialog}
+              open={showDialog}
+              title=""
+              onClose={handleCloseDialog}
+            />
           </div>
-          {isLoading || !data ? (
+          {isLoading || isValidating ? (
             <div className="flex flex-1 h-full justify-center items-center ">
               <Loader />
             </div>
           ) : (
             <>
               <TabContentData
-                data={data}
+                data={data ?? []}
                 headers={headers}
                 currentPage={earnedcurrentPage}
                 type="certifications"
@@ -95,8 +116,8 @@ export default function CertificationsDashboard() {
                 tabValue="earnedCertificate"
               />
               <TabContentData
-                data={data}
-                headers={headers}
+                data={data ?? []}
+                headers={externalCertificateHeaders}
                 currentPage={externalCurrentPage}
                 type="certifications"
                 setCurrentPage={setExternalCurrentPage}

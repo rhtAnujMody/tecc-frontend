@@ -1,5 +1,5 @@
 export const API_BASE_URL =
-  "http://ec2-3-111-27-109.ap-south-1.compute.amazonaws.com/api/";
+  "https://7c04-125-21-77-42.ngrok-free.app/api/";
 export const TIMEOUT = 5000;
 export const createAPIEndpoint = (path: string) => {
   return `${API_BASE_URL}${path}`;
@@ -30,6 +30,7 @@ export const EXTERNALCERTIFICATIONSEARNED = "v1/externalCertificate/";
 export const KNOWLEDGEBANK = "v1/knowledgeBank/";
 export const GETDROPDOWN = "v1/dropdown/?filter=";
 export const CASESTUDY = "v1/caseStudy/";
+export const UPLOADCERTIFICATE = "v1/externalCertificate/uploadCertification/"
 
 //dashboard items
 export const ITEMSPERPAGE = 5;
