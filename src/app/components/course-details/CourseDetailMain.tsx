@@ -24,7 +24,6 @@ function CourseDetailsMain({ id }: { id: string }) {
     {
       onSuccess(data, key, config) {
         console.log("on success");
-        console.log("dta", data);
         if (data.is_CourseCompleted) {
           updateUserData(user!, true);
         }
