@@ -12,10 +12,12 @@ import Image from "next/image";
 import { useState } from "react";
 import useSWR from "swr";
 import Error from "../Error";
+import CommonDialog from "../CommonDialog";
 
 function CourseDetailsMain({ id }: { id: string }) {
   const { updateUserData, user } = useUserContext();
   const [isEnrollLoading, setIsEnrollLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const { data, error, isLoading, mutate, isValidating } = useSWR(
     `${COURSEDETAIL}${id}/`,
     (url) => fetcher<TCourse>(url),
@@ -123,12 +125,31 @@ function CourseDetailsMain({ id }: { id: string }) {
                 {/* <Loader className="self-center" /> */}
               </div>
               {data.is_CourseCompleted && (
-                <a
-                  href="https://drive.google.com/file/d/1yuAxSRZ8jK8bk-yrL61op-xEgQg4PWb1/view?usp=sharing"
-                  target="_blank"
-                >
-                  <Button className="w-40">View Certificate</Button>
-                </a>
+                <>
+                  <Button
+                    className="w-40"
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    View Certificate
+                  </Button>
+                  <CommonDialog
+                    open={open}
+                    closeDialog={() => {
+                      setOpen(false);
+                    }}
+                    classes="max-w-3xl"
+                  >
+                    <div className="mt-4 relative w-full h-[500px] overflow-hidden">
+                      <embed
+                        src={`${data.certification_url}#toolbar=0&navpanes=0&scrollbar=0`}
+                        type="application/pdf"
+                        className="w-full h-full"
+                      ></embed>
+                    </div>
+                  </CommonDialog>
+                </>
               )}
             </div>
           )}
