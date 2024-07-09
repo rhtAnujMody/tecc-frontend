@@ -92,7 +92,7 @@ export type TCourse = {
   sections?: TSection[];
   course_progress?: number;
   buttonText?: string;
-  certification_url: string;
+  certification_url?: string;
 };
 
 export type TCertifications = {
