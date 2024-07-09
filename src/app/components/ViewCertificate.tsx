@@ -3,10 +3,7 @@ import CommonDialog from "./CommonDialog";
 import { Button } from "@/components/ui/button";
 import { TCertifications } from "@/types";
 import Image from "next/image";
-
-interface ViewCertificateProps {
-  data: TCertifications;
-}
+import { ViewCertificateProps } from "@/types";
 
 export default function ViewCertificate({ data }: ViewCertificateProps) {
   const [open, setOpen] = useState(false);
@@ -23,7 +20,7 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
       </Button>
       <CommonDialog
         open={open}
-        setDefault={() => {
+        closeDialog={() => {
           setOpen(false);
         }}
         classes="max-w-3xl"

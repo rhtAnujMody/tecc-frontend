@@ -39,7 +39,7 @@ const DatePicker = ({
       <CommonDialog
         open={open}
         classes="w-fit p-2"
-        setDefault={() => {
+        closeDialog={() => {
           setOpen(false);
         }}
       >

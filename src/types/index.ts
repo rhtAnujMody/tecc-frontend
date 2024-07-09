@@ -254,7 +254,7 @@ export interface CommonDialogProps {
   onClose?: () => void; 
   children: ReactNode;
   classes?:string | null;
-  setDefault:() => void; 
+  closeDialog:() => void; 
 }
 
 export interface TDatePicker {
@@ -273,4 +273,8 @@ export interface TDatePickerModal {
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
   disableFutureDates?: boolean;
+}
+
+export interface ViewCertificateProps {
+  data: TCertifications;
 }

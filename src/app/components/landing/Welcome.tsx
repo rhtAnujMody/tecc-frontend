@@ -11,7 +11,7 @@ export default function Welcome() {
           {`Welcome to Reveal \nAcademy`}
         </p>
         <p className="text-textPrimary text-xl font-normal mt-5">
-          Bridging the divide between Healthcare & Technology. Empowering
+          Bridging the gap between Healthcare & Technology. Empowering
           professionals with cutting-edge skills and knowledge.
         </p>
         <div className="mt-5">

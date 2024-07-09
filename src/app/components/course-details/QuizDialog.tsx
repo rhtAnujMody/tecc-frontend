@@ -78,7 +78,7 @@ export default function QuizDialog({
   return (
     <CommonDialog
       title={title}
-      setDefault={() => {
+      closeDialog={() => {
         closeQuiz(false);
       }}
       open={showDialog}

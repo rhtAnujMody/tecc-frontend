@@ -28,65 +28,50 @@ export default function AppTable({
 
   const courseCell = (val: string | number) => {
     return (
-      <TableCell className="text-sm font-medium text-text-primary">
-        <div className="flex items-center gap-2">
-          <Image
-            src={certificate}
-            alt="image"
-            width={50}
-            height={50}
-            priority={false}
-          />
-          <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
-            {val}
-          </div>
+      <div className="flex items-center gap-2">
+        <Image
+          src={certificate}
+          alt="image"
+          width={50}
+          height={50}
+          priority={false}
+        />
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
+          {val}
         </div>
-      </TableCell>
-    );
-  };
-
-  const completionDateCell = (val: string | number) => {
-    const formattedDate = new Date(val).toLocaleDateString();
-    return (
-      <TableCell className="text-sm font-medium text-text-primary">
-        {formattedDate}
-      </TableCell>
+      </div>
     );
   };
 
   const creditsCell = (val: string | number) => {
     return (
-      <TableCell className="text-sm font-medium text-text-primary">
-        <div className="flex items-center gap-2">
-          <Image
-            src={trophy}
-            alt="image"
-            width={20}
-            height={20}
-            priority={false}
-          />
-          {val}
-        </div>
-      </TableCell>
+      <div className="flex items-center gap-2">
+        <Image
+          src={trophy}
+          alt="image"
+          width={20}
+          height={20}
+          priority={false}
+        />
+        {val}
+      </div>
     );
   };
 
   const viewBtnCell = (row: TCertifications) => {
     return (
-      <TableCell>
-        <div className="flex items-center gap-5">
-          <ViewCertificate data={row} />
+      <div className="flex items-center gap-5">
+        <ViewCertificate data={row} />
 
-          <Image
-            src={download}
-            alt="image"
-            width={20}
-            height={20}
-            priority={false}
-            className="hidden"
-          />
-        </div>
-      </TableCell>
+        <Image
+          src={download}
+          alt="image"
+          width={20}
+          height={20}
+          priority={false}
+          className="hidden"
+        />
+      </div>
     );
   };
 
@@ -112,22 +97,29 @@ export default function AppTable({
                 return null;
               }
 
-              return key === "course_name" ? (
-                courseCell(value)
-              ) : key === "course_completion_date" ? (
-                completionDateCell(value)
-              ) : key === "credits_earned" ? (
-                creditsCell(value)
-              ) : key === "certification_url" ? (
-                viewBtnCell(row)
-              ) : (
+              // Determine the content to be rendered based on the key
+              let cellContent;
+              if (key === "course_name") {
+                cellContent = courseCell(value);
+              } else if (key === "course_completion_date") {
+                cellContent = new Date(value).toLocaleDateString();
+              } else if (key === "credits_earned") {
+                cellContent = creditsCell(value);
+              } else if (key === "certification_url") {
+                cellContent = viewBtnCell(row);
+              } else {
+                cellContent = (
+                  <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
+                    {value}
+                  </div>
+                );
+              }
+              return (
                 <TableCell
                   key={key}
                   className="text-sm font-medium text-text-primary"
                 >
-                  <div className="overflow-hidden text-ellipsis whitespace-nowrap w-44">
-                    {value}
-                  </div>
+                  {cellContent}
                 </TableCell>
               );
             })}

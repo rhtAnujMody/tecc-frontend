@@ -52,12 +52,6 @@ export default function CoursesWeOffer() {
           <p className="text-textPrimary font-semibold text-4xl">
             {`Couses We Offer`}
           </p>
-          <p className="mt-5">
-            Reveal Academy is an initiative by Reveal Healthtech to bridge the
-            gap between healthcare and technology. Our mission is to empower
-            professionals with the knowledge and skills needed to craft
-            value-based solutions in the healthtech sector.
-          </p>
         </div>
       </div>
       <div className="mt-10 flex gap-5 text-white overflow-x-auto">

@@ -188,7 +188,7 @@ export default function CourseDetailContentItem({
       </div>
       <CommonDialog
         open={showVideoDialog}
-        setDefault={() => setShowVideoDialog(false)}
+        closeDialog={() => setShowVideoDialog(false)}
         title={props.video_name}
         classes="max-w-5xl"
       >

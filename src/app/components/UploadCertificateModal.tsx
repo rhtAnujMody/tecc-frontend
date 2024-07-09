@@ -28,6 +28,8 @@ export default function UploadCertificateModal({
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const { toast } = useToast();
 
   const handleInstituteNameChange = (
@@ -47,8 +49,6 @@ export default function UploadCertificateModal({
       duration: 2000,
     });
   };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -177,7 +177,7 @@ export default function UploadCertificateModal({
       <CommonDialog
         open={open}
         classes="w-[500px] bg-greyBackground"
-        setDefault={setDefault}
+        closeDialog={setDefault}
       >
         <div className="w-[372px] mx-auto">
           <div className="text-center text-text-header text-2xl font-semibold">

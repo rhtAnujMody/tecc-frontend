@@ -13,10 +13,10 @@ export default function CommonDialog({
   title,
   children,
   classes,
-  setDefault,
+  closeDialog,
 }: CommonDialogProps) {
   return (
-    <Dialog open={open} onOpenChange={setDefault}>
+    <Dialog open={open} onOpenChange={closeDialog}>
       <DialogContent className={cn(classes)}>
         <div className="flex justify-between items-center relative">
           {title !== "" && (
@@ -26,7 +26,7 @@ export default function CommonDialog({
           )}
           <X
             className="cursor-pointer absolute right-0 top-1"
-            onClick={setDefault}
+            onClick={closeDialog}
           ></X>
         </div>
 
