@@ -8,10 +8,14 @@ export default function AboutRevealAcademy() {
         {`About Reveal Academy`}
       </p>
       <p className="text-textPrimary text-xl font-normal mt-5 max-w-[800px] text-center">
-        Reveal Academy is an initiative by Reveal Healthtech to bridge the gap
-        between healthcare and technology. Our mission is to empower
-        professionals with the knowledge and skills needed to craft solutions in
-        the healthtech sector.
+        Reveal Academy, an initiative by Reveal HealthTech, is your one-stop
+        solution for comprehensive knowledge transfer, specialized courses,
+        product knowledge, insightful case studies, and industry-recognized
+        certifications. Our platform is designed to empower healthcare
+        professionals and technologists with the expertise and skills needed to
+        excel in the dynamic HealthTech sector. Join us to stay ahead with
+        cutting-edge education and practical insights, bridging the divide
+        between healthcare and technology.
       </p>
       <Image
         placeholder="empty"

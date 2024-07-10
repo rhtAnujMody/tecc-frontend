@@ -63,14 +63,15 @@ export default function AppTable({
       <div className="flex items-center gap-5">
         <ViewCertificate data={row} />
 
-        <Image
-          src={download}
-          alt="image"
-          width={20}
-          height={20}
-          priority={false}
-          className="hidden"
-        />
+        <a href={row.certification_url_download} download>
+          <Image
+            src={download}
+            alt="image"
+            width={20}
+            height={20}
+            priority={false}
+          />
+        </a>
       </div>
     );
   };
