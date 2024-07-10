@@ -54,9 +54,13 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
             ) : null}
           </div>
           <hr />
-          <div className="flex justify-end mt-4">
+          <a
+            href={data.certification_url_download}
+            download
+            className="flex justify-end mt-4"
+          >
             <Button className="w-24">Download</Button>
-          </div>
+          </a>
         </div>
       </CommonDialog>
     </>

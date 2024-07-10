@@ -93,7 +93,7 @@ export default function AppTable({
         {currentData.map((row) => (
           <TableRow key={row.id}>
             {Object.entries(row).map(([key, value], i) => {
-              if (i > 5 || i === 0) {
+              if (i > 5 || i === 0 || key === "certification_url_download") {
                 return null;
               }
 

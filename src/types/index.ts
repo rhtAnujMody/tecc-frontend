@@ -104,6 +104,7 @@ export type TCertifications = {
   course_category?: string;
   credits_earned?: number;
   completion_date?: string;
+  certification_url_download?:string;
 };
 
 export interface TSection {
