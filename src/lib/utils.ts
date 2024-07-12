@@ -45,7 +45,7 @@ export const getInitials = (str1: string, str2: string) => {
   return `${str1.charAt(0) + str2.charAt(0)}`;
 };
 
-export const capitalizeFirstChar = (str1?: string) => {
+export const capitializeFirstChar = (str1?: string) => {
   if (!str1) {
     return;
   }
@@ -59,7 +59,7 @@ export const setLocalData = (key: string, data: string) => {
 };
 
 export const getLocalData = (key: string) => {
-  if (localStorage) {
+  if (typeof window !== "undefined") {
     return localStorage.getItem(key);
   }
 
@@ -67,7 +67,7 @@ export const getLocalData = (key: string) => {
 };
 
 export const deleteLocalData = () => {
-  if (typeof localStorage !== 'undefined') {
+  if (localStorage) {
     localStorage.clear();
   }
 };
