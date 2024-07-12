@@ -11,6 +11,7 @@ import React, { useRef, useState, useTransition } from "react";
 import EditIcon from "../../../public/EditIcon.svg";
 import lady from "../../../public/landing-girl.svg";
 import { signUpUser } from "../actions/auth_actions";
+import { compressImage } from "@/lib/utils";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -27,7 +28,7 @@ export default function SignUp() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
@@ -35,11 +36,16 @@ export default function SignUp() {
         showErrorToast("Please select a valid image file.");
         return;
       }
+      // Compress the image
+      try {
+        const compressedFile = await compressImage(file);
 
-      const newPhotoSrc = URL.createObjectURL(file);
-
-      setPhotoSrc(newPhotoSrc);
-      setPhotoFile(file);
+        const newPhotoSrc = URL.createObjectURL(compressedFile);
+        setPhotoSrc(newPhotoSrc);
+        setPhotoFile(compressedFile);
+      } catch (error) {
+        showErrorToast("Error compressing image. Please try again.");
+      }
     }
   };
 
@@ -120,20 +126,17 @@ export default function SignUp() {
 
           const keys = Object.keys(errorObj);
           let errMessage = "";
-          // Check if there is at least one key and if its value is an array with at least one element
           if (
             keys.length > 0 &&
             Array.isArray(errorObj[keys[0]]) &&
             errorObj[keys[0]].length > 0
           ) {
-            // Access the first key directly and get its first error message
             errMessage = errorObj[keys[0]][0];
           } else {
             errMessage =
               "Something unexpected error occurred. Please try again later.";
           }
 
-          // Show an error toast with a message
           toast({
             title: "Error",
             description: errMessage,
@@ -188,7 +191,7 @@ export default function SignUp() {
         <span className="text-text-primary mt-3">
           Please enter your details
         </span>
-        <div className="justify-center items-center mt-5 cursor-pointer bg-white rounded-full relative h-20 w-20 hidden">
+        <div className="justify-center items-center mt-5 cursor-pointer bg-white rounded-full relative h-20 w-20">
           <Image
             src={photoSrc}
             fill={true}

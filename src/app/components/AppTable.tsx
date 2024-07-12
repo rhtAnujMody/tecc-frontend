@@ -14,6 +14,7 @@ import trophy from "../../../public/credit.svg";
 import download from "../../../public/download.svg";
 import certificate from "../../../public/miniCertificate.svg";
 import ViewCertificate from "./ViewCertificate";
+import { dateGenerator } from "@/lib/utils";
 
 export default function AppTable({
   headers,
@@ -103,7 +104,7 @@ export default function AppTable({
               if (key === "course_name") {
                 cellContent = courseCell(value);
               } else if (key === "course_completion_date") {
-                cellContent = new Date(value).toLocaleDateString();
+                cellContent = dateGenerator(value);
               } else if (key === "credits_earned") {
                 cellContent = creditsCell(value);
               } else if (key === "certification_url") {

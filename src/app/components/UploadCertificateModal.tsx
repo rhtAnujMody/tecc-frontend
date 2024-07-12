@@ -8,12 +8,13 @@ import Image from "next/image";
 import Upload from "../../../public/Upload.svg";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/ui/use-toast";
-import { checkIsEmpty } from "@/lib/utils";
+import { checkIsEmpty, dateGenerator } from "@/lib/utils";
 import DatePicker from "./DatePicker";
 import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
 import { ApiError } from "@/types";
 import certificate from "../../../public/miniCertificate.svg";
+import { compressImage } from "@/lib/utils";
 
 export default function UploadCertificateModal({
   setShowDialog,
@@ -50,7 +51,7 @@ export default function UploadCertificateModal({
     });
   };
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
@@ -59,8 +60,15 @@ export default function UploadCertificateModal({
       if (fileType === "application/pdf") {
         setPhotoSrc(certificate);
       } else if (validImageTypes.includes(fileType)) {
-        const newPhotoSrc = URL.createObjectURL(file);
-        setPhotoSrc(newPhotoSrc);
+        try {
+          const compressedFile = await compressImage(file);
+
+          const newPhotoSrc = URL.createObjectURL(compressedFile);
+          setPhotoSrc(newPhotoSrc);
+          setPhotoFile(compressedFile);
+        } catch (error) {
+          showErrorToast("Error compressing image. Please try again.");
+        }
       } else {
         showErrorToast("Please select a valid JPG, PNG, GIF, or PDF file.");
         return;
@@ -68,10 +76,6 @@ export default function UploadCertificateModal({
 
       setPhotoFile(file);
     }
-  };
-
-  const dateToString = (date: Date | undefined): string => {
-    return date ? date.toISOString().split("T")[0] : "";
   };
 
   const openFileExplorer = () => {
@@ -94,18 +98,19 @@ export default function UploadCertificateModal({
       if (
         checkIsEmpty(institueName) ||
         checkIsEmpty(courseName) ||
-        checkIsEmpty(dateToString(date))
+        checkIsEmpty(dateGenerator(date))
       ) {
         showErrorToast("All fields are mandatory");
         return;
       }
 
-      console.log("dsa", institueName, courseName, date);
-
       const formData = new FormData();
       formData.append("institution_name", institueName);
       formData.append("course_name", courseName);
-      formData.append("course_completion_date", dateToString(date));
+      formData.append(
+        "course_completion_date",
+        dateGenerator(date, "YYYY-MM-DD")
+      );
       if (photoFile) {
         formData.append("file", photoFile);
       }
