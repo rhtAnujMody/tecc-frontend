@@ -71,7 +71,12 @@ export default function UploadCertificateModal({
   };
 
   const dateToString = (date: Date | undefined): string => {
-    return date ? date.toISOString().split("T")[0] : "";
+    if (!date) return "";
+
+    const localDate = new Date(
+      date.getTime() - date.getTimezoneOffset() * 60000
+    );
+    return localDate.toISOString().split("T")[0];
   };
 
   const openFileExplorer = () => {
@@ -99,8 +104,6 @@ export default function UploadCertificateModal({
         showErrorToast("All fields are mandatory");
         return;
       }
-
-      console.log("dsa", institueName, courseName, date);
 
       const formData = new FormData();
       formData.append("institution_name", institueName);
