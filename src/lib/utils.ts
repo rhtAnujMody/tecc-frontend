@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import imageCompression from 'browser-image-compression';
+import dayjs from "dayjs";
 
 export const compressImage = async (imageFile: File): Promise<File> => {
   const options = {
@@ -71,3 +72,7 @@ export const deleteLocalData = () => {
     localStorage.clear();
   }
 };
+
+export const dateGenerator = (date: dayjs.ConfigType, type: string = "DD-MM-YYYY") => {
+  return dayjs(date).format(type);
+}

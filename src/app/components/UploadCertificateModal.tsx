@@ -8,7 +8,7 @@ import Image from "next/image";
 import Upload from "../../../public/Upload.svg";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useToast } from "@/components/ui/use-toast";
-import { checkIsEmpty } from "@/lib/utils";
+import { checkIsEmpty, dateGenerator } from "@/lib/utils";
 import DatePicker from "./DatePicker";
 import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
@@ -78,15 +78,6 @@ export default function UploadCertificateModal({
     }
   };
 
-  const dateToString = (date: Date | undefined): string => {
-    if (!date) return "";
-
-    const localDate = new Date(
-      date.getTime() - date.getTimezoneOffset() * 60000
-    );
-    return localDate.toISOString().split("T")[0];
-  };
-
   const openFileExplorer = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -107,7 +98,7 @@ export default function UploadCertificateModal({
       if (
         checkIsEmpty(institueName) ||
         checkIsEmpty(courseName) ||
-        checkIsEmpty(dateToString(date))
+        checkIsEmpty(dateGenerator(date))
       ) {
         showErrorToast("All fields are mandatory");
         return;
@@ -116,7 +107,10 @@ export default function UploadCertificateModal({
       const formData = new FormData();
       formData.append("institution_name", institueName);
       formData.append("course_name", courseName);
-      formData.append("course_completion_date", dateToString(date));
+      formData.append(
+        "course_completion_date",
+        dateGenerator(date, "YYYY-MM-DD")
+      );
       if (photoFile) {
         formData.append("file", photoFile);
       }
