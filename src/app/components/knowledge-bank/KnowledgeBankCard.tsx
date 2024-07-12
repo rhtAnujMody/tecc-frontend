@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { TCaseStudy, TKnowledgeBank } from "@/types";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
@@ -11,8 +12,13 @@ export default function KnowledgeBankCard({
   fromCaseStudy: boolean;
 }) {
   return (
-    <a href={props.article.article_url} target="_blank">
-      <div className="h-[380px] min-w-[300px] flex flex-col rounded-lg border">
+    <a href={props.article.article_url} target="_blank" className="relative">
+      <div
+        className={cn(
+          "h-[380px] min-w-[300px] flex flex-col rounded-lg border",
+          !fromCaseStudy && "h-[420px]"
+        )}
+      >
         <Image
           src={props.thumbnail}
           className="rounded-lg "
@@ -39,6 +45,16 @@ export default function KnowledgeBankCard({
           <span className="line-clamp-3 text-base text-text-secondary font-normal">
             {props.description}
           </span>
+          {!fromCaseStudy && (
+            <div className="mt-2 absolute bottom-2">
+              <span className="text-xs text-text-secondary">
+                {`Posted By: `}
+                <span className="text-xs text-text-primary font-semibold">
+                  {(props as TKnowledgeBank).username}
+                </span>{" "}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </a>
