@@ -23,13 +23,18 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const checkIsEmpty = (value: string) => {
-  return !value || value.length === 0;
+  if (value && value.length > 0) {
+    return false;
+  }
+  return true;
 };
 
 export const validateEmail = (email: string) => {
-  return String(email).toLowerCase().match(
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
 };
 
 export const validateEmployeeId = (employeeID: string) => {
@@ -37,22 +42,24 @@ export const validateEmployeeId = (employeeID: string) => {
 };
 
 export const getInitials = (str1: string, str2: string) => {
-  return `${str1.charAt(0)}${str2.charAt(0)}`;
+  return `${str1.charAt(0) + str2.charAt(0)}`;
 };
 
 export const capitalizeFirstChar = (str1?: string) => {
-  if (!str1) return;
-  return `${str1.charAt(0).toUpperCase()}${str1.slice(1)}`;
+  if (!str1) {
+    return;
+  }
+  return `${str1.charAt(0).toUpperCase() + str1.slice(1)}`;
 };
 
 export const setLocalData = (key: string, data: string) => {
-  if (typeof localStorage !== 'undefined') {
+  if (localStorage) {
     localStorage.setItem(key, data);
   }
 };
 
 export const getLocalData = (key: string) => {
-  if (typeof window !== "undefined") {
+  if (localStorage) {
     return localStorage.getItem(key);
   }
 
