@@ -14,6 +14,7 @@ import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
 import { ApiError } from "@/types";
 import certificate from "../../../public/miniCertificate.svg";
+import { compressImage } from "@/lib/utils";
 
 export default function UploadCertificateModal({
   setShowDialog,
@@ -50,7 +51,7 @@ export default function UploadCertificateModal({
     });
   };
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
@@ -59,8 +60,15 @@ export default function UploadCertificateModal({
       if (fileType === "application/pdf") {
         setPhotoSrc(certificate);
       } else if (validImageTypes.includes(fileType)) {
-        const newPhotoSrc = URL.createObjectURL(file);
-        setPhotoSrc(newPhotoSrc);
+        try {
+          const compressedFile = await compressImage(file);
+
+          const newPhotoSrc = URL.createObjectURL(compressedFile);
+          setPhotoSrc(newPhotoSrc);
+          setPhotoFile(compressedFile);
+        } catch (error) {
+          showErrorToast("Error compressing image. Please try again.");
+        }
       } else {
         showErrorToast("Please select a valid JPG, PNG, GIF, or PDF file.");
         return;

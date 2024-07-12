@@ -44,7 +44,6 @@ export default function SignUp() {
         setPhotoSrc(newPhotoSrc);
         setPhotoFile(compressedFile);
       } catch (error) {
-        console.error("Error compressing image:", error);
         showErrorToast("Error compressing image. Please try again.");
       }
     }
