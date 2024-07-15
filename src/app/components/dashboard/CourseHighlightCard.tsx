@@ -1,4 +1,5 @@
 import { TCourseHightlights } from "@/types";
+import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import React from "react";
 
 export default function CourseHighlightCard({
@@ -9,13 +10,13 @@ export default function CourseHighlightCard({
 }: TCourseHightlights) {
   return (
     <div
-      className={`flex flex-1 border p-7 flex-col rounded-md min-h-[150px] justify-between`}
+      className={`flex flex-1 border p-7 flex-col rounded-md h-[150px]`}
       style={{ borderColor: color }}
     >
-      <span className="text-text-primary font-semibold text-base">
+      <span className="text-text-primary font-semibold text-base ">
         {header}
       </span>
-      <span className="text-4xl font-semibold" style={{ color: color }}>
+      <span className="text-4xl font-semibold mt-7" style={{ color: color }}>
         {value}
       </span>
       {/* <span className="text-text-secondary text-sm font-medium">{desc}</span> */}

@@ -1,5 +1,5 @@
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export default interface ModulesWeOffer {
   header: string;
@@ -104,7 +104,7 @@ export type TCertifications = {
   course_category?: string;
   credits_earned?: number;
   completion_date?: string;
-  certification_url_download?:string;
+  certification_url_download?: string;
 };
 
 export interface TSection {
@@ -224,7 +224,18 @@ export type TKnowledgeBank = {
   thumbnail: string;
   title: string;
   description: string;
+  username: string;
+  contributors:Contributor[];
 };
+
+export type Contributor = {
+  first_name: string;
+  last_name: string;
+};
+
+export interface ContributorProps {
+  contributors: Contributor[];
+}
 
 export type TDropdown = {
   id: string;
@@ -253,10 +264,10 @@ export type TCaseStudy = {
 export interface CommonDialogProps {
   open: boolean;
   title?: string;
-  onClose?: () => void; 
+  onClose?: () => void;
   children: ReactNode;
-  classes?:string | null;
-  closeDialog:() => void; 
+  classes?: string | null;
+  closeDialog: () => void;
 }
 
 export interface TDatePicker {
@@ -265,10 +276,10 @@ export interface TDatePicker {
 }
 
 export interface TUploadCertificateModal {
-  setShowDialog:(isVisible: boolean) => void;
+  setShowDialog: (isVisible: boolean) => void;
   open: boolean;
   title: string;
-  onClose: () => void; 
+  onClose: () => void;
 }
 
 export interface TDatePickerModal {
