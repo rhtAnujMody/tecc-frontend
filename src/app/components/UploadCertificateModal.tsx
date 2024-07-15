@@ -213,9 +213,11 @@ export default function UploadCertificateModal({
                 style={{ display: "none" }}
                 onChange={handlePhotoChange}
               />
-              <div className="flex-1 bg-white px-5 py-2 rounded-lg font-normal text-sm text-text-descColor">
-                <span style={{ color: "#3498DB" }}>Click to upload</span> or
-                drag and drop PNG, JPG or PDF (max. 800x400px)
+              <div className="flex-1 bg-white px-2 py-6 rounded-lg font-normal text-sm text-text-descColor ">
+                <span style={{ color: "#3498DB" }}>
+                  {`Click "+" to upload `}
+                </span>
+                PNG, JPG or PDF files
               </div>
             </div>
           </div>
