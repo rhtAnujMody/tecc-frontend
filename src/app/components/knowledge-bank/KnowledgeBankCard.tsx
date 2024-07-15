@@ -3,6 +3,7 @@ import { TCaseStudy, TKnowledgeBank } from "@/types";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import React from "react";
+import Contributor from "../Contributor";
 
 export default function KnowledgeBankCard({
   props,
@@ -45,16 +46,12 @@ export default function KnowledgeBankCard({
           <span className="line-clamp-3 text-base text-text-secondary font-normal">
             {props.description}
           </span>
-          {!fromCaseStudy && (
-            <div className="mt-2 absolute bottom-2">
-              <span className="text-xs text-text-secondary">
-                {`Posted By: `}
-                <span className="text-xs text-text-primary font-semibold">
-                  {(props as TKnowledgeBank).username}
-                </span>{" "}
-              </span>
-            </div>
-          )}
+          {!fromCaseStudy &&
+            (props as TKnowledgeBank).contributors.length !== 0 && (
+              <Contributor
+                contributors={(props as TKnowledgeBank).contributors}
+              />
+            )}
         </div>
       </div>
     </a>

@@ -225,7 +225,17 @@ export type TKnowledgeBank = {
   title: string;
   description: string;
   username: string;
+  contributors:Contributor[];
 };
+
+export type Contributor = {
+  first_name: string;
+  last_name: string;
+};
+
+export interface ContributorProps {
+  contributors: Contributor[];
+}
 
 export type TDropdown = {
   id: string;
