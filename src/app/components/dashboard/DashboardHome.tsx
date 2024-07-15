@@ -65,6 +65,12 @@ export default function DashboardHome({
   const headerCardItems = [
     {
       thumbnail: KnowledgeBank,
+      header: "Courses",
+      description:
+        "Explore a wealth of wisdom with our knowledge bank. Whether you’re driven by curiosity or ambition, discover the insights and tools you need to propel your learning journey. Your pursuit of knowledge begins here!",
+    },
+    {
+      thumbnail: KnowledgeBank,
       header: "Knowledge bank",
       description:
         "Explore a wealth of wisdom with our knowledge bank. Whether you’re driven by curiosity or ambition, discover the insights and tools you need to propel your learning journey. Your pursuit of knowledge begins here!",
@@ -74,12 +80,6 @@ export default function DashboardHome({
       header: "Case studies",
       description:
         "Uncover the impact of real-world success stories in our case studies. Witness how theory transforms into practice and gains invaluable insights from others’ challenges and victories. Learn from the best to become the best!",
-    },
-    {
-      thumbnail: Certifications,
-      header: "Certifications",
-      description:
-        "Celebrate your learning milestones with our certifications. Each badge and certificate represent your dedication and expertise, empowering you to stand out in your industry. Proudly showcase your hard-earned achievements!",
     },
   ];
   if (error) {
@@ -115,6 +115,7 @@ export default function DashboardHome({
                 onClick={() => {
                   onTopCardsClick(index);
                 }}
+                idx={index}
               />
             ))}
           </div>
