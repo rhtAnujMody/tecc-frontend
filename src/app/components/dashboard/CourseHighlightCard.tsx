@@ -13,12 +13,9 @@ export default function CourseHighlightCard({
       className={`flex flex-1 border p-7 flex-col rounded-md h-[150px]`}
       style={{ borderColor: color }}
     >
-      <div className="flex justify-between items-center">
-        <span className="text-text-primary font-semibold text-base ">
-          {header}
-        </span>
-        <ArrowTopRightIcon width={20} height={20} />
-      </div>
+      <span className="text-text-primary font-semibold text-base ">
+        {header}
+      </span>
       <span className="text-4xl font-semibold mt-7" style={{ color: color }}>
         {value}
       </span>
