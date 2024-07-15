@@ -1,17 +1,9 @@
 import React from "react";
 import { ContributorProps } from "@/types";
+import { formatContributors } from "@/lib/utils";
 
 const Contributor = ({ contributors }: ContributorProps) => {
-  const formattedContributors = contributors.map((contributor, index) => {
-    const name = `${contributor.first_name} ${contributor.last_name[0]}`;
-
-    return (
-      <>
-        {name}
-        {index < contributors.length - 1 && ", "}
-      </>
-    );
-  });
+  const formattedContributors = formatContributors(contributors);
 
   return (
     <div className="mt-2 absolute bottom-2">
