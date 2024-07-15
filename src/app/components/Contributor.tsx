@@ -6,10 +6,10 @@ const Contributor = ({ contributors }: ContributorProps) => {
     const name = `${contributor.first_name} ${contributor.last_name[0]}`;
 
     return (
-      <span key={index}>
+      <>
         {name}
         {index < contributors.length - 1 && ", "}
-      </span>
+      </>
     );
   });
 
