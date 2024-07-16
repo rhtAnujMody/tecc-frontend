@@ -5,9 +5,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import useSWR from "swr";
+import Courses from "../../../../public/Courses.svg";
 import CaseStudies from "../../../../public/CaseStudies.svg";
-import Certifications from "../../../../public/Certifications.svg";
-import KnowledgeBank from "../../../../public/KnowledgeBank.svg";
+import KnowledgeBank from "../../../../public/knowledgebank.jpg";
 import Course from "../Course";
 import CourseCard from "../CourseCard";
 import DashboardBanner from "../DashboardBanner";
@@ -64,10 +64,10 @@ export default function DashboardHome({
 
   const headerCardItems = [
     {
-      thumbnail: KnowledgeBank,
+      thumbnail: Courses,
       header: "Courses",
       description:
-        "Explore a wealth of wisdom with our knowledge bank. Whether you’re driven by curiosity or ambition, discover the insights and tools you need to propel your learning journey. Your pursuit of knowledge begins here!",
+        "Elevate your expertise with our extensive selection of courses across diverse fields. Embark on a journey of learning with our comprehensive courses. Start today to unlock new opportunities for personal and professional growth.",
     },
     {
       thumbnail: KnowledgeBank,
