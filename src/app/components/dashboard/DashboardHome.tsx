@@ -1,5 +1,5 @@
-import { DASHBOARD } from "@/lib/constants";
 import { fetcher } from "@/lib/api";
+import { DASHBOARD } from "@/lib/constants";
 import { TCourse, TDashboard } from "@/types";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,10 +11,10 @@ import KnowledgeBank from "../../../../public/KnowledgeBank.svg";
 import Course from "../Course";
 import CourseCard from "../CourseCard";
 import DashboardBanner from "../DashboardBanner";
+import Error from "../Error";
 import Loader from "../Loader";
 import CourseHighlights from "./CourseHighlights";
 import SectionHeaders from "./SectionHeaders";
-import Error from "../Error";
 
 export default function DashboardHome({
   onCategoryCardClick,
