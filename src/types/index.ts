@@ -170,6 +170,7 @@ export interface TCourseCard {
   header: string;
   description: string;
   onClick?: () => void;
+  idx:number;
 }
 
 export interface TDashBoardBanner {
