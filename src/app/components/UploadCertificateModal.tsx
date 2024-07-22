@@ -104,6 +104,11 @@ export default function UploadCertificateModal({
         return;
       }
 
+      if (!photoFile) {
+        showErrorToast("Please upload a certificate.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("institution_name", institueName);
       formData.append("course_name", courseName);

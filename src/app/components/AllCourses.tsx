@@ -10,10 +10,12 @@ export default function AllCourses({
   url,
   thumbnail,
   onCourseClick,
+  errMessage,
 }: {
   url: string;
   thumbnail?: string;
   onCourseClick: (items: TCourse) => void;
+  errMessage?: string;
 }) {
   const { data, error, isLoading, isValidating } = useSWR(url, (url) =>
     fetcher<TCourse[]>(url)
@@ -39,7 +41,7 @@ export default function AllCourses({
           })}
         </div>
       ) : (
-        <NoData />
+        <NoData errMessage={errMessage} />
       )}
     </div>
   );

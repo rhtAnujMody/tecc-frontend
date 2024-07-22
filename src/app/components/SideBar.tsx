@@ -213,10 +213,8 @@ export default function SideBar() {
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-text-primary font-semibold text-base">
-                {userData && userData.first_name + " " + userData.last_name}
-              </span>
-              <span className="text-text-primary font-normal text-sm">
-                {userData && userData.email}
+                {userData &&
+                  userData.first_name + " " + userData.last_name?.charAt(0)}
               </span>
             </div>
           </div>
