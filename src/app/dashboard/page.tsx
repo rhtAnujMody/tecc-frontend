@@ -123,6 +123,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No enrolled courses"
           />
         );
 
@@ -133,6 +134,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No pending courses"
           />
         );
 
@@ -143,6 +145,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No completed courses"
           />
         );
       case 13:
