@@ -1,6 +1,24 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { TOKEN } from "./constants";
+import imageCompression from 'browser-image-compression';
+import dayjs from "dayjs";
+import { Contributor } from "@/types";
+
+export const compressImage = async (imageFile: File): Promise<File> => {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressedFile = await imageCompression(imageFile, options);
+    return compressedFile;
+  } catch (error) {
+    console.error('Error compressing image:', error);
+    throw error;
+  }
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -54,4 +72,16 @@ export const deleteLocalData = () => {
   if (localStorage) {
     localStorage.clear();
   }
+};
+
+export const dateGenerator = (date: dayjs.ConfigType, type: string = "DD-MM-YYYY") => {
+  return dayjs(date).format(type);
+}
+
+export const formatContributors = (contributors:Contributor[]) => {
+  return contributors.map((contributor, index) => {
+    const name = `${contributor.first_name} ${contributor.last_name[0]}`;
+
+    return index < contributors.length - 1 ? `${name}, ` : name;
+  }).join('');
 };

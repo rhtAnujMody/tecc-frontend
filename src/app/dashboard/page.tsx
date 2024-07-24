@@ -55,21 +55,10 @@ export default function Dashboard() {
   };
 
   const handleOnTopCardClick = (index: number) => {
+    if (index === 0) return;
     const newData = data.map((item, pos) => {
-      if ((index === 0 && pos === 3) || (index === 1 && pos === 2)) {
+      if ((index === 1 && pos === 3) || (index === 2 && pos === 2)) {
         return { ...item, isSelected: true };
-      } else if (pos === 1 && index == 2) {
-        return {
-          ...item,
-          isSelected: true,
-          subItems:
-            item.subItems?.map((subItem, subPos) => {
-              return {
-                ...subItem,
-                isSelected: subPos === 3,
-              };
-            }) || null,
-        };
       }
       return {
         ...item,
@@ -82,14 +71,11 @@ export default function Dashboard() {
       };
     });
     switch (index) {
-      case 0:
+      case 1:
         updateSideBar(newData, 3);
         break;
-      case 1:
-        updateSideBar(newData, 2);
-        break;
       case 2:
-        updateSideBar(newData, 13);
+        updateSideBar(newData, 2);
         break;
 
       default:
@@ -137,6 +123,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No enrolled courses"
           />
         );
 
@@ -147,6 +134,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No pending courses"
           />
         );
 
@@ -157,6 +145,7 @@ export default function Dashboard() {
             onCourseClick={({ id: courseId, title }) => {
               openCourse(courseId!, title!);
             }}
+            errMessage="No completed courses"
           />
         );
       case 13:

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { dateGenerator } from "@/lib/utils";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ const DatePicker = ({
           onClick={() => setOpen(true)}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? dateGenerator(date) : <span>Pick a date</span>}
         </Button>
       </div>
 
