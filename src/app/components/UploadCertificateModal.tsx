@@ -14,7 +14,7 @@ import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
 import { ApiError } from "@/types";
 import certificate from "../../../public/miniCertificate.svg";
-import { compressImage } from "@/lib/utils";
+import { isFileSizeValid } from "@/lib/utils";
 
 export default function UploadCertificateModal({
   setShowDialog,
@@ -61,11 +61,19 @@ export default function UploadCertificateModal({
         setPhotoSrc(certificate);
       } else if (validImageTypes.includes(fileType)) {
         try {
-          const compressedFile = await compressImage(file);
+          const fileSizeInMB = file.size / (1024 * 1024); // size in MB
 
-          const newPhotoSrc = URL.createObjectURL(compressedFile);
+          if (!isFileSizeValid(file, 1)) {
+            showErrorToast(
+              "The selected image is larger than 1 MB. Please select a smaller image."
+            );
+            return;
+          }
+
+          // If the size is within the limit, proceed
+          const newPhotoSrc = URL.createObjectURL(file);
           setPhotoSrc(newPhotoSrc);
-          setPhotoFile(compressedFile);
+          setPhotoFile(file);
         } catch (error) {
           showErrorToast("Error compressing image. Please try again.");
         }
@@ -218,7 +226,10 @@ export default function UploadCertificateModal({
                 style={{ display: "none" }}
                 onChange={handlePhotoChange}
               />
-              <div className="flex-1 bg-white px-2 py-6 rounded-lg font-normal text-sm text-text-descColor ">
+              <div
+                className="flex-1 bg-white px-2 py-6 rounded-lg font-normal text-sm text-text-descColor cursor-pointer"
+                onClick={openFileExplorer}
+              >
                 <span style={{ color: "#3498DB" }}>
                   {`Click "+" to upload `}
                 </span>
