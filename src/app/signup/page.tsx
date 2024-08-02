@@ -11,7 +11,6 @@ import React, { useRef, useState, useTransition } from "react";
 import EditIcon from "../../../public/EditIcon.svg";
 import lady from "../../../public/landing-girl.svg";
 import { signUpUser } from "../actions/auth_actions";
-import { compressImage } from "@/lib/utils";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -32,20 +31,26 @@ export default function SignUp() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const fileType = file.type;
+
       if (!fileType.startsWith("image/")) {
         showErrorToast("Please select a valid image file.");
         return;
       }
-      // Compress the image
-      try {
-        const compressedFile = await compressImage(file);
 
-        const newPhotoSrc = URL.createObjectURL(compressedFile);
-        setPhotoSrc(newPhotoSrc);
-        setPhotoFile(compressedFile);
-      } catch (error) {
-        showErrorToast("Error compressing image. Please try again.");
+      const fileSizeInMB = file.size / (1024 * 1024); // size in MB
+
+      // Check if the size exceeds 1 MB
+      if (fileSizeInMB > 1) {
+        showErrorToast(
+          "The selected image is larger than 1 MB. Please select a smaller image."
+        );
+        return;
       }
+
+      // If the size is within the limit, proceed
+      const newPhotoSrc = URL.createObjectURL(file);
+      setPhotoSrc(newPhotoSrc);
+      setPhotoFile(file);
     }
   };
 
@@ -191,23 +196,32 @@ export default function SignUp() {
         <span className="text-text-primary mt-3">
           Please enter your details
         </span>
-        <div className="justify-center items-center mt-5 cursor-pointer bg-white rounded-full relative h-20 w-20">
-          <Image
-            src={photoSrc}
-            fill={true}
-            alt="profileIcon"
-            placeholder="empty"
+        <div className="flex gap-4 mt-5">
+          <div className="justify-center items-center  cursor-pointer bg-white rounded-full relative h-20 w-20">
+            <Image
+              src={photoSrc}
+              fill={true}
+              alt="profileIcon"
+              placeholder="empty"
+              onClick={openFileExplorer}
+              style={{ borderRadius: "100%", objectFit: "scale-down" }}
+            />
+            <input
+              id="fileInput"
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handlePhotoChange}
+            />
+          </div>
+          <div
+            className="flex-1 bg-white px-4 py-4 rounded-lg font-normal text-md text-text-descColor max-w-80 cursor-pointer"
             onClick={openFileExplorer}
-            style={{ borderRadius: "100%", objectFit: "scale-down" }}
-          />
-          <input
-            id="fileInput"
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={handlePhotoChange}
-          />
+          >
+            <span style={{ color: "#3498DB" }}>{`Click "+" to upload `}</span>
+            PNG or JPG files (max 1MB file)
+          </div>
         </div>
         <div className="mt-5 w-full">
           <div className="flex gap-4">
