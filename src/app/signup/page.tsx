@@ -11,6 +11,7 @@ import React, { useRef, useState, useTransition } from "react";
 import EditIcon from "../../../public/EditIcon.svg";
 import lady from "../../../public/landing-girl.svg";
 import { signUpUser } from "../actions/auth_actions";
+import { isFileSizeValid } from "@/lib/utils";
 
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
@@ -37,10 +38,7 @@ export default function SignUp() {
         return;
       }
 
-      const fileSizeInMB = file.size / (1024 * 1024); // size in MB
-
-      // Check if the size exceeds 1 MB
-      if (fileSizeInMB > 1) {
+      if (!isFileSizeValid(file, 1)) {
         showErrorToast(
           "The selected image is larger than 1 MB. Please select a smaller image."
         );

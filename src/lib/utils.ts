@@ -3,6 +3,10 @@ import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
 import { Contributor } from "@/types";
 
+export const isFileSizeValid = (file: File, maxSizeMB: number): boolean => {
+  const fileSizeInMB = file.size / (1024 * 1024); // size in MB
+  return fileSizeInMB <= maxSizeMB;
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

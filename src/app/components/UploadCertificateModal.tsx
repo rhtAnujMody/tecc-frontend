@@ -14,6 +14,7 @@ import { fetchApi } from "@/lib/api";
 import { UPLOADCERTIFICATE } from "@/lib/constants";
 import { ApiError } from "@/types";
 import certificate from "../../../public/miniCertificate.svg";
+import { isFileSizeValid } from "@/lib/utils";
 
 export default function UploadCertificateModal({
   setShowDialog,
@@ -62,8 +63,7 @@ export default function UploadCertificateModal({
         try {
           const fileSizeInMB = file.size / (1024 * 1024); // size in MB
 
-          // Check if the size exceeds 1 MB
-          if (fileSizeInMB > 1) {
+          if (!isFileSizeValid(file, 1)) {
             showErrorToast(
               "The selected image is larger than 1 MB. Please select a smaller image."
             );
