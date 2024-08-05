@@ -50,7 +50,7 @@ export default function CoursesWeOffer() {
       <div className="flex flex-1 gap-10">
         <div className="flex basis-3/5 flex-col ">
           <p className="text-textPrimary font-semibold text-4xl">
-            {`Couses We Offer`}
+            {`Courses We Offer`}
           </p>
         </div>
       </div>
