@@ -198,7 +198,8 @@ export default function CourseDetailContentItem({
           onEnded={() => {
             markVideoAsComplete();
           }}
-          controlsList="nodownload"
+          controlsList="nodownload noremoteplayback noplaybackrate"
+          preload="metadata"
           onError={(e) => {
             toast({
               title: "Error",

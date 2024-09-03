@@ -75,7 +75,7 @@
   }
 }
 
-.custom-video::-webkit-media-controls-timeline,
+/* .custom-video::-webkit-media-controls-timeline,
 .custom-video::-webkit-media-controls-current-time-display,
 .custom-video::-webkit-media-controls-time-remaining-display {
   display: none !important;
@@ -84,4 +84,28 @@
 .custom-video::-webkit-media-controls-seek-back-button,
 .custom-video::-webkit-media-controls-seek-forward-button {
   display: none !important;
+} */
+
+.custom-video::-webkit-media-controls-timeline,
+.custom-video::-webkit-media-controls-current-time-display,
+.custom-video::-webkit-media-controls-time-remaining-display,
+.custom-video::-webkit-media-controls-seek-back-button,
+.custom-video::-webkit-media-controls-seek-forward-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+}
+
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .custom-video::-webkit-media-controls-timeline,
+    .custom-video::-webkit-media-controls-current-time-display,
+    .custom-video::-webkit-media-controls-time-remaining-display,
+    .custom-video::-webkit-media-controls-seek-back-button,
+    .custom-video::-webkit-media-controls-seek-forward-button {
+      display: none !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+    }
+  }
 }
