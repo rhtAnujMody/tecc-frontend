@@ -5,8 +5,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import useSWR from "swr";
-import Courses from "../../../../public/Courses.svg";
 import CaseStudies from "../../../../public/CaseStudies.svg";
+import Courses from "../../../../public/Courses.svg";
 import KnowledgeBank from "../../../../public/knowledgebank.jpg";
 import Course from "../Course";
 import CourseCard from "../CourseCard";
@@ -137,7 +137,11 @@ export default function DashboardHome({
                 <div key={value.id}>
                   <Course
                     {...value}
-                    count_of_lectures={`${value.count_of_lectures} lectures`}
+                    count_of_lectures={`${value?.count_of_lectures} ${
+                      parseInt(value?.count_of_lectures ?? "0") === 1
+                        ? "lecture"
+                        : "lectures"
+                    } `}
                     onClick={onCourseClick}
                   />
                 </div>

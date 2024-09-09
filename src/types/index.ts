@@ -93,6 +93,7 @@ export type TCourse = {
   course_progress?: number;
   buttonText?: string;
   certification_url?: string;
+  is_certification_allowed?: boolean;
 };
 
 export type TCertifications = {
@@ -170,7 +171,7 @@ export interface TCourseCard {
   header: string;
   description: string;
   onClick?: () => void;
-  idx:number;
+  idx: number;
 }
 
 export interface TDashBoardBanner {
@@ -226,7 +227,7 @@ export type TKnowledgeBank = {
   title: string;
   description: string;
   username: string;
-  contributors:Contributor[];
+  contributors: Contributor[];
 };
 
 export type Contributor = {

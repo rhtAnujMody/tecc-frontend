@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import CommonDialog from "./CommonDialog";
 import { Button } from "@/components/ui/button";
-import { TCertifications } from "@/types";
-import Image from "next/image";
 import { ViewCertificateProps } from "@/types";
+import Image from "next/image";
+import { useState } from "react";
+import CommonDialog from "./CommonDialog";
 
 export default function ViewCertificate({ data }: ViewCertificateProps) {
   const [open, setOpen] = useState(false);
@@ -41,7 +40,7 @@ export default function ViewCertificate({ data }: ViewCertificateProps) {
                   src={`${data.certification_url}#toolbar=0&navpanes=0&scrollbar=0`}
                   type="application/pdf"
                   className="w-full h-full"
-                ></embed>
+                />
               ) : (
                 <Image
                   placeholder="empty"

@@ -12,6 +12,7 @@ import time from "../../../../public/time.svg";
 import yellowLightBulb from "../../../../public/yellow-bulb.svg";
 import CommonDialog from "../CommonDialog";
 import QuizDialog from "./QuizDialog";
+import VideoPlayer from "../VideoPlayer";
 
 export default function CourseDetailContentItem({
   props,
@@ -192,8 +193,21 @@ export default function CourseDetailContentItem({
         title={props.video_name}
         classes="max-w-5xl"
       >
-        <video
-          controls
+        <VideoPlayer
+          videoSrc={props.video_url ?? ""}
+          onEnded={() => {
+            markVideoAsComplete();
+          }}
+          onError={(e) => {
+            toast({
+              title: "Error",
+              variant: "destructive",
+              description: "Video file not found or file might be corrupted",
+            });
+          }}
+        />
+        {/* <video
+        controls
           className="w-full h-full custom-video"
           onEnded={() => {
             markVideoAsComplete();
@@ -209,7 +223,7 @@ export default function CourseDetailContentItem({
           }}
         >
           <source src={props.video_url} type="video/mp4" />
-        </video>
+        </video> */}
       </CommonDialog>
 
       {showQuizDialog && (

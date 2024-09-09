@@ -1,21 +1,15 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogOverlay,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { fetchApi } from "@/lib/api";
 import { SUBMITANSWER } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ApiError, TQuizDialog, TSubmitAnswer } from "@/types";
 import { Cross2Icon, ReloadIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { Check, X } from "lucide-react";
+import { Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import Loader from "../Loader";
-import { fetchApi } from "@/lib/api";
 import CommonDialog from "../CommonDialog";
+import Loader from "../Loader";
 
 export default function QuizDialog({
   showDialog,
@@ -50,6 +44,7 @@ export default function QuizDialog({
         body: {
           question_id: "" + questions[currentIndex].id,
           selected_option: selectedAns,
+          question_number: `${currentIndex}`,
         },
       }
     );

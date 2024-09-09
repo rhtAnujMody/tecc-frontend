@@ -109,3 +109,12 @@
     }
   }
 }
+
+.plyr__progress {
+  display: none !important;
+}
+
+/* Hide the current time and duration display if needed */
+.plyr__time {
+  display: none !important;
+}
