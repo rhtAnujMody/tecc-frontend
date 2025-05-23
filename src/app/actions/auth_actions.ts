@@ -1,12 +1,7 @@
 "use server";
 import { fetchApi } from "@/lib/api";
-import {
-  FETCHUSER,
-  LOGIN,
-  SIGNUP,
-  TOKEN,
-} from "@/lib/constants";
-import { ApiError, Tokens, UserData } from "@/types";
+import { FETCHUSER, LOGIN, LOGINWITHTOKEN, SIGNUP } from "@/lib/constants";
+import { ApiError, TLoginResponseWithToken, Tokens, UserData } from "@/types";
 import { cookies } from "next/headers";
 
 export async function signInUser(email: string, password: string) {
@@ -23,10 +18,10 @@ export async function signInUser(email: string, password: string) {
 }
 
 export async function getUserData(token: string) {
-  const response = await fetchApi<UserData, ApiError>(
-    FETCHUSER,
-    { method: "GET", headers:{"Authorization":`Bearer ${token}`} }
-  );  
+  const response = await fetchApi<UserData, ApiError>(FETCHUSER, {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
   if (response.ok) {
     cookies().set("isLoggedIn", "true", { httpOnly: true });
@@ -37,16 +32,31 @@ export async function getUserData(token: string) {
   return response;
 }
 
-export async function signUpUser(
-  formData: FormData
-) {
+export async function signUpUser(formData: FormData) {
+  const response = await fetchApi<UserData, ApiError>(SIGNUP, {
+    method: "POST",
+    body: formData,
+  });
+  return response;
+}
 
-  const response = await fetchApi<UserData, ApiError>(
-    SIGNUP,
+export async function loginInUser(accessToken: string) {
+  const response = await fetchApi<TLoginResponseWithToken, ApiError>(
+    LOGINWITHTOKEN,
     {
       method: "POST",
-      body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     }
   );
+
+  if (response.ok) {
+    cookies().set("isLoggedIn", "true", { httpOnly: true });
+    cookies().set("userData", JSON.stringify(response.data), {
+      httpOnly: true,
+    });
+  }
+
   return response;
 }

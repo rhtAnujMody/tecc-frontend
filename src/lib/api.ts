@@ -1,7 +1,5 @@
-
-import { TOKEN } from "./constants";
+import { createAPIEndpoint, TOKEN } from "./constants";
 import { getLocalData } from "./utils";
-import { createAPIEndpoint } from "./constants";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -17,7 +15,6 @@ interface FetchResponse<T, E> {
   ok: boolean;
   error?: E | string;
 }
-
 
 export const fetchApi = async <TResponse, TError>(
   url: string,
@@ -38,14 +35,16 @@ export const fetchApi = async <TResponse, TError>(
     headers: {
       ...authHeaders,
       ...headers,
-      ...(body && !(body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
+      ...(body && !(body instanceof FormData)
+        ? { "Content-Type": "application/json" }
+        : {}),
       "ngrok-skip-browser-warning": "true",
     },
     body: body instanceof FormData ? body : JSON.stringify(body),
   };
 
   try {
-    const endpoint = createAPIEndpoint(url)
+    const endpoint = createAPIEndpoint(url);
     const response = await fetch(endpoint, fetchOptions);
     let data: TResponse | undefined;
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import lady from "../../../../public/header.svg";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Loader from "../Loader";
 
 export default function Welcome() {
   return (
@@ -15,9 +16,10 @@ export default function Welcome() {
           professionals with cutting-edge skills and knowledge.
         </p>
         <div className="mt-5">
-          <Link href={"/signup"}>
+          {/* <Link href={"/signup"}>
             <Button>Get Started</Button>
-          </Link>
+          </Link> */}
+          <Loader />
         </div>
       </div>
       <div className=" flex flex-1 py-10 ">

@@ -31,6 +31,7 @@ export const KNOWLEDGEBANK = "v1/knowledgeBank/";
 export const GETDROPDOWN = "v1/dropdown/?filter=";
 export const CASESTUDY = "v1/caseStudy/";
 export const UPLOADCERTIFICATE = "v1/externalCertificate/uploadCertification/";
+export const LOGINWITHTOKEN = "v1/auth/cognito-verify/";
 
 //dashboard items
 export const ITEMSPERPAGE = 5;
