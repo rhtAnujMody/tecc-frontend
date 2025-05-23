@@ -1,11 +1,8 @@
 "use client";
-
 import { useUserContext } from "@/app/context/UserContext";
-
-import hi from "../../../../public/hi.svg";
-import credit from "../../../../public/credit.svg";
-import Image from "next/image";
 import { capitializeFirstChar } from "@/lib/utils";
+import Image from "next/image";
+import credit from "../../../../public/credit.svg";
 
 export default function Header() {
   const { user: userData } = useUserContext();

@@ -14,21 +14,8 @@ function Header() {
     <nav className="flex min-h-[80px] sticky top-0 z-10 py-5 px-14 items-center justify-between bg-white">
       <div className="flex">
         <Image src={logo} alt="logo" className="w-auto h-auto"></Image>
-        {/* <div className="ml-10 flex gap-5">
-          {navArray.map((value) => {
-            return (
-              <Link
-                key={value.header}
-                href={value.navigateTo}
-                className="text-textPrimary font-semibold text-base"
-              >
-                {value.header}
-              </Link>
-            );
-          })}
-        </div> */}
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center " style={{ display: "none" }}>
         <Link href={"/login"} className="font-semibold text-base mr-5">
           Log In
         </Link>

@@ -1,17 +1,12 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import AboutRevealAcademy from "./components/landing/AboutRevealAcademy";
-import CoursesWeOffer from "./components/landing/CoursesWeOffer";
-import Welcome from "./components/landing/Welcome";
+"use client";
 
-export default function Home() {
+import { Suspense } from "react";
+import Home from "./components/landing/LandingParent";
+
+export default function Page() {
   return (
-    <main className="flex relative flex-col bg-white overflow-hidden w-screen">
-      <Header />
-      <Welcome />
-      <AboutRevealAcademy />
-      <CoursesWeOffer />
-      <Footer />
-    </main>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Home />
+    </Suspense>
   );
 }

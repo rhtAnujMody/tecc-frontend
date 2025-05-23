@@ -293,3 +293,8 @@ export interface TDatePickerModal {
 export interface ViewCertificateProps {
   data: TCertifications;
 }
+
+export type TLoginResponseWithToken = {
+  message: string;
+  user: UserData;
+};
