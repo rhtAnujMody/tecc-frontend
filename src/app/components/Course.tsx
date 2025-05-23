@@ -20,6 +20,7 @@ export default function Course({
   showLectures = true,
   count_of_lectures,
   sections,
+  is_certification_allowed,
   buttonText = "View Course",
   onClick,
 }: TCourse) {

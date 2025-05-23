@@ -34,7 +34,11 @@ export default function AllCourses({
               <Course
                 key={index}
                 {...value}
-                count_of_lectures={`${value.count_of_lectures} lectures`}
+                count_of_lectures={`${value?.count_of_lectures} ${
+                  parseInt(value?.count_of_lectures ?? "0") === 1
+                    ? "lecture"
+                    : "lectures"
+                } `}
                 onClick={onCourseClick}
               />
             );

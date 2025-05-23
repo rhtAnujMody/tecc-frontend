@@ -124,7 +124,7 @@ function CourseDetailsMain({ id }: { id: string }) {
                 <Progress value={data?.course_progress} className="h-2" />
                 {/* <Loader className="self-center" /> */}
               </div>
-              {data.is_CourseCompleted && (
+              {data.is_CourseCompleted && data.is_certification_allowed && (
                 <>
                   <Button
                     className="w-40"
