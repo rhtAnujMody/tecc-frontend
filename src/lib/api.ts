@@ -1,5 +1,7 @@
 import { createAPIEndpoint, TOKEN } from "./constants";
-import { getLocalData } from "./utils";
+import { getLocalData, isTokenExpired, deleteLocalData } from "./utils";
+import { handleLogoutAction } from "@/app/actions/logout_actions";
+import { toast } from "@/components/ui/use-toast";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -16,6 +18,20 @@ interface FetchResponse<T, E> {
   error?: E | string;
 }
 
+const handleTokenExpiration = async () => {
+  deleteLocalData();
+  await handleLogoutAction();
+  if (typeof window !== 'undefined') {
+    toast({
+      title: "Session Expired",
+      description: "Your session has expired. Redirecting to intranet website...",
+      variant: "destructive",
+    });
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    window.location.href = 'https://intranet.revealhealthtech.com';
+  }
+};
+
 export const fetchApi = async <TResponse, TError>(
   url: string,
   options: FetchOptions
@@ -23,6 +39,15 @@ export const fetchApi = async <TResponse, TError>(
   const { method, headers = {}, body } = options;
 
   const token = getLocalData(TOKEN);
+
+  if (token && isTokenExpired(token)) {
+    await handleTokenExpiration();
+    return {
+      status: 401,
+      ok: false,
+      error: "Token expired" as TError,
+    };
+  }
 
   // Construct authorization headers if token is present
   const authHeaders: HeadersInit = {};
@@ -50,6 +75,14 @@ export const fetchApi = async <TResponse, TError>(
 
     if (response.status === 200 || response.status === 201) {
       data = await response.json();
+    } else if (response.status === 403 || response.status === 401) {
+      console.log("token expired 404");
+      await handleTokenExpiration();
+      return {
+        status: 401,
+        ok: false,
+        error: "Unauthorized" as TError,
+      };
     } else {
       return {
         status: 0,
@@ -78,15 +111,28 @@ export const fetcher = async <T>(
   method: "GET" | "POST" = "GET",
   body?: Record<string, string>
 ) => {
+  const token = getLocalData(TOKEN);
+
+  if (token && isTokenExpired(token)) {
+    await handleTokenExpiration();
+    throw new Error("Token expired");
+  }
+
   const res = await fetch(createAPIEndpoint(url), {
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getLocalData(TOKEN),
+      Authorization: "Bearer " + token,
       "ngrok-skip-browser-warning": "true",
     },
     body: JSON.stringify(body),
   });
+
+  if (res.status === 403 || res.status === 401) {
+    await handleTokenExpiration();
+    throw new Error("Unauthorized");
+  }
+
   const data: T = await res.json();
   return data;
 };

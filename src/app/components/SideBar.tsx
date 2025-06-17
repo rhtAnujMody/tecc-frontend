@@ -1,11 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { cn, deleteLocalData, getInitials } from "@/lib/utils";
-import { ExitIcon } from "@radix-ui/react-icons";
+import { cn, getInitials } from "@/lib/utils";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import logo from "../../../public/logo.svg";
-import { handleLogoutAction } from "../actions/logout_actions";
 import { useSidebar } from "../context/SideBarContext";
 import { useUserContext } from "../context/UserContext";
 
@@ -17,17 +13,8 @@ import {
 } from "@/components/ui/accordion";
 
 export default function SideBar() {
-  const router = useRouter();
   const { data, updateSideBar } = useSidebar();
   const { user: userData } = useUserContext();
-
-  const handleLogout = async () => {
-    const isLogout = await handleLogoutAction();
-    if (isLogout) {
-      deleteLocalData();
-      router.replace("/");
-    }
-  };
 
   const handleMainItemClick = (index: number) => {
     const newData = data.map((item, pos) => {
@@ -218,9 +205,6 @@ export default function SideBar() {
               </span>
             </div>
           </div>
-          <Button variant="ghost" onClick={handleLogout}>
-            <ExitIcon />
-          </Button>
         </div>
       </div>
     </div>
